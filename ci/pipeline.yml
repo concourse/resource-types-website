@@ -1,0 +1,25 @@
+resources:
+- name: git-dutyfree
+  type: git
+  icon: store-24-hour
+  source:
+    uri: git@github.com:concourse/dutyfree.git
+    branch: master
+    private_key: ((duty-free-deployment-key))
+#- name: git-dutyfree-gh-pages
+#  type: git
+#  icon: shopping
+#  source:
+#    uri: git@github.com:concourse/dutyfree.git
+#    branch: gh-pages
+#    private_key: ((duty-free-deployment-key))
+
+jobs:
+- name: run-tests
+  plan:
+  - get: git-dutyfree
+    trigger: true
+  - task: run-tests
+    file: git-dutyfree/ci/run-test/task.yml
+#  - put: git-dutyfree-output
+#    params: {repository: git-dutyfree-output}
