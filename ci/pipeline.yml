@@ -6,13 +6,13 @@ resources:
     uri: git@github.com:concourse/dutyfree.git
     branch: master
     private_key: ((duty-free-deployment-key))
-#- name: git-dutyfree-gh-pages
-#  type: git
-#  icon: shopping
-#  source:
-#    uri: git@github.com:concourse/dutyfree.git
-#    branch: gh-pages
-#    private_key: ((duty-free-deployment-key))
+- name: git-dutyfree-gh-pages
+  type: git
+  icon: shopping
+  source:
+    uri: git@github.com:concourse/dutyfree.git
+    branch: gh-pages
+    private_key: ((duty-free-deployment-key))
 
 jobs:
 - name: run-tests
@@ -21,5 +21,11 @@ jobs:
     trigger: true
   - task: run-tests
     file: git-dutyfree/ci/run-test/task.yml
-#  - put: git-dutyfree-output
-#    params: {repository: git-dutyfree-output}
+
+- name: build
+  plan:
+    - get: git-dutyfree
+      trigger: true
+      passed: [run-tests]
+    - task: generate-html
+      file: git-dutyfree/ci/generate-html/task.yml
