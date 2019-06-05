@@ -2,17 +2,12 @@ package main
 
 import (
 	"fmt"
-	"html/template"
 	"os"
 	"path"
 
-	yaml "gopkg.in/yaml.v2"
+	"github.com/concourse/dutyfree/sitegenerator"
+	"gopkg.in/yaml.v2"
 )
-
-type Resource struct {
-	Name       string `yaml:"name"`
-	Repository string `yaml:"repository"`
-}
 
 func main() {
 	if len(os.Args) != 3 {
@@ -28,21 +23,14 @@ func main() {
 
 	defer indexHTML.Close()
 
-	tmpl := template.Must(template.ParseFiles("templates/index.html"))
-
-	resourceFile, err := os.Open(resourcesPath)
+	resources, err := resourceReader(resourcesPath)
 
 	if err != nil {
-		usage("cannot read resources file")
+		usage(err.Error())
 	}
 
-	decoder := yaml.NewDecoder(resourceFile)
-
-	var resources []Resource
-
-	decoder.Decode(&resources)
-
-	err = tmpl.Execute(indexHTML, resources)
+	indexPage := sitegenerator.NewIndexPage("sitegenerator", resources)
+	err = indexPage.Generate(indexHTML)
 
 	if err != nil {
 		fmt.Println("Cannot write index.html")
@@ -55,4 +43,24 @@ func usage(errorMsg string) {
 	fmt.Fprintln(os.Stderr, errorMsg)
 	fmt.Fprintf(os.Stderr, "usage: %s <output-directory> <resource-file>\n", os.Args[0])
 	os.Exit(1)
+}
+
+func resourceReader(resourcesPath string) ([]sitegenerator.Resource, error) {
+	resourceFile, err := os.Open(resourcesPath)
+
+	if err != nil {
+		usage("cannot read resources file")
+	}
+
+	decoder := yaml.NewDecoder(resourceFile)
+
+	var resources []sitegenerator.Resource
+
+	err = decoder.Decode(&resources)
+
+	if err != nil {
+		return nil, fmt.Errorf("cannot decode resources yaml: %s", err)
+	}
+
+	return resources, nil
 }
