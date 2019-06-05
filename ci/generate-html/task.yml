@@ -20,3 +20,4 @@ run:
     - run
     - main.go
     - ../generated-html
+    - resources.yml

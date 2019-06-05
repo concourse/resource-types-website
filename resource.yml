@@ -1,2 +1,6 @@
 - repository: https://github.com/concourse/git-resource
   name: git
+- repository: https://github.com/concourse/time-resource
+  name: time
+- repository: https://github.com/concourse/pool-resource
+  name: pool
