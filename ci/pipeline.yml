@@ -4,7 +4,7 @@ resources:
   icon: store-24-hour
   source:
     uri: git@github.com:concourse/dutyfree.git
-    branch: master
+    branch: pipeline-testing
     private_key: ((duty-free-deployment-key))
 - name: git-dutyfree-gh-pages
   type: git
@@ -27,5 +27,11 @@ jobs:
     - get: git-dutyfree
       trigger: true
       passed: [run-tests]
+    - get: git-dutyfree-gh-pages
     - task: generate-html
       file: git-dutyfree/ci/generate-html/task.yml
+    - task: commit
+      file: git-dutyfree/ci/commit/task.yml
+    - put: git-dutyfree-gh-pages
+      params:
+        repository: git-dutyfree-gh-pages-output

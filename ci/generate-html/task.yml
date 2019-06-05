@@ -11,7 +11,7 @@ inputs:
   - name: git-dutyfree
 
 outputs:
-  - name: git-dutyfree-gh-pages
+  - name: generated-html
 
 run:
   path: go
@@ -19,4 +19,4 @@ run:
   args:
     - run
     - main.go
-    - ../git-dutyfree-gh-pages
+    - ../generated-html

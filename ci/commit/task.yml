@@ -1,0 +1,31 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: pcfkubo/dind-kubo-ci
+    tag: stable
+
+inputs:
+  - name: generated-html
+  - name: git-dutyfree-gh-pages
+
+outputs:
+  - name: git-dutyfree-gh-pages-output
+
+run:
+  path: sh
+  args:
+    - -ce
+    - |
+
+      cp -r generated-html/.        git-dutyfree-gh-pages-output
+      cp -r git-dutyfree-gh-pages/. git-dutyfree-gh-pages-output
+
+      cd git-dutyfree-gh-pages-output
+
+      git config --global user.email "duty-free-dublin@pivotal.io"
+      git config --global user.name "Dutyfree CI Bot"
+      git add .
+      git commit -m "duty free html"
