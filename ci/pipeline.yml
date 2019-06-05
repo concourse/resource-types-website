@@ -4,7 +4,7 @@ resources:
   icon: store-24-hour
   source:
     uri: git@github.com:concourse/dutyfree.git
-    branch: pipeline-testing
+    branch: master
     private_key: ((duty-free-deployment-key))
 - name: git-dutyfree-gh-pages
   type: git
