@@ -5,14 +5,14 @@ resources:
   source:
     uri: git@github.com:concourse/dutyfree.git
     branch: master
-    private_key: ((duty-free-deployment-key))
+    private_key: ((ci.private))
 - name: git-dutyfree-gh-pages
   type: git
   icon: shopping
   source:
     uri: git@github.com:concourse/dutyfree.git
     branch: gh-pages
-    private_key: ((duty-free-deployment-key))
+    private_key: ((ci.private))
 
 jobs:
 - name: run-tests
