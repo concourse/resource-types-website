@@ -20,8 +20,8 @@ run:
     - -cex
     - |
 
-      cp -r generated-html/.        git-dutyfree-gh-pages-output
       cp -r git-dutyfree-gh-pages/. git-dutyfree-gh-pages-output
+      cp -r generated-html/.        git-dutyfree-gh-pages-output
 
       cd git-dutyfree-gh-pages-output
 
