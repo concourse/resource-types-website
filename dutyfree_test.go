@@ -1,6 +1,7 @@
 package main_test
 
 import (
+	"fmt"
 	"io/ioutil"
 	"os"
 	"os/exec"
@@ -14,19 +15,29 @@ import (
 )
 
 var _ = Describe("Dutyfree", func() {
-	Describe("when a directory is given as parameter", func() {
+	Describe("when a directory and a resources file are provided", func() {
 		var (
 			outputDir string
+			resources *os.File
 			err       error
 		)
 
 		BeforeEach(func() {
 			outputDir, err = ioutil.TempDir("", "dutyfree")
 			Expect(err).ToNot(HaveOccurred())
+
+			resources, err = ioutil.TempFile("", "resources.yml")
+			Expect(err).ToNot(HaveOccurred())
+
+			_, err = fmt.Fprint(resources, `---
+- repository: https://github.com/concourse/git-resource
+  name: git
+`)
+			Expect(err).ToNot(HaveOccurred())
 		})
 
 		It("generates an index.html in the directory", func() {
-			cmd := exec.Command(pathToBin, outputDir)
+			cmd := exec.Command(pathToBin, outputDir, resources.Name())
 
 			session, err := gexec.Start(cmd, GinkgoWriter, GinkgoWriter)
 			Expect(err).ToNot(HaveOccurred())
@@ -34,12 +45,15 @@ var _ = Describe("Dutyfree", func() {
 			Eventually(session).Should(gexec.Exit(0))
 
 			content, err := ioutil.ReadFile(filepath.Join(outputDir, "index.html"))
+
 			Expect(err).ToNot(HaveOccurred())
 			Expect(content).To(ContainSubstring("Duty Free"))
+			Expect(content).To(ContainSubstring("https://github.com/concourse/git-resource"))
 		})
 
 		AfterEach(func() {
 			os.RemoveAll(outputDir)
+			os.Remove(resources.Name())
 		})
 	})
 
@@ -52,20 +66,35 @@ var _ = Describe("Dutyfree", func() {
 
 			Eventually(session).Should(gexec.Exit(1))
 			Eventually(session.Err).Should(gbytes.Say("undefined output directory"))
-			Eventually(session.Err).Should(gbytes.Say("usage: %s <output-directory>", pathToBin))
+			Eventually(session.Err).Should(gbytes.Say("usage: %s <output-directory> <resource-file>", pathToBin))
 		})
 	})
 
 	Describe("when the directory does not exits", func() {
 		It("exits 1 and prints usage message", func() {
-			cmd := exec.Command(pathToBin, "/a/folder/that/does/not/exists")
+			cmd := exec.Command(pathToBin, "/a/folder/that/does/not/exists", "a-resources.yaml")
 
 			session, err := gexec.Start(cmd, GinkgoWriter, GinkgoWriter)
 			Expect(err).ToNot(HaveOccurred())
 
 			Eventually(session).Should(gexec.Exit(1))
 			Eventually(session.Err).Should(gbytes.Say("output directory cannot be found"))
-			Eventually(session.Err).Should(gbytes.Say("usage: %s <output-directory>", pathToBin))
+			Eventually(session.Err).Should(gbytes.Say("usage: %s <output-directory> <resource-file>", pathToBin))
+		})
+	})
+
+	Describe("when the resources file does not exists", func() {
+		It("exits 1 and prints usage message", func() {
+			outputDir, err := ioutil.TempDir("", "dutyfree")
+			Expect(err).ToNot(HaveOccurred())
+			cmd := exec.Command(pathToBin, outputDir, "a-resources-that-does-not-exists.yaml")
+
+			session, err := gexec.Start(cmd, GinkgoWriter, GinkgoWriter)
+			Expect(err).ToNot(HaveOccurred())
+
+			Eventually(session).Should(gexec.Exit(1))
+			Eventually(session.Err).Should(gbytes.Say("cannot read resources file"))
+			Eventually(session.Err).Should(gbytes.Say("usage: %s <output-directory> <resource-file>", pathToBin))
 		})
 	})
 })

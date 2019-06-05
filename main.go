@@ -5,24 +5,44 @@ import (
 	"html/template"
 	"os"
 	"path"
+
+	yaml "gopkg.in/yaml.v2"
 )
 
+type Resource struct {
+	Name       string `yaml:"name"`
+	Repository string `yaml:"repository"`
+}
+
 func main() {
-	if len(os.Args) != 2 {
+	if len(os.Args) != 3 {
 		usage("undefined output directory")
 	}
 	outputDir := os.Args[1]
+	resourcesPath := os.Args[2]
 
-	f, err := os.Create(path.Join(outputDir, "index.html"))
+	indexHTML, err := os.Create(path.Join(outputDir, "index.html"))
 	if err != nil {
 		usage("output directory cannot be found")
 	}
 
-	defer f.Close()
+	defer indexHTML.Close()
 
-	tmpl := template.Must(template.ParseFiles("templates/index.tmpl"))
+	tmpl := template.Must(template.ParseFiles("templates/index.html"))
 
-	err = tmpl.Execute(f, nil)
+	resourceFile, err := os.Open(resourcesPath)
+
+	if err != nil {
+		usage("cannot read resources file")
+	}
+
+	decoder := yaml.NewDecoder(resourceFile)
+
+	var resources []Resource
+
+	decoder.Decode(&resources)
+
+	err = tmpl.Execute(indexHTML, resources)
 
 	if err != nil {
 		fmt.Println("Cannot write index.html")
@@ -33,6 +53,6 @@ func main() {
 
 func usage(errorMsg string) {
 	fmt.Fprintln(os.Stderr, errorMsg)
-	fmt.Fprintf(os.Stderr, "usage: %s <output-directory>\n", os.Args[0])
+	fmt.Fprintf(os.Stderr, "usage: %s <output-directory> <resource-file>\n", os.Args[0])
 	os.Exit(1)
 }

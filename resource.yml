@@ -1,0 +1,2 @@
+- repository: https://github.com/concourse/git-resource
+  name: git

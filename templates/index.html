@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Duty Free</title>
+    </head>
+    <body>
+        <h1>Duty Free</h1>
+        <p>Duty Free is for resources</p>
+        <ul>
+            {{range .}}
+                <li>
+                    <a href="{{.Repository}}">{{.Name}}</a>
+                </li>
+            {{end}}
+        </ul>
+    </body>
+</html>
