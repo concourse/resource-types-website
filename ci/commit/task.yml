@@ -15,7 +15,7 @@ outputs:
   - name: git-dutyfree-gh-pages-output
 
 run:
-  path: sh
+  path: bash
   args:
     - -cex
     - |
@@ -29,9 +29,8 @@ run:
       git config --global user.name "Dutyfree CI Bot"
       git add .
 
-      if [ -n $(git status -s) ]; then
+      if [[ -n $(git status -s) ]]; then
         git commit -m "duty free html"
       else
         echo "No change to commit"
       fi
->>>>>>> master
