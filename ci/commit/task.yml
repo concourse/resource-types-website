@@ -17,7 +17,7 @@ outputs:
 run:
   path: sh
   args:
-    - -ce
+    - -cex
     - |
 
       cp -r generated-html/.        git-dutyfree-gh-pages-output
@@ -28,4 +28,10 @@ run:
       git config --global user.email "duty-free-dublin@pivotal.io"
       git config --global user.name "Dutyfree CI Bot"
       git add .
-      git commit -m "duty free html"
+
+      if [ -n $(git status -s) ]; then
+        git commit -m "duty free html"
+      else
+        echo "No change to commit"
+      fi
+>>>>>>> master

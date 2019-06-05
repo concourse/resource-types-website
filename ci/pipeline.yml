@@ -27,5 +27,11 @@ jobs:
     - get: git-dutyfree
       trigger: true
       passed: [run-tests]
+    - get: git-dutyfree-gh-pages
     - task: generate-html
       file: git-dutyfree/ci/generate-html/task.yml
+    - task: commit
+      file: git-dutyfree/ci/commit/task.yml
+    - put: git-dutyfree-gh-pages
+      params:
+        repository: git-dutyfree-gh-pages-output
