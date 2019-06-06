@@ -33,9 +33,36 @@ func main() {
 	err = indexPage.Generate(indexHTML)
 
 	if err != nil {
-		fmt.Println("Cannot write index.html")
+		fmt.Println("Cannot write index.html", err)
 		os.Exit(1)
 	}
+
+	err = os.MkdirAll(path.Join(outputDir, "resources"), os.ModePerm)
+	if err != nil {
+		fmt.Println(err)
+		usage("resources folder cannot be created")
+	}
+
+	for _, resource := range resources {
+		fileName, err := resource.ExtractIdentifier()
+
+		resourceHTML, err := os.Create(path.Join(outputDir, "resources", fmt.Sprintf("%s.html", fileName)))
+		if err != nil {
+			fmt.Println(err)
+			usage("resource page cannot be generated")
+			continue
+		}
+
+		rp := sitegenerator.NewResourcePage("sitegenerator", resource)
+		err = rp.Generate(resourceHTML)
+
+		if err != nil {
+			usage(fmt.Sprintf("resource page %s cannot be generated", resourceHTML.Name()))
+		}
+
+		resourceHTML.Close()
+	}
+
 	os.Exit(0)
 }
 

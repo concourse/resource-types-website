@@ -8,21 +8,21 @@ import (
 	. "github.com/onsi/gomega"
 )
 
-var resources = []Resource{
-	{"git", "https://github.com/concourse/git-resource"},
-	{"hg", "https://github.com/concourse/hg-resource"},
-}
-
 var _ = Describe("IndexPage", func() {
 	It("renders the template", func() {
+		var resources = []Resource{
+			{"git", "https://github.com/concourse/git-resource"},
+			{"hg", "https://github.com/concourse/hg-resource"},
+		}
+
 		b := bytes.Buffer{}
 
 		ip := NewIndexPage("", resources)
 		ip.Generate(&b)
 
 		Expect(b.String()).To(ContainSubstring("Duty Free"))
-		Expect(b.String()).To(ContainSubstring("https://github.com/concourse/git-resource"))
-		Expect(b.String()).To(ContainSubstring("https://github.com/concourse/hg-resource"))
+		Expect(b.String()).To(ContainSubstring(`href="resources/concourse-git-resource.html"`))
+		Expect(b.String()).To(ContainSubstring(`href="resources/concourse-hg-resource.html"`))
 	})
 
 	It("handles no resources", func() {

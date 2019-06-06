@@ -30,8 +30,10 @@ var _ = Describe("Dutyfree", func() {
 			Expect(err).ToNot(HaveOccurred())
 
 			_, err = fmt.Fprint(resources, `---
-- repository: https://github.com/concourse/git-resource
-  name: git
+- repository: https://github.com/concourse/foobar-resource
+  name: foobar resource
+- repository: https://github.com/concourse/barzot-resource
+  name: barzot resource
 `)
 			Expect(err).ToNot(HaveOccurred())
 		})
@@ -48,7 +50,23 @@ var _ = Describe("Dutyfree", func() {
 
 			Expect(err).ToNot(HaveOccurred())
 			Expect(content).To(ContainSubstring("Duty Free"))
-			Expect(content).To(ContainSubstring("https://github.com/concourse/git-resource"))
+			Expect(content).To(ContainSubstring(`href="resources/concourse-foobar-resource.html"`))
+			Expect(content).To(ContainSubstring(`href="resources/concourse-barzot-resource.html"`))
+		})
+
+		It("generates page for the resources in the resources file", func() {
+			cmd := exec.Command(pathToBin, outputDir, resources.Name())
+
+			session, err := gexec.Start(cmd, GinkgoWriter, GinkgoWriter)
+			Expect(err).ToNot(HaveOccurred())
+
+			Eventually(session).Should(gexec.Exit(0))
+
+			content, err := ioutil.ReadFile(filepath.Join(outputDir, "resources/concourse-foobar-resource.html"))
+
+			Expect(err).ToNot(HaveOccurred())
+			Expect(content).To(ContainSubstring("foobar resource"))
+			Expect(content).To(ContainSubstring("https://github.com/concourse/foobar-resource"))
 		})
 
 		AfterEach(func() {
