@@ -1,6 +1,262 @@
-- repository: https://github.com/concourse/git-resource
-  name: git
-- repository: https://github.com/concourse/time-resource
-  name: time
-- repository: https://github.com/concourse/pool-resource
-  name: pool
+- name: '`git` resource'
+  repository: https://github.com/concourse/git-resource
+- name: '`hg` resource'
+  repository: https://github.com/concourse/hg-resource
+- name: '`time` resource'
+  repository: https://github.com/concourse/time-resource
+- name: '`s3` resource'
+  repository: https://github.com/concourse/s3-resource
+- name: '`semver` resource'
+  repository: https://github.com/concourse/semver-resource
+- name: '`github-release` resource'
+  repository: https://github.com/concourse/github-release-resource
+- name: '`registry-image` resource'
+  repository: https://github.com/concourse/registry-image-resource
+- name: '`docker-image` resource'
+  repository: https://github.com/concourse/docker-image-resource
+- name: '`pool` resource'
+  repository: https://github.com/concourse/pool-resource
+- name: '`cf` resource'
+  repository: https://github.com/concourse/cf-resource
+- name: '`bosh-io-release` resource'
+  repository: https://github.com/concourse/bosh-io-release-resource
+- name: '`bosh-io-stemcell` resource'
+  repository: https://github.com/concourse/bosh-io-stemcell-resource
+- name: Slack Reading and Posting
+  repository: https://github.com/jleben/slack-chat-resource
+- name: Slack notifications
+  repository: https://github.com/cloudfoundry-community/slack-notification-resource
+- name: Github Pull Requests
+  repository: https://github.com/telia-oss/github-pr-resource
+- name: GitLab Merge Requests
+  repository: https://github.com/swisscom/gitlab-merge-request-resource
+- name: OpenStack Swift
+  repository: https://github.com/sapcc/concourse-swift-resource
+- name: Key Value resource
+  repository: https://github.com/swce/keyval-resource
+- name: Flowdock notifications
+  repository: https://github.com/starkandwayne/flowdock-concourse-notification-resource
+- name: Email
+  repository: https://github.com/pivotal-cf/email-resource
+- name: Formatted Email
+  repository: https://github.com/santoshjpawar/concourse-email-notification
+- name: Email with integrated MTA
+  repository: https://github.com/mdomke/concourse-email-resource
+- name: Bintray
+  repository: https://github.com/jamiemonserrate/bintray-resource
+- name: Perforce
+  repository: https://github.com/olhtbr/p4-resource
+- name: BOSH Errands
+  repository: https://github.com/starkandwayne/bosh-errand-resource-boshrelease
+- name: 'BOSH Config: cloud-config and runtime-config'
+  repository: https://github.com/EMC-Dojo/bosh-config-resource
+- name: BOSH Release
+  repository: https://github.com/dpb587/bosh-release-resource
+- name: Pool Trigger
+  repository: https://github.com/cfmobile/pool-trigger-resource
+- name: Pivotal Network
+  repository: https://github.com/pivotal-cf-experimental/pivnet-resource
+- name: FTP
+  repository: https://github.com/aequitas/concourse-ftp-resource
+- name: lftp, access resources via ftp, http, sftp and fish
+  repository: https://github.com/openSUSE/lftp-concourse-resource
+- name: Cloudformation
+  repository: https://github.com/pivotal-cf-experimental/cloudformation-resource
+- name: Generic HTTP API
+  repository: https://github.com/aequitas/concourse-http-api-resource
+- name: Hockey App
+  repository: https://github.com/seadowg/hockey-resource
+- name: Concourse Pipelines
+  repository: https://github.com/robdimsdale/concourse-pipeline-resource
+- name: Twitter
+  repository: https://github.com/ECSTeam/twitter-resource
+- name: HipChat Notifications
+  repository: https://github.com/cloudfoundry-community/hipchat-notification-resource
+- name: Matrix Notifications
+  repository: https://github.com/freelock/matrix-notification-resource
+- name: 'Smuggler: generic resource framework'
+  repository: https://github.com/redfactorlabs/concourse-smuggler-resource
+- name: GitHub Commit Status
+  repository: https://github.com/dpb587/github-status-resource
+- name: GitHub Deployment
+  repository: https://github.com/ahume/github-deployment-resource
+- name: AMI Updates
+  repository: https://github.com/jdub/ami-resource
+- name: Debian/Ubuntu Sources Updates
+  repository: https://github.com/jdub/debian-sources-resource
+- name: Open Build Service
+  repository: https://github.com/SUSE/open-build-service-resource
+- name: Travis-ci
+  repository: https://github.com/Orange-OpenSource/travis-resource
+- name: Bitbucket Notifications
+  repository: https://github.com/karunamon/concourse-resource-bitbucket
+- name: Terraform
+  repository: https://github.com/ljfranklin/terraform-resource
+- name: bbl (BOSH Bootloader) state
+  repository: https://github.com/cloudfoundry/bbl-state-resource
+- name: Azure Blobstore
+  repository: https://github.com/pivotal-cf/azure-blobstore-resource
+- name: Rsync
+  repository: https://github.com/mrsixw/concourse-rsync-resource
+- name: 'Rsync: rsyncd, for local net'
+  repository: https://github.com/chemist/rsync-resource
+- name: PyPI Packages
+  repository: https://github.com/cf-platform-eng/concourse-pypi-resource
+- name: 'Devpi Server: PyPI mirror and package server'
+  repository: https://github.com/mdomke/concourse-devpi-resource
+- name: Jira Integration
+  repository: https://github.com/danrspencer/jira-resource
+- name: Google Drive
+  repository: https://github.com/jpatel-pivotal/google-drive-concourse-resource
+- name: Google Calendar
+  repository: https://github.com/henrytk/calendar-resource
+- name: pagerduty Notifications
+  repository: https://github.com/FidelityInternational/concourse-pagerduty-notification-resource
+- name: Telegram
+  repository: https://github.com/w32blaster/telegram-notification-resource
+- name: Telegram
+  repository: https://github.com/carlo-colombo/telegram-resource
+- name: Telegram
+  repository: https://github.com/Cuttlerat/concourse-telegram-resource
+- name: Google Cloud Storage
+  repository: https://github.com/frodenas/gcs-resource
+- name: Fly
+  repository: https://github.com/troykinsella/concourse-fly-resource
+- name: Kubernetes
+  repository: https://github.com/jcderr/concourse-kubernetes-resource
+- name: Kubernetes
+  repository: https://github.com/zlabjp/kubernetes-resource
+- name: K8s-Kubernetes
+  repository: https://github.com/srinivasa-vasu/concourse-k8s
+- name: Kubernetes Helm
+  repository: https://github.com/linkyard/concourse-helm-resource
+- name: Helm Chart resource
+  repository: https://github.com/linkyard/helm-chart-resource
+- name: Helm Chart repository (ChartMuseum) resource
+  repository: https://github.com/cathive/concourse-chartmuseum-resource
+- name: Vault
+  repository: https://github.com/Docurated/concourse-vault-resource
+- name: AWS Key Management Service
+  repository: https://github.com/everpeace/aws-kms-resource
+- name: Marathon
+  repository: https://github.com/ckaznocha/marathon-resource
+- name: RSS
+  repository: https://github.com/suhlig/concourse-rss-resource
+- name: Maven Resource
+  repository: https://github.com/nulldriver/maven-resource
+- name: cURL File Resource
+  repository: https://github.com/pivotalservices/concourse-curl-resource
+- name: Pivnet Resource (rsamban)
+  repository: https://github.com/rsamban/pivnet-resource
+- name: Cloud Foundry Events
+  repository: https://github.com/mevansam/cf-event-resource-type
+- name: Apache Directory Index
+  repository: https://github.com/mastertinner/apache-directory-index-resource
+- name: Cloud Foundry CLI Resource
+  repository: https://github.com/nulldriver/cf-cli-resource
+- name: Counter
+  repository: https://github.com/jinlee/counter-resource
+- name: Capistrano
+  repository: https://github.com/SHyx0rmZ/capistrano-resource
+- name: aptly CLI
+  repository: https://github.com/SHyx0rmZ/aptly-cli-resource
+- name: Prometheus Alertmanager
+  repository: https://github.com/frodenas/alertmanager-resource
+- name: Git Bitbucket Pull Request Resource
+  repository: https://github.com/zarplata/concourse-git-bitbucket-pr-resource
+- name: Bitbucket Pull Request Resource
+  repository: https://github.com/halter-corp/bitbucket-pullrequest-resource
+- name: NPM Cache Resource
+  repository: https://github.com/ymedlop/npm-cache-resource
+- name: Gerrit Resource
+  repository: https://github.com/google/concourse-resources/tree/master/gerrit
+- name: Repo Resource
+  repository: https://github.com/google/concourse-resources/tree/master/repo
+- name: Trigger jobs using Slack
+  repository: https://github.com/ahelal/bender
+- name: Hashicorp Releases
+  repository: https://github.com/starkandwayne/hashicorp-release-resource
+- name: Pushover notifications
+  repository: https://github.com/redfactorlabs/concourse-pushover-resource
+- name: SonarQube static code analysis
+  repository: https://github.com/cathive/concourse-sonarqube-resource
+- name: SonarQube Notifier
+  repository: https://github.com/elgohr/concourse-sonarqube-notifier
+- name: Blackduck
+  repository: https://github.com/elgohr/concourse-blackduck
+- name: Metadata resource
+  repository: https://github.com/swce/metadata-resource
+- name: Spinnaker Resource
+  repository: https://github.com/pivotal-cf/spinnaker-resource
+- name: New Relic Deploy Resource
+  repository: https://github.com/crstamps2/newrelic-deploy-resource
+- name: Artifactory Resource
+  repository: https://github.com/spring-io/artifactory-resource
+- name: Artifactory Resource
+  repository: https://github.com/emerald-squad/artifactory-resource
+- name: CF Zero Downtime Resource
+  repository: https://github.com/emerald-squad/cf-zero-downtime-resource
+- name: CF Flyway Resource
+  repository: https://github.com/emerald-squad/cf-flyway-resource
+- name: FiaaS Resource
+  repository: https://github.com/leboncoin/concourse-fiaas-resource
+- name: IRC notifications
+  repository: https://github.com/flavorjones/irc-notification-resource
+- name: PhraseApp Trigger
+  repository: https://github.com/tenjaa/concourse-phraseapp-resource
+- name: Debian/Ubuntu archive uploads
+  repository: https://github.com/seveas/concourse-dput-resource
+- name: Launchpad PPA packages
+  repository: https://github.com/seveas/concourse-ppa-resource
+- name: Fedora COPR packages
+  repository: https://github.com/seveas/concourse-copr-resource
+- name: Google Hangouts Notification Resource
+  repository: https://github.com/CloudInn/concourse-hangouts-resource
+- name: Yahoo! Weather Resource
+  repository: https://github.com/kehrlann/weather-resource
+- name: Slack build alerts
+  repository: https://github.com/arbourd/concourse-slack-alert-resource
+- name: Spring Initializr Resource
+  repository: https://github.com/jghiloni/spring-initializr-resource
+- name: HTTP Resource
+  repository: https://github.com/aequitas/concourse-http-resource
+- name: Android SDK Resource
+  repository: https://github.com/xaethos/android-sdk-resource
+- name: DigitalOcean Worker Provision Resource
+  repository: https://github.com/CloudInn/concourse-digitalocean-resource
+- name: Knative Service Resource
+  repository: https://github.com/jchesterpivotal/knative-service-resource
+- name: Sentry Releases Resource
+  repository: https://github.com/rubenv/concourse-sentry-releases-resource
+- name: Gate Resource
+  repository: https://github.com/Meshcloud/gate-resource
+- name: Packer
+  repository: https://github.com/Snapkitchen/concourse-packer-resource
+- name: Github Webhook Resource
+  repository: https://github.com/homedepot/github-webhook-resource
+- name: Ofcourse Resource Generator
+  repository: https://github.com/cloudboss/ofcourse
+- name: HTTP PUT Resource
+  repository: https://github.com/lorands/http-put-resource
+- name: Serverspec Resource
+  repository: https://github.com/opicaud/serverspec-concourse
+- name: Ansible Playbook
+  repository: https://github.com/troykinsella/concourse-ansible-playbook-resource
+- name: Artifactory Deb
+  repository: https://github.com/troykinsella/concourse-artifactory-deb-resource
+- name: Generic Artifactory
+  repository: https://github.com/troykinsella/concourse-artifactory-resource
+- name: Docker Compose
+  repository: https://github.com/troykinsella/concourse-docker-compose-resource
+- name: RubyGems
+  repository: https://github.com/troykinsella/concourse-rubygems-resource
+- name: Medium Resource
+  repository: https://github.com/cappyzawa/medium-resource
+- name: GitHub List Repos
+  repository: https://github.com/coralogix/eng-concourse-resource-github-list-repos
+- name: Slack Notifier
+  repository: https://github.com/mockersf/concourse-slack-notifier
+- name: Semver Config Resource
+  repository: https://github.com/brightzheng100/semver-config-concourse-resource
+- name: Deploygate Resource
+  repository: https://github.com/YuukiARIA/concourse-deploygate-resource
