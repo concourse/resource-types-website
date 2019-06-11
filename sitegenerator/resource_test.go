@@ -5,6 +5,7 @@ import (
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/ginkgo/extensions/table"
 	. "github.com/onsi/gomega"
+	. "github.com/onsi/gomega/gstruct"
 )
 
 var _ = Describe("Resources", func() {
@@ -37,4 +38,12 @@ var _ = Describe("Resources", func() {
 			Expect(err).To(MatchError(ContainSubstring("invalid repository for the resource")))
 		})
 	})
+	Describe("ExtractAuthor", func() {
+		It("returns the author handle", func() {
+			r := sitegenerator.Resource{Name: "time", Repository: "https://github.com/concourse/time-resource"}
+
+			Expect(r.ExtractAuthor()).To(Equal("concourse"))
+		})
+	})
+
 })

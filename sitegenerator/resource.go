@@ -18,3 +18,9 @@ func (r Resource) ExtractIdentifier() (string, error) {
 	}
 	return "", fmt.Errorf("invalid repository for the resource (%s)", r.Repository)
 }
+
+func (r Resource) ExtractAuthor() (string, error) {
+	authors := strings.Split(r.Repository, "/")
+	author := authors[3]
+	return author, nil
+}
