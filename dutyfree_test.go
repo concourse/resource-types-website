@@ -52,6 +52,18 @@ var _ = Describe("Dutyfree", func() {
 			Expect(content).To(ContainSubstring("Duty Free"))
 			Expect(content).To(ContainSubstring(`href="resources/concourse-foobar-resource.html"`))
 			Expect(content).To(ContainSubstring(`href="resources/concourse-barzot-resource.html"`))
+
+			By("copying the static folder")
+			staticSrcDir, err := ioutil.ReadDir(filepath.Join(outputDir, "static"))
+			Expect(err).ToNot(HaveOccurred())
+
+			staticDstDir, err := ioutil.ReadDir("static")
+			Expect(err).ToNot(HaveOccurred())
+
+			for i := range staticSrcDir {
+				Expect(staticDstDir[i].Name()).To(Equal(staticSrcDir[i].Name()))
+				Expect(staticDstDir[i].Size()).To(Equal(staticSrcDir[i].Size()))
+			}
 		})
 
 		It("generates page for the resources in the resources file", func() {

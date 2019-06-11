@@ -6,6 +6,7 @@ import (
 	"path"
 
 	"github.com/concourse/dutyfree/sitegenerator"
+	"github.com/otiai10/copy"
 	"gopkg.in/yaml.v2"
 )
 
@@ -62,6 +63,8 @@ func main() {
 
 		resourceHTML.Close()
 	}
+
+	copy.Copy("static", path.Join(outputDir, "static"))
 
 	os.Exit(0)
 }
