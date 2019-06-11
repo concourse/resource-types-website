@@ -28,6 +28,7 @@ var _ = Describe("IndexPage", func() {
 		Expect(b.String()).To(ContainSubstring("Duty Free"))
 		Expect(b.String()).To(ContainSubstring(`href="resources/concourse-git-resource.html"`))
 		Expect(b.String()).To(ContainSubstring(`href="resources/concourse-hg-resource.html"`))
+		Expect(b.String()).To(ContainSubstring(`href="https://github.com/concourse"`))
 	})
 
 	It("handles no resources", func() {
