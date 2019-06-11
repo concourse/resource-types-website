@@ -44,7 +44,7 @@ func main() {
 	}
 
 	for _, resource := range resources {
-		fileName, err := resource.ExtractIdentifier()
+		fileName := resource.Identifier
 
 		resourceHTML, err := os.Create(path.Join(outputDir, "resources", fmt.Sprintf("%s.html", fileName)))
 		if err != nil {

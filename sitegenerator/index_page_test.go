@@ -6,14 +6,19 @@ import (
 	. "github.com/concourse/dutyfree/sitegenerator"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
+	"gopkg.in/yaml.v2"
 )
 
 var _ = Describe("IndexPage", func() {
 	It("renders the template", func() {
-		var resources = []Resource{
-			{"git", "https://github.com/concourse/git-resource"},
-			{"hg", "https://github.com/concourse/hg-resource"},
-		}
+		var resources []Resource
+
+		err := yaml.Unmarshal([]byte(`---
+- repository: https://github.com/concourse/git-resource
+- repository: https://github.com/concourse/hg-resource
+`), &resources)
+
+		Expect(err).ToNot(HaveOccurred())
 
 		b := bytes.Buffer{}
 

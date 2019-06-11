@@ -3,47 +3,58 @@ package sitegenerator_test
 import (
 	"github.com/concourse/dutyfree/sitegenerator"
 	. "github.com/onsi/ginkgo"
-	. "github.com/onsi/ginkgo/extensions/table"
 	. "github.com/onsi/gomega"
 	. "github.com/onsi/gomega/gstruct"
+	"gopkg.in/yaml.v2"
 )
 
 var _ = Describe("Resources", func() {
-	Describe("ExtractIdentifier", func() {
-		It("returns an identifier that can be used in URLs", func() {
-			r := sitegenerator.Resource{Name: "time", Repository: "https://github.com/concourse/time-resource"}
+	It("extracts all the values", func() {
+		var r sitegenerator.Resource
+		err := yaml.Unmarshal([]byte(`---
+name: time resource
+repository: https://github.com/concourse/time-resource
+`), &r)
 
-			Expect(r.ExtractIdentifier()).To(Equal("concourse-time-resource"))
-		})
-
-		DescribeTable("valid repositories", func(repo, expected string) {
-			r := sitegenerator.Resource{Repository: repo}
-
-			Expect(r.ExtractIdentifier()).To(Equal(expected))
-		},
-			Entry("basic", "https://github.com/concourse/time-resource", "concourse-time-resource"),
-			Entry("google style", "https://github.com/google/concourse-resources/tree/master/gerrit", "google-concourse-resources-tree-master-gerrit"))
-
-		It("returns an error if the repository is not defined", func() {
-			r := sitegenerator.Resource{Name: "time"}
-			_, err := r.ExtractIdentifier()
-
-			Expect(err).To(HaveOccurred())
-		})
-
-		It("returns an error if the repository URL does not start with https://github.com", func() {
-			r := sitegenerator.Resource{Repository: "https://git.ie/concourse/time-resource"}
-			_, err := r.ExtractIdentifier()
-
-			Expect(err).To(MatchError(ContainSubstring("invalid repository for the resource")))
-		})
-	})
-	Describe("ExtractAuthor", func() {
-		It("returns the author handle", func() {
-			r := sitegenerator.Resource{Name: "time", Repository: "https://github.com/concourse/time-resource"}
-
-			Expect(r.ExtractAuthor()).To(Equal("concourse"))
-		})
+		Expect(err).ToNot(HaveOccurred())
+		Expect(r).To(MatchAllFields(Fields{
+			"Name":              Equal("time resource"),
+			"Repository":        Equal("https://github.com/concourse/time-resource"),
+			"Identifier":        Equal("concourse-time-resource"),
+			"AuthorHandle":      Equal("concourse"),
+			"AuthorProfileLink": Equal("https://github.com/concourse"),
+		}))
 	})
 
+	It("extracts all the values, even when multiple resources are deeper in the repository", func() {
+		var r sitegenerator.Resource
+		err := yaml.Unmarshal([]byte(`---
+name: gerrit
+repository: https://github.com/google/concourse-resources/tree/master/gerrit
+`), &r)
+
+		Expect(err).ToNot(HaveOccurred())
+		Expect(r).To(MatchAllFields(Fields{
+			"Name":              Equal("gerrit"),
+			"Repository":        Equal("https://github.com/google/concourse-resources/tree/master/gerrit"),
+			"Identifier":        Equal("google-concourse-resources-tree-master-gerrit"),
+			"AuthorHandle":      Equal("google"),
+			"AuthorProfileLink": Equal("https://github.com/google"),
+		}))
+	})
+
+	It("fails if repository is not part of github and has less than 5 components", func() {
+		var r sitegenerator.Resource
+		err := yaml.Unmarshal([]byte(`---
+name: time resource
+repository: https://bitbucket.com/concourse/time-resource
+`), &r)
+		Expect(err).To(HaveOccurred())
+
+		err = yaml.Unmarshal([]byte(`---
+name: time resource
+repository: https://github.com/concourse
+`), &r)
+		Expect(err).To(HaveOccurred())
+	})
 })

@@ -6,21 +6,31 @@ import (
 )
 
 type Resource struct {
-	Name       string `yaml:"name"`
-	Repository string `yaml:"repository"`
+	Name              string `yaml:"name"`
+	Repository        string `yaml:"repository"`
+	Identifier        string
+	AuthorHandle      string
+	AuthorProfileLink string
 }
 
-func (r Resource) ExtractIdentifier() (string, error) {
-	identifiers := strings.Split(r.Repository, "/")
-	if len(identifiers) >= 5 && identifiers[0] == "https:" && identifiers[2] == "github.com" {
-		identifiers = identifiers[3:]
-		return strings.Join(identifiers, "-"), nil
+func (r *Resource) UnmarshalYAML(unmarshal func(interface{}) error) error {
+	m := map[string]string{}
+	unmarshal(&m)
+
+	r.Name = m["name"]
+	r.Repository = m["repository"]
+
+	segmentsAll := strings.Split(r.Repository, "/")
+
+	if len(segmentsAll) < 5 || segmentsAll[0] != "https:" || segmentsAll[2] != "github.com" {
+		return fmt.Errorf("invalid repository for the resource (%s)", r.Repository)
 	}
-	return "", fmt.Errorf("invalid repository for the resource (%s)", r.Repository)
-}
 
-func (r Resource) ExtractAuthor() (string, error) {
-	authors := strings.Split(r.Repository, "/")
-	author := authors[3]
-	return author, nil
+	segments := segmentsAll[3:]
+
+	r.Identifier = strings.Join(segments, "-")
+	r.AuthorHandle = segmentsAll[3]
+	r.AuthorProfileLink = strings.Join(segmentsAll[:4], "/")
+
+	return nil
 }
