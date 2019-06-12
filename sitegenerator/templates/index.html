@@ -1,12 +1,24 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Duty Free</title>
-        <link rel="stylesheet" type="text/css" href="static/style.css">
-    </head>
-    <body>
-        <h1>Duty Free</h1>
+<head>
+    <title>Duty Free</title>
+    <link rel="stylesheet" type="text/css" href="static/style.css">
+</head>
+<body>
+<div class="container">
+
+    <div class="logo">
+        <h1>CONCOURSE DUTY FREE</h1>
+    </div>
+
+
+    <div class="search">
         <p>Duty Free is for resources</p>
+    </div>
+
+    <nav class="sidebar"></nav>
+
+    <main class="content">
         <ul>
             {{range .}}
                 <li>
@@ -15,5 +27,7 @@
                 </li>
             {{end}}
         </ul>
-    </body>
+    </main>
+</div>
+</body>
 </html>
