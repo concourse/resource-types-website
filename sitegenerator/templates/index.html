@@ -19,14 +19,12 @@
     <nav class="sidebar"></nav>
 
     <main class="content">
-        <ul>
-            {{range .}}
-                <li>
-                    <a href="resources/{{.Identifier}}.html">{{.Name}}</a>
-                    <a target="_blank" href="{{.AuthorProfileLink}}">{{.AuthorHandle}}</a>
-                </li>
-            {{end}}
-        </ul>
+        {{range .}}
+            <div class="tile">
+                <a href="resources/{{.Identifier}}.html">{{.Name}}</a>
+                <a target="_blank" href="{{.AuthorProfileLink}}">{{.AuthorHandle}}</a>
+            </div>
+        {{end}}
     </main>
 </div>
 </body>
