@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"net/http"
 	"os"
 	"path"
 
@@ -30,7 +31,15 @@ func main() {
 		usage(err.Error())
 	}
 
-	resourceModels, err := sitegenerator.Enrich(resources)
+	resourceModels, err := sitegenerator.Enrich(resources, sitegenerator.HttpReadmeClient{
+		GetReadme: func(url string) (response *http.Response, e error) {
+			client := &http.Client{}
+			req, _ := http.NewRequest("GET", url, nil)
+			req.Header.Set("Authorization", "token "+os.Getenv("GITHUB_TOKEN"))
+			req.Header.Set("Accept", "application/vnd.github.VERSION.html")
+			return client.Do(req)
+		},
+	})
 
 	if err != nil {
 		usage(err.Error())
@@ -76,7 +85,7 @@ func main() {
 }
 
 func usage(errorMsg string) {
-	fmt.Fprintln(os.Stderr, errorMsg)
+	fmt.Fprintf(os.Stderr, "Exiting with error [%s]\n", errorMsg)
 	fmt.Fprintf(os.Stderr, "usage: %s <output-directory> <resource-file>\n", os.Args[0])
 	os.Exit(1)
 }

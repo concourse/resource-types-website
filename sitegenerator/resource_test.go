@@ -2,6 +2,9 @@ package sitegenerator_test
 
 import (
 	"fmt"
+	"io/ioutil"
+	"net/http"
+	"strings"
 
 	"github.com/concourse/dutyfree/sitegenerator"
 	. "github.com/onsi/ginkgo"
@@ -29,7 +32,7 @@ repository: https://github.com/concourse/time-resource
 		resources := []sitegenerator.Resource{
 			{Name: "time resource", Repository: "https://github.com/concourse"},
 		}
-		_, err := sitegenerator.Enrich(resources)
+		_, err := sitegenerator.Enrich(resources, sitegenerator.HttpReadmeClient{})
 
 		Expect(err).To(HaveOccurred())
 		Expect(err.Error()).To(ContainSubstring(fmt.Sprintf("invalid repository for the resource (%s)", "time resource")))
@@ -41,7 +44,15 @@ repository: https://github.com/concourse/time-resource
 			{Name: "time resource", Repository: "https://github.com/concourse/time-resource"},
 		}
 
-		i, err := sitegenerator.Enrich(resources)
+		i, err := sitegenerator.Enrich(resources, sitegenerator.HttpReadmeClient{
+			GetReadme: func(url string) (*http.Response, error) {
+				Expect(url).To(Equal("https://api.github.com/repos/concourse/time-resource/readme"))
+				return &http.Response{
+					StatusCode: 200,
+					Body:       ioutil.NopCloser(strings.NewReader("foobar readme")),
+				}, nil
+			},
+		})
 
 		Expect(err).ToNot(HaveOccurred())
 
@@ -50,9 +61,31 @@ repository: https://github.com/concourse/time-resource
 				Name:       "time resource",
 				Repository: "https://github.com/concourse/time-resource",
 			},
+			Repo:              "time-resource",
 			Identifier:        "concourse-time-resource",
 			AuthorHandle:      "concourse",
 			AuthorProfileLink: "https://github.com/concourse",
+			Readme:            "foobar readme",
 		}))
+	})
+
+	It("fails to retrieve readme", func() {
+		resources := []sitegenerator.Resource{
+			{Name: "time resource", Repository: "https://github.com/concourse/time-resource"},
+		}
+
+		_, err := sitegenerator.Enrich(resources, sitegenerator.HttpReadmeClient{
+			GetReadme: func(url string) (*http.Response, error) {
+				Expect(url).To(Equal("https://api.github.com/repos/concourse/time-resource/readme"))
+				return &http.Response{
+					StatusCode: 404,
+					Body:       ioutil.NopCloser(strings.NewReader("foobar readme")),
+				}, nil
+			},
+		})
+
+		Expect(err).To(HaveOccurred())
+		Expect(err.Error()).To(ContainSubstring("Unable to access ReadMe for in [concourse] [time-resource] due to Status Code [404]"))
+
 	})
 })

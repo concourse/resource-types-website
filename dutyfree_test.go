@@ -33,10 +33,10 @@ var _ = Describe("Dutyfree", func() {
 			Expect(err).ToNot(HaveOccurred())
 
 			_, err = fmt.Fprint(resources, `---
-- repository: https://github.com/concourse/foobar-resource
-  name: foobar resource
-- repository: https://github.com/concourse/barzot-resource
-  name: barzot resource
+- repository: https://github.com/concourse/git-resource
+  name: git resource
+- repository: https://github.com/concourse/hg-resource
+  name: hg resource
 `)
 			Expect(err).ToNot(HaveOccurred())
 		})
@@ -47,7 +47,7 @@ var _ = Describe("Dutyfree", func() {
 			session, err := gexec.Start(cmd, GinkgoWriter, GinkgoWriter)
 			Expect(err).ToNot(HaveOccurred())
 
-			Eventually(session).Should(gexec.Exit(0))
+			Eventually(session, "10s").Should(gexec.Exit(0))
 
 			indexHTML, err := os.Open(filepath.Join(outputDir, "index.html"))
 
@@ -60,8 +60,8 @@ var _ = Describe("Dutyfree", func() {
 			Expect(doc).To(
 				SatisfyAll(
 					ContainSelectorWithText("title", Equal("Duty Free")),
-					ContainSelector(`a[href="resources/concourse-foobar-resource.html"]`),
-					ContainSelector(`a[href="resources/concourse-barzot-resource.html"]`)))
+					ContainSelector(`a[href="resources/concourse-git-resource.html"]`),
+					ContainSelector(`a[href="resources/concourse-hg-resource.html"]`)))
 
 			By("copying the static folder")
 			staticSrcDir, err := ioutil.ReadDir(filepath.Join(outputDir, "static"))
@@ -82,17 +82,17 @@ var _ = Describe("Dutyfree", func() {
 			session, err := gexec.Start(cmd, GinkgoWriter, GinkgoWriter)
 			Expect(err).ToNot(HaveOccurred())
 
-			Eventually(session).Should(gexec.Exit(0))
+			Eventually(session, "10s").Should(gexec.Exit(0))
 
-			resourceHTML, err := os.Open(filepath.Join(outputDir, "resources/concourse-foobar-resource.html"))
+			resourceHTML, err := os.Open(filepath.Join(outputDir, "resources/concourse-git-resource.html"))
 			Expect(err).ToNot(HaveOccurred())
 
 			doc, err := goquery.NewDocumentFromReader(resourceHTML)
 			Expect(err).ToNot(HaveOccurred())
 
 			Expect(doc).To(SatisfyAll(
-				ContainSelectorWithText("title", Equal("Duty Free - foobar resource")),
-				ContainSelectorWithText("body", ContainSubstring("https://github.com/concourse/foobar-resource"))))
+				ContainSelectorWithText("title", Equal("Duty Free - git resource")),
+				ContainSelectorWithText("body", ContainSubstring("https://github.com/concourse/git-resource"))))
 		})
 
 		AfterEach(func() {
