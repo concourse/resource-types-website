@@ -31,6 +31,10 @@ func main() {
 		usage(err.Error())
 	}
 
+	if _, ok := os.LookupEnv("GITHUB_TOKEN"); !ok {
+		usage("Environment variable with GITHUB_TOKEN required")
+	}
+
 	resourceModels, err := sitegenerator.Enrich(resources, sitegenerator.HttpReadmeClient{
 		GetReadme: func(url string) (response *http.Response, e error) {
 			client := &http.Client{}
