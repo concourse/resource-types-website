@@ -10,14 +10,26 @@ import (
 
 var _ = Describe("ResourcePage", func() {
 	It("renders the template", func() {
-		resource := sitegenerator.Resource{Name: "foobar resource", Repository: "https://github.com/foo/foobar-resource"}
+		resourceModel := sitegenerator.ResourceModel{
+			Resource: sitegenerator.Resource{
+				Name:       "git resource",
+				Repository: "https://github.com/concourse/git-resource",
+			},
+			Identifier:        "concourse-git-resource",
+			AuthorHandle:      "concourse",
+			AuthorProfileLink: "https://github.com/concourse",
+			Readme:            "<div>foobar readme</div>",
+		}
 
 		b := bytes.Buffer{}
 
-		ip := sitegenerator.NewResourcePage("", resource)
-		ip.Generate(&b)
+		ip := sitegenerator.NewResourcePage("", resourceModel)
+		err := ip.Generate(&b)
 
-		Expect(b.String()).To(ContainSubstring("https://github.com/foo/foobar-resource"))
-		Expect(b.String()).To(ContainSubstring("foobar resource"))
+		Expect(err).ToNot(HaveOccurred())
+		Expect(b.String()).To(ContainSubstring("https://github.com/concourse/git-resource"))
+		Expect(b.String()).To(ContainSubstring("git resource"))
+		Expect(b.String()).To(ContainSubstring(`<div id="github-readme">`))
+		Expect(b.String()).To(ContainSubstring("<div>foobar readme</div>"))
 	})
 })

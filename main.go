@@ -30,7 +30,13 @@ func main() {
 		usage(err.Error())
 	}
 
-	indexPage := sitegenerator.NewIndexPage("sitegenerator", resources)
+	resourceModels, err := sitegenerator.Enrich(resources)
+
+	if err != nil {
+		usage(err.Error())
+	}
+
+	indexPage := sitegenerator.NewIndexPage("sitegenerator", resourceModels)
 	err = indexPage.Generate(indexHTML)
 
 	if err != nil {
@@ -44,8 +50,8 @@ func main() {
 		usage("resources folder cannot be created")
 	}
 
-	for _, resource := range resources {
-		fileName := resource.Identifier
+	for _, resourceModel := range resourceModels {
+		fileName := resourceModel.Identifier
 
 		resourceHTML, err := os.Create(path.Join(outputDir, "resources", fmt.Sprintf("%s.html", fileName)))
 		if err != nil {
@@ -54,7 +60,7 @@ func main() {
 			continue
 		}
 
-		rp := sitegenerator.NewResourcePage("sitegenerator", resource)
+		rp := sitegenerator.NewResourcePage("sitegenerator", resourceModel)
 		err = rp.Generate(resourceHTML)
 
 		if err != nil {

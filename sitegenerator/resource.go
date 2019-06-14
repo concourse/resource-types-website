@@ -2,35 +2,43 @@ package sitegenerator
 
 import (
 	"fmt"
+	"html/template"
 	"strings"
 )
 
 type Resource struct {
-	Name              string `yaml:"name"`
-	Repository        string `yaml:"repository"`
+	Name       string `yaml:"name"`
+	Repository string `yaml:"repository"`
+}
+
+type ResourceModel struct {
+	Resource
 	Identifier        string
 	AuthorHandle      string
 	AuthorProfileLink string
+	Readme            template.HTML
 }
 
-func (r *Resource) UnmarshalYAML(unmarshal func(interface{}) error) error {
-	m := map[string]string{}
-	unmarshal(&m)
+func Enrich(resources []Resource) ([]ResourceModel, error) {
+	var resourceModels []ResourceModel
 
-	r.Name = m["name"]
-	r.Repository = m["repository"]
+	for _, resource := range resources {
+		resourceModel := ResourceModel{Resource: resource}
 
-	segmentsAll := strings.Split(r.Repository, "/")
+		// Here happens the Enrichment
+		segmentsAll := strings.Split(resource.Repository, "/")
 
-	if len(segmentsAll) < 5 || segmentsAll[0] != "https:" || segmentsAll[2] != "github.com" {
-		return fmt.Errorf("invalid repository for the resource (%s)", r.Repository)
+		if len(segmentsAll) < 5 || segmentsAll[0] != "https:" || segmentsAll[2] != "github.com" {
+			return resourceModels, fmt.Errorf("invalid repository for the resource (%s)", resource.Name)
+		}
+
+		segments := segmentsAll[3:]
+
+		resourceModel.Identifier = strings.Join(segments, "-")
+		resourceModel.AuthorHandle = segmentsAll[3]
+		resourceModel.AuthorProfileLink = strings.Join(segmentsAll[:4], "/")
+
+		resourceModels = append(resourceModels, resourceModel)
 	}
-
-	segments := segmentsAll[3:]
-
-	r.Identifier = strings.Join(segments, "-")
-	r.AuthorHandle = segmentsAll[3]
-	r.AuthorProfileLink = strings.Join(segmentsAll[:4], "/")
-
-	return nil
+	return resourceModels, nil
 }

@@ -8,19 +8,20 @@ import (
 )
 
 type ResourcePage struct {
+	ResourceModel
 	templateBasePath string
-	resource         Resource
 }
 
-func NewResourcePage(templateBasePath string, resource Resource) ResourcePage {
-	return ResourcePage{templateBasePath, resource}
+func NewResourcePage(templateBasePath string, resourceModel ResourceModel) ResourcePage {
+	return ResourcePage{resourceModel, templateBasePath}
 }
 
-func (i *ResourcePage) Generate(w io.Writer) error {
-	var tmpl = template.Must(template.ParseFiles(path.Join(i.templateBasePath, "templates/resource.html")))
-	err := tmpl.Execute(w, i.resource)
+func (rp *ResourcePage) Generate(w io.Writer) error {
+	var tmpl = template.Must(template.ParseFiles(path.Join(rp.templateBasePath, "templates/resource.html")))
+
+	err := tmpl.Execute(w, rp)
 	if err != nil {
-		return fmt.Errorf("cannot write resource %s: %s", i.resource.Repository, err)
+		return fmt.Errorf("cannot write resource %s: %s", rp.Repository, err)
 	}
 	return nil
 }
