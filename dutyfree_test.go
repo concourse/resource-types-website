@@ -59,7 +59,7 @@ var _ = Describe("Dutyfree", func() {
 
 			Expect(doc).To(
 				SatisfyAll(
-					ContainSelector("title:contains('Duty Free')"),
+					ContainSelectorWithText("title", Equal("Duty Free")),
 					ContainSelector(`a[href="resources/concourse-foobar-resource.html"]`),
 					ContainSelector(`a[href="resources/concourse-barzot-resource.html"]`)))
 
@@ -91,8 +91,8 @@ var _ = Describe("Dutyfree", func() {
 			Expect(err).ToNot(HaveOccurred())
 
 			Expect(doc).To(SatisfyAll(
-				ContainSelector("title:contains('foobar resource')"),
-				ContainSelector("body:contains('https://github.com/concourse/foobar-resource')")))
+				ContainSelectorWithText("title", Equal("Duty Free - foobar resource")),
+				ContainSelectorWithText("body", ContainSubstring("https://github.com/concourse/foobar-resource"))))
 		})
 
 		AfterEach(func() {

@@ -3,6 +3,8 @@ package sitegenerator_test
 import (
 	"bytes"
 
+	"github.com/PuerkitoBio/goquery"
+	. "github.com/concourse/dutyfree/matchers"
 	"github.com/concourse/dutyfree/sitegenerator"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -37,11 +39,15 @@ var _ = Describe("IndexPage", func() {
 		err := ip.Generate(&b)
 		Expect(err).ToNot(HaveOccurred())
 
-		Expect(b.String()).To(ContainSubstring("Duty Free"))
-		Expect(b.String()).To(ContainSubstring(`href="resources/concourse-git-resource.html"`))
-		Expect(b.String()).To(ContainSubstring(`href="resources/concourse-hg-resource.html"`))
-		Expect(b.String()).To(ContainSubstring(`href="https://github.com/concourse"`))
-		Expect(b.String()).To(ContainSubstring(`href="https://github.com/concourse/git-resource"`))
+		doc, err := goquery.NewDocumentFromReader(bytes.NewReader(b.Bytes()))
+
+		Expect(doc).To(
+			SatisfyAll(
+				ContainSelectorWithText("title", Equal("Duty Free")),
+				ContainSelector(`a[href="resources/concourse-git-resource.html"]`),
+				ContainSelector(`a[href="resources/concourse-hg-resource.html"]`),
+				ContainSelector(`a[href="https://github.com/concourse"]`),
+				ContainSelector(`a[href="https://github.com/concourse/git-resource"]`)))
 	})
 
 	It("handles no resources", func() {
