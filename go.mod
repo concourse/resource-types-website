@@ -3,6 +3,7 @@ module github.com/concourse/dutyfree
 go 1.12
 
 require (
+	github.com/PuerkitoBio/goquery v1.5.0
 	github.com/onsi/ginkgo v1.8.0
 	github.com/onsi/gomega v1.5.0
 	github.com/otiai10/copy v1.0.1

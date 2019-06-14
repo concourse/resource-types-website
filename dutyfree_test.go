@@ -7,6 +7,9 @@ import (
 	"os/exec"
 	"path/filepath"
 
+	"github.com/PuerkitoBio/goquery"
+	. "github.com/concourse/dutyfree/matchers"
+
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	"github.com/onsi/gomega/gbytes"
@@ -46,12 +49,19 @@ var _ = Describe("Dutyfree", func() {
 
 			Eventually(session).Should(gexec.Exit(0))
 
-			content, err := ioutil.ReadFile(filepath.Join(outputDir, "index.html"))
+			indexHTML, err := os.Open(filepath.Join(outputDir, "index.html"))
 
 			Expect(err).ToNot(HaveOccurred())
-			Expect(content).To(ContainSubstring("Duty Free"))
-			Expect(content).To(ContainSubstring(`href="resources/concourse-foobar-resource.html"`))
-			Expect(content).To(ContainSubstring(`href="resources/concourse-barzot-resource.html"`))
+
+			doc, err := goquery.NewDocumentFromReader(indexHTML)
+
+			Expect(err).ToNot(HaveOccurred())
+
+			Expect(doc).To(
+				SatisfyAll(
+					ContainSelector("title:contains('Duty Free')"),
+					ContainSelector(`a[href="resources/concourse-foobar-resource.html"]`),
+					ContainSelector(`a[href="resources/concourse-barzot-resource.html"]`)))
 
 			By("copying the static folder")
 			staticSrcDir, err := ioutil.ReadDir(filepath.Join(outputDir, "static"))
@@ -74,11 +84,15 @@ var _ = Describe("Dutyfree", func() {
 
 			Eventually(session).Should(gexec.Exit(0))
 
-			content, err := ioutil.ReadFile(filepath.Join(outputDir, "resources/concourse-foobar-resource.html"))
-
+			resourceHTML, err := os.Open(filepath.Join(outputDir, "resources/concourse-foobar-resource.html"))
 			Expect(err).ToNot(HaveOccurred())
-			Expect(content).To(ContainSubstring("foobar resource"))
-			Expect(content).To(ContainSubstring("https://github.com/concourse/foobar-resource"))
+
+			doc, err := goquery.NewDocumentFromReader(resourceHTML)
+			Expect(err).ToNot(HaveOccurred())
+
+			Expect(doc).To(SatisfyAll(
+				ContainSelector("title:contains('foobar resource')"),
+				ContainSelector("body:contains('https://github.com/concourse/foobar-resource')")))
 		})
 
 		AfterEach(func() {
