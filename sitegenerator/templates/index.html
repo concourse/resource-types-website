@@ -23,7 +23,10 @@
             <div class="tile">
                 <a href="resources/{{.Identifier}}.html">{{.Name}}</a>
                 <a target="_blank" href="{{.AuthorProfileLink}}">{{.AuthorHandle}}</a>
-                <a target="_blank" href="{{.Repository}}">Github</a>
+                <a target="_blank" href="{{.Repository}}">
+                    <img src="static/GitHub-Mark-120px-plus.png" alt="Resource Source on Github" class="github-icon"
+                         title="Resource Source on Github">
+                </a>
             </div>
         {{end}}
     </main>

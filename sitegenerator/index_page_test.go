@@ -47,7 +47,8 @@ var _ = Describe("IndexPage", func() {
 				ContainSelector(`a[href="resources/concourse-git-resource.html"]`),
 				ContainSelector(`a[href="resources/concourse-hg-resource.html"]`),
 				ContainSelector(`a[href="https://github.com/concourse"]`),
-				ContainSelector(`a[href="https://github.com/concourse/git-resource"]`)))
+				ContainSelector(`a[href="https://github.com/concourse/git-resource"]`),
+				ContainSelector(`img[title="Resource Source on Github"]`)))
 	})
 
 	It("handles no resources", func() {
