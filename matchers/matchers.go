@@ -37,24 +37,26 @@ func ContainSelector(selector string) types.GomegaMatcher {
 type containSelectorWithTextMatcher struct {
 	selector string
 	matcher  types.GomegaMatcher
+	text     string
 }
 
 func ContainSelectorWithText(selector string, matcher types.GomegaMatcher) types.GomegaMatcher {
-	return &containSelectorWithTextMatcher{selector, matcher}
+	return &containSelectorWithTextMatcher{selector: selector, matcher: matcher}
 }
 
-func (c containSelectorWithTextMatcher) Match(actual interface{}) (success bool, err error) {
+func (c *containSelectorWithTextMatcher) Match(actual interface{}) (success bool, err error) {
 	if doc, ok := actual.(*goquery.Document); ok {
-		return c.matcher.Match(doc.Find(c.selector).Text())
+		c.text = doc.Find(c.selector).Text()
+		return c.matcher.Match(c.text)
 	} else {
 		return false, fmt.Errorf("ContainSelectorWithText matcher expects a goquery.Document")
 	}
 }
 
 func (c containSelectorWithTextMatcher) FailureMessage(actual interface{}) (message string) {
-	return fmt.Sprintf("Expected\n\ttext of selector `%s`\nto match\n\t%s", c.selector, format.Object(c.matcher, 0))
+	return fmt.Sprintf("Expected\n\ttext (%s) of selector `%s`\nto match\n\t%s", c.text, c.selector, format.Object(c.matcher, 0))
 }
 
 func (c containSelectorWithTextMatcher) NegatedFailureMessage(actual interface{}) (message string) {
-	return fmt.Sprintf("Expected\n\ttext of selector `%s`\nto not match\n\t%s", c.selector, format.Object(c.matcher, 0))
+	return fmt.Sprintf("Expected\n\ttext (%s) of selector `%s`\nto not match\n\t%s", c.text, c.selector, format.Object(c.matcher, 0))
 }

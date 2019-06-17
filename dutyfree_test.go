@@ -52,17 +52,17 @@ var _ = Describe("Dutyfree", func() {
 					ghttp.VerifyRequest("GET", "/repos/concourse/git-resource/readme"),
 					ghttp.VerifyHeaderKV("Accept", "application/vnd.github.VERSION.html"),
 					ghttp.VerifyHeaderKV("Authorization", "token SOMEGITHUBTOKEN"),
-					ghttp.RespondWith(http.StatusOK, `<div id="readme">foo git</div>`),
+					ghttp.RespondWith(http.StatusOK, `<div id="readme">git foo</div>`),
 				),
 				ghttp.CombineHandlers(
 					ghttp.VerifyRequest("GET", "/repos/concourse/hg-resource/readme"),
 					ghttp.VerifyHeaderKV("Accept", "application/vnd.github.VERSION.html"),
 					ghttp.VerifyHeaderKV("Authorization", "token SOMEGITHUBTOKEN"),
-					ghttp.RespondWith(http.StatusOK, `<div id="readme">foo hg</div>`),
+					ghttp.RespondWith(http.StatusOK, `<div id="readme">hg foo</div>`),
 				))
 		})
 
-		It("generates an index.html in the directory", func() {
+		It("generates all the website in the output folder", func() {
 			cmd := exec.Command(pathToBin, outputDir, resources.Name())
 			cmd.Env = append(cmd.Env, "GITHUB_API_ENDPOINT="+server.URL(), "GITHUB_TOKEN=SOMEGITHUBTOKEN")
 
@@ -71,6 +71,7 @@ var _ = Describe("Dutyfree", func() {
 
 			Eventually(session).Should(gexec.Exit(0))
 
+			By("creating the index.html page")
 			indexHTML, err := os.Open(filepath.Join(outputDir, "index.html"))
 
 			Expect(err).ToNot(HaveOccurred())
@@ -97,18 +98,21 @@ var _ = Describe("Dutyfree", func() {
 				Expect(staticDstDir[i].Size()).To(Equal(staticSrcDir[i].Size()))
 			}
 
+			By("creating a html page for each resource")
 			Expect(server.ReceivedRequests()).Should(HaveLen(2))
 
-			resourceHTML, err := os.Open(filepath.Join(outputDir, "resources/concourse-git-resource.html"))
-			Expect(err).ToNot(HaveOccurred())
+			for _, resource := range []string{"git", "hg"} {
+				resourceHTML, err := os.Open(filepath.Join(outputDir, fmt.Sprintf("resources/concourse-%s-resource.html", resource)))
+				Expect(err).ToNot(HaveOccurred())
 
-			doc, err = goquery.NewDocumentFromReader(resourceHTML)
-			Expect(err).ToNot(HaveOccurred())
+				doc, err = goquery.NewDocumentFromReader(resourceHTML)
+				Expect(err).ToNot(HaveOccurred())
 
-			Expect(doc).To(SatisfyAll(
-				ContainSelectorWithText("title", Equal("Duty Free - git resource")),
-				ContainSelectorWithText("body", ContainSubstring("https://github.com/concourse/git-resource")),
-				ContainSelectorWithText("#github-readme #readme", Equal("foo git"))))
+				Expect(doc).To(SatisfyAll(
+					ContainSelectorWithText("title", ContainSubstring("Duty Free - %s resource", resource)),
+					ContainSelectorWithText("body", ContainSubstring("https://github.com/concourse/%s-resource", resource)),
+					ContainSelectorWithText("#github-readme #readme", ContainSubstring("%s foo", resource))))
+			}
 		})
 
 		AfterEach(func() {
