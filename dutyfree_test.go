@@ -3,12 +3,14 @@ package main_test
 import (
 	"fmt"
 	"io/ioutil"
+	"net/http"
 	"os"
 	"os/exec"
 	"path/filepath"
 
 	"github.com/PuerkitoBio/goquery"
 	. "github.com/concourse/dutyfree/matchers"
+	"github.com/onsi/gomega/ghttp"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -23,6 +25,7 @@ var _ = Describe("Dutyfree", func() {
 			outputDir string
 			resources *os.File
 			err       error
+			server    *ghttp.Server
 		)
 
 		BeforeEach(func() {
@@ -39,15 +42,34 @@ var _ = Describe("Dutyfree", func() {
   name: hg resource
 `)
 			Expect(err).ToNot(HaveOccurred())
+
+			server = ghttp.NewServer()
+
+			server.AppendHandlers(
+				ghttp.CombineHandlers(
+					ghttp.VerifyRequest("GET", "/repos/concourse/git-resource/readme"),
+					ghttp.VerifyHeaderKV("Accept", "application/vnd.github.VERSION.html"),
+					ghttp.VerifyHeaderKV("Authorization", "token SOMEGITHUBTOKEN"),
+					ghttp.RespondWith(http.StatusOK, `<div id="readme">foo git</div>`),
+				),
+				ghttp.CombineHandlers(
+					ghttp.VerifyRequest("GET", "/repos/concourse/hg-resource/readme"),
+					ghttp.VerifyHeaderKV("Accept", "application/vnd.github.VERSION.html"),
+					ghttp.VerifyHeaderKV("Authorization", "token SOMEGITHUBTOKEN"),
+					ghttp.RespondWith(http.StatusOK, `<div id="readme">foo hg</div>`),
+				))
+
+			fmt.Println(server.URL())
 		})
 
 		It("generates an index.html in the directory", func() {
 			cmd := exec.Command(pathToBin, outputDir, resources.Name())
+			cmd.Env = append(cmd.Env, "GITHUB_API_ENDPOINT="+server.URL(), "GITHUB_TOKEN=SOMEGITHUBTOKEN")
 
 			session, err := gexec.Start(cmd, GinkgoWriter, GinkgoWriter)
 			Expect(err).ToNot(HaveOccurred())
 
-			Eventually(session, "10s").Should(gexec.Exit(0))
+			Eventually(session).Should(gexec.Exit(0))
 
 			indexHTML, err := os.Open(filepath.Join(outputDir, "index.html"))
 
@@ -74,30 +96,25 @@ var _ = Describe("Dutyfree", func() {
 				Expect(staticDstDir[i].Name()).To(Equal(staticSrcDir[i].Name()))
 				Expect(staticDstDir[i].Size()).To(Equal(staticSrcDir[i].Size()))
 			}
-		})
 
-		It("generates page for the resources in the resources file", func() {
-			cmd := exec.Command(pathToBin, outputDir, resources.Name())
-
-			session, err := gexec.Start(cmd, GinkgoWriter, GinkgoWriter)
-			Expect(err).ToNot(HaveOccurred())
-
-			Eventually(session, "10s").Should(gexec.Exit(0))
+			Expect(server.ReceivedRequests()).Should(HaveLen(2))
 
 			resourceHTML, err := os.Open(filepath.Join(outputDir, "resources/concourse-git-resource.html"))
 			Expect(err).ToNot(HaveOccurred())
 
-			doc, err := goquery.NewDocumentFromReader(resourceHTML)
+			doc, err = goquery.NewDocumentFromReader(resourceHTML)
 			Expect(err).ToNot(HaveOccurred())
 
 			Expect(doc).To(SatisfyAll(
 				ContainSelectorWithText("title", Equal("Duty Free - git resource")),
-				ContainSelectorWithText("body", ContainSubstring("https://github.com/concourse/git-resource"))))
+				ContainSelectorWithText("body", ContainSubstring("https://github.com/concourse/git-resource")),
+				ContainSelectorWithText("#github-readme #readme", Equal("foo git"))))
 		})
 
 		AfterEach(func() {
 			os.RemoveAll(outputDir)
 			os.Remove(resources.Name())
+			server.Close()
 		})
 	})
 

@@ -6,6 +6,7 @@ import (
 	"html/template"
 	"io/ioutil"
 	"net/http"
+	"os"
 	"strings"
 )
 
@@ -32,7 +33,16 @@ type HttpReadmeClient struct {
 }
 
 func (hrc HttpReadmeClient) Get(authorHandle, repo string) (template.HTML, error) {
-	readmeURL := fmt.Sprintf("https://api.github.com/repos/%s/%s/readme", authorHandle, repo)
+	endpoint, ok := os.LookupEnv("GITHUB_API_ENDPOINT")
+
+	var readmeURL string
+
+	if ok {
+		readmeURL = fmt.Sprintf("%s/repos/%s/%s/readme", endpoint, authorHandle, repo)
+	} else {
+		readmeURL = fmt.Sprintf("https://api.github.com/repos/%s/%s/readme", authorHandle, repo)
+	}
+
 	resp, err := hrc.GetReadme(readmeURL)
 	if err != nil {
 		return "", err
