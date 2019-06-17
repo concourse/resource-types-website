@@ -20,31 +20,33 @@ import (
 )
 
 var _ = Describe("Dutyfree", func() {
-	Describe("when a directory and a resources file are provided", func() {
-		var (
-			outputDir string
-			resources *os.File
-			err       error
-			server    *ghttp.Server
-		)
+	var (
+		server    *ghttp.Server
+		outputDir string
+		resources *os.File
+	)
 
-		BeforeEach(func() {
-			outputDir, err = ioutil.TempDir("", "dutyfree")
-			Expect(err).ToNot(HaveOccurred())
+	BeforeEach(func() {
+		var err error
+		server = ghttp.NewServer()
 
-			resources, err = ioutil.TempFile("", "resources.yml")
-			Expect(err).ToNot(HaveOccurred())
+		outputDir, err = ioutil.TempDir("", "dutyfree")
+		Expect(err).ToNot(HaveOccurred())
 
-			_, err = fmt.Fprint(resources, `---
+		resources, err = ioutil.TempFile("", "resources.yml")
+		Expect(err).ToNot(HaveOccurred())
+
+		_, err = fmt.Fprint(resources, `---
 - repository: https://github.com/concourse/git-resource
   name: git resource
 - repository: https://github.com/concourse/hg-resource
   name: hg resource
 `)
-			Expect(err).ToNot(HaveOccurred())
+		Expect(err).ToNot(HaveOccurred())
+	})
 
-			server = ghttp.NewServer()
-
+	Describe("when a directory and a resources file are provided", func() {
+		BeforeEach(func() {
 			server.AppendHandlers(
 				ghttp.CombineHandlers(
 					ghttp.VerifyRequest("GET", "/repos/concourse/git-resource/readme"),
@@ -58,8 +60,6 @@ var _ = Describe("Dutyfree", func() {
 					ghttp.VerifyHeaderKV("Authorization", "token SOMEGITHUBTOKEN"),
 					ghttp.RespondWith(http.StatusOK, `<div id="readme">foo hg</div>`),
 				))
-
-			fmt.Println(server.URL())
 		})
 
 		It("generates an index.html in the directory", func() {
@@ -114,7 +114,32 @@ var _ = Describe("Dutyfree", func() {
 		AfterEach(func() {
 			os.RemoveAll(outputDir)
 			os.Remove(resources.Name())
-			server.Close()
+		})
+
+	})
+
+	Describe("when github returns a non 200 status", func() {
+		BeforeEach(func() {
+			server.AppendHandlers(
+				ghttp.CombineHandlers(
+					ghttp.VerifyRequest("GET", MatchRegexp("/repos/concourse/git-resource/readme")),
+					ghttp.VerifyHeaderKV("Accept", "application/vnd.github.VERSION.html"),
+					ghttp.VerifyHeaderKV("Authorization", "token SOMEGITHUBTOKEN"),
+					ghttp.RespondWith(500, "error message"),
+				))
+		})
+
+		It("exits 1 and print the error cause", func() {
+			cmd := exec.Command(pathToBin, outputDir, resources.Name())
+			cmd.Env = append(cmd.Env, "GITHUB_API_ENDPOINT="+server.URL(), "GITHUB_TOKEN=SOMEGITHUBTOKEN")
+
+			session, err := gexec.Start(cmd, GinkgoWriter, GinkgoWriter)
+			Expect(err).ToNot(HaveOccurred())
+
+			Eventually(session).Should(gexec.Exit(1))
+
+			Expect(server.ReceivedRequests()).To(HaveLen(1))
+			Eventually(session.Err).Should(gbytes.Say("Unable to access readme for concourse/git-resource due to error: 500, reason: error message"))
 		})
 	})
 
@@ -157,5 +182,9 @@ var _ = Describe("Dutyfree", func() {
 			Eventually(session.Err).Should(gbytes.Say("cannot read resources file"))
 			Eventually(session.Err).Should(gbytes.Say("usage: %s <output-directory> <resource-file>", pathToBin))
 		})
+	})
+
+	AfterEach(func() {
+		server.Close()
 	})
 })

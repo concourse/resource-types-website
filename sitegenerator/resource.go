@@ -47,11 +47,14 @@ func (hrc HttpReadmeClient) Get(authorHandle, repo string) (template.HTML, error
 	if err != nil {
 		return "", err
 	}
-	if resp.StatusCode != 200 {
-		return "", errors.New(fmt.Sprintf("Unable to access ReadMe for in [%s] [%s] due to Status Code [%d]", authorHandle, repo, resp.StatusCode))
-	}
-	defer resp.Body.Close()
+
 	body, _ := ioutil.ReadAll(resp.Body)
+	defer resp.Body.Close()
+
+	if resp.StatusCode != 200 {
+		return "", errors.New(fmt.Sprintf("Unable to access readme for %s/%s due to error: %d, reason: %s ", authorHandle, repo, resp.StatusCode, body))
+	}
+
 	return template.HTML(body), nil
 }
 

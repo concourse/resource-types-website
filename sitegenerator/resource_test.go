@@ -85,7 +85,7 @@ repository: https://github.com/concourse/time-resource
 		})
 
 		Expect(err).To(HaveOccurred())
-		Expect(err.Error()).To(ContainSubstring("Unable to access ReadMe for in [concourse] [time-resource] due to Status Code [404]"))
+		Expect(err.Error()).To(ContainSubstring("Unable to access readme for concourse/time-resource due to error: 404, reason: foobar readme"))
 
 	})
 })
