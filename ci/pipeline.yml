@@ -30,6 +30,8 @@ jobs:
     - get: git-dutyfree-gh-pages
     - task: generate-html
       file: git-dutyfree/ci/generate-html/task.yml
+      params:
+        GITHUB_TOKEN: ((github_token))
     - task: commit
       file: git-dutyfree/ci/commit/task.yml
     - put: git-dutyfree-gh-pages
