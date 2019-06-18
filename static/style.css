@@ -40,6 +40,12 @@
     position: relative;
 }
 
+.tile .desc {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 h1 {
     color: white;
     font-size: 15px;

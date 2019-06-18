@@ -2,6 +2,7 @@ package matchers
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/PuerkitoBio/goquery"
 	"github.com/onsi/gomega/format"
@@ -46,7 +47,7 @@ func ContainSelectorWithText(selector string, matcher types.GomegaMatcher) types
 
 func (c *containSelectorWithTextMatcher) Match(actual interface{}) (success bool, err error) {
 	if doc, ok := actual.(*goquery.Document); ok {
-		c.text = doc.Find(c.selector).Text()
+		c.text = strings.TrimSpace(doc.Find(c.selector).Text())
 		return c.matcher.Match(c.text)
 	} else {
 		return false, fmt.Errorf("ContainSelectorWithText matcher expects a goquery.Document")

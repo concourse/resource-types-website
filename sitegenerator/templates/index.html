@@ -20,9 +20,12 @@
 
     <main class="content">
         {{range .}}
-            <div class="tile">
+            <div class="tile" id="{{.Identifier}}">
                 <a href="resources/{{.Identifier}}.html">{{.Name}}</a>
                 <a target="_blank" href="{{.AuthorProfileLink}}">{{.AuthorHandle}}</a>
+                <div class="desc">
+                    {{.Description}}
+                </div>
                 <a target="_blank" href="{{.Repository}}">
                     <img src="static/GitHub-Mark-120px-plus.png" alt="Resource Source on Github" class="github-icon"
                          title="Resource Source on Github">

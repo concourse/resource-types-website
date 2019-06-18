@@ -19,12 +19,14 @@ var _ = Describe("Resources", func() {
 		err := yaml.Unmarshal([]byte(`---
 name: time resource
 repository: https://github.com/concourse/time-resource
+desc: time resource description
 `), &r)
 
 		Expect(err).ToNot(HaveOccurred())
 		Expect(r).To(MatchAllFields(Fields{
-			"Name":       Equal("time resource"),
-			"Repository": Equal("https://github.com/concourse/time-resource"),
+			"Name":        Equal("time resource"),
+			"Repository":  Equal("https://github.com/concourse/time-resource"),
+			"Description": Equal("time resource description"),
 		}))
 	})
 

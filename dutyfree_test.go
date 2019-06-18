@@ -39,8 +39,12 @@ var _ = Describe("Dutyfree", func() {
 		_, err = fmt.Fprint(resources, `---
 - repository: https://github.com/concourse/git-resource
   name: git resource
+  desc: git resource description
 - repository: https://github.com/concourse/hg-resource
   name: hg resource
+  desc: 
+- repository: https://github.com/concourse/foo-resource
+  name: foo resource
 `)
 		Expect(err).ToNot(HaveOccurred())
 	})
@@ -59,6 +63,12 @@ var _ = Describe("Dutyfree", func() {
 					ghttp.VerifyHeaderKV("Accept", "application/vnd.github.VERSION.html"),
 					ghttp.VerifyHeaderKV("Authorization", "token SOMEGITHUBTOKEN"),
 					ghttp.RespondWith(http.StatusOK, `<div id="readme">hg foo</div>`),
+				),
+				ghttp.CombineHandlers(
+					ghttp.VerifyRequest("GET", "/repos/concourse/foo-resource/readme"),
+					ghttp.VerifyHeaderKV("Accept", "application/vnd.github.VERSION.html"),
+					ghttp.VerifyHeaderKV("Authorization", "token SOMEGITHUBTOKEN"),
+					ghttp.RespondWith(http.StatusOK, `<div id="readme">foo foo</div>`),
 				))
 		})
 
@@ -86,6 +96,12 @@ var _ = Describe("Dutyfree", func() {
 					ContainSelector(`a[href="resources/concourse-git-resource.html"]`),
 					ContainSelector(`a[href="resources/concourse-hg-resource.html"]`)))
 
+			Expect(doc).To(SatisfyAll(
+				ContainSelectorWithText("#concourse-git-resource .desc", Equal("git resource description")),
+				ContainSelectorWithText("#concourse-hg-resource .desc", BeZero()),
+				ContainSelectorWithText("#concourse-foo-resource .desc", BeZero()),
+			))
+
 			By("copying the static folder")
 			staticSrcDir, err := ioutil.ReadDir(filepath.Join(outputDir, "static"))
 			Expect(err).ToNot(HaveOccurred())
@@ -99,7 +115,7 @@ var _ = Describe("Dutyfree", func() {
 			}
 
 			By("creating a html page for each resource")
-			Expect(server.ReceivedRequests()).Should(HaveLen(2))
+			Expect(server.ReceivedRequests()).Should(HaveLen(3))
 
 			for _, resource := range []string{"git", "hg"} {
 				resourceHTML, err := os.Open(filepath.Join(outputDir, fmt.Sprintf("resources/concourse-%s-resource.html", resource)))
@@ -113,6 +129,7 @@ var _ = Describe("Dutyfree", func() {
 					ContainSelectorWithText("body", ContainSubstring("https://github.com/concourse/%s-resource", resource)),
 					ContainSelectorWithText("#github-readme #readme", ContainSubstring("%s foo", resource))))
 			}
+
 		})
 
 		AfterEach(func() {
