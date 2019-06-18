@@ -31,6 +31,17 @@ run:
 
       if [[ -n $(git status -s) ]]; then
         git commit -m "duty free html"
+
+        curl -X POST -H 'Content-type: application/json' --data '{
+          "blocks": [
+            {
+              "type": "section",
+              "text": {
+                "type": "mrkdwn",
+                "text": "<!subteam^SJBELM1GS|duty-free-team> New version available at https://concourse.github.io/dutyfree"
+              }
+            }
+          ]}' "((slack-hook))"
       else
         echo "No change to commit"
       fi
