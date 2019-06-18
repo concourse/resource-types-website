@@ -41,6 +41,8 @@ jobs:
         GITHUB_TOKEN: ((github_token))
     - task: commit
       file: git-dutyfree/ci/commit/task.yml
+      params:
+        SLACK_HOOK: ((slack-hook))
     - put: git-dutyfree-gh-pages
       params:
         repository: git-dutyfree-gh-pages-output

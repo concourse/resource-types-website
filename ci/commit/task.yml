@@ -41,7 +41,7 @@ run:
                 "text": "<!subteam^SJBELM1GS|duty-free-team> New version available at https://concourse.github.io/dutyfree"
               }
             }
-          ]}' "((slack-hook))"
+          ]}' "${SLACK_HOOK}"
       else
         echo "No change to commit"
       fi
