@@ -14,6 +14,7 @@ import (
 	"github.com/concourse/dutyfree/sitegenerator"
 	"github.com/onsi/gomega/gexec"
 	"github.com/onsi/gomega/ghttp"
+	"gopkg.in/fsnotify.v1"
 	"gopkg.in/yaml.v2"
 )
 
@@ -23,19 +24,7 @@ var (
 	resources *os.File
 )
 
-func main() {
-	sigs := make(chan os.Signal, 1)
-	done := make(chan bool, 1)
-
-	signal.Notify(sigs, syscall.SIGINT, syscall.SIGTERM)
-
-	go func() {
-		sig := <-sigs
-		log.Println(sig)
-		cleanup()
-		done <- true
-	}()
-
+func run(done chan bool) {
 	log.Println("===============================================================")
 	log.Println("dev mode")
 
@@ -95,6 +84,54 @@ func main() {
 	<-done
 
 	srv.Shutdown(context.TODO())
+}
+
+func main() {
+	sigs := make(chan os.Signal, 1)
+	done := make(chan bool, 1)
+
+	signal.Notify(sigs, syscall.SIGINT, syscall.SIGTERM)
+
+	go func() {
+		sig := <-sigs
+		log.Println(sig)
+		cleanup()
+		done <- true
+	}()
+
+	watcher, err := fsnotify.NewWatcher()
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer watcher.Close()
+
+	go func() {
+		for {
+			select {
+			case event, ok := <-watcher.Events:
+				if !ok {
+					return
+				}
+				log.Println("event:", event)
+				if event.Op&fsnotify.Write == fsnotify.Write {
+					log.Println("modified file:", event.Name, "restarting")
+					done <- true
+				}
+			case err, ok := <-watcher.Errors:
+				if !ok {
+					return
+				}
+				log.Println("error:", err)
+			}
+		}
+	}()
+
+	err = watcher.Add("")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	run(done)
 }
 
 func cleanup() {
