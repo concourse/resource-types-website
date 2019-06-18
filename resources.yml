@@ -1,37 +1,37 @@
-- name: '`git` resource'
+- name: 'git resource'
   repository: https://github.com/concourse/git-resource
   desc: Tracks the commits in a git repository.
-- name: '`hg` resource'
+- name: 'hg resource'
   repository: https://github.com/concourse/hg-resource
   desc: Tracks the commits in a Mercurial repository.
-- name: '`time` resource'
+- name: 'time resource'
   repository: https://github.com/concourse/time-resource
   desc: Implements a resource that reports new versions on a configured interval. The interval can be arbitrarily long.
-- name: '`s3` resource'
+- name: 's3 resource'
   repository: https://github.com/concourse/s3-resource
   desc: Versions objects in an S3 bucket, by pattern-matching filenames to identify version numbers.
-- name: '`semver` resource'
+- name: 'semver resource'
   repository: https://github.com/concourse/semver-resource
   desc: A resource for managing a version number. Persists the version number in one of several backing stores.
-- name: '`github-release` resource'
+- name: 'github-release resource'
   repository: https://github.com/concourse/github-release-resource
   desc: Fetches and creates versioned GitHub resources.
-- name: '`registry-image` resource'
+- name: 'registry-image resource'
   repository: https://github.com/concourse/registry-image-resource
   desc: Supports checking, fetching, and pushing of images to Docker registries.
-- name: '`docker-image` resource'
+- name: 'docker-image resource'
   repository: https://github.com/concourse/docker-image-resource
   desc: Tracks and builds Docker images.
-- name: '`pool` resource'
+- name: 'pool resource'
   repository: https://github.com/concourse/pool-resource
   desc: A pool of locks (modeling semaphores). Allows you to lock environments, pipeline flow, or other entities which have to be interacted with in a serial manner.
-- name: '`cf` resource'
+- name: 'cf resource'
   repository: https://github.com/concourse/cf-resource
   desc: An output only resource (at the moment) that will deploy an application to a Cloud Foundry deployment.
-- name: '`bosh-io-release` resource'
+- name: 'bosh-io-release resource'
   repository: https://github.com/concourse/bosh-io-release-resource
   desc: Tracks the versions of a release on bosh.io.
-- name: '`bosh-io-stemcell` resource'
+- name: 'bosh-io-stemcell resource'
   repository: https://github.com/concourse/bosh-io-stemcell-resource
   desc: Tracks the versions of a stemcell on bosh.io.
 - name: Slack Reading and Posting
