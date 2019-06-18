@@ -7,13 +7,14 @@
 <body>
 <div class="container">
 
-    <div class="logo">
-        <h1>CONCOURSE DUTY FREE</h1>
+    <div class="logo-area">
+        <div class="title">
+            <h1>CONCOURSE DUTY FREE</h1>
+        </div>
     </div>
 
 
     <div class="search">
-        <p>Duty Free is for resources</p>
     </div>
 
     <nav class="sidebar"></nav>
@@ -21,8 +22,10 @@
     <main class="content">
         {{range .}}
             <div class="tile" id="{{.Identifier}}">
-                <a href="resources/{{.Identifier}}.html">{{.Name}}</a>
-                <a target="_blank" href="{{.AuthorProfileLink}}">{{.AuthorHandle}}</a>
+                <a target="_blank" href="{{.AuthorProfileLink}}" class="author">
+                    {{.AuthorHandle}}
+                </a>
+                <a href="resources/{{.Identifier}}.html" class="name">{{.Name}}</a>
                 <div class="desc">
                     {{.Description}}
                 </div>
