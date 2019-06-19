@@ -14,8 +14,9 @@ var _ = Describe("ResourcePage", func() {
 	It("renders the template", func() {
 		resourceModel := sitegenerator.ResourceModel{
 			Resource: sitegenerator.Resource{
-				Name:       "git resource",
-				Repository: "https://github.com/concourse/git-resource",
+				Name:        "git resource",
+				Repository:  "https://github.com/concourse/git-resource",
+				Description: "git resource description",
 			},
 			Identifier:        "concourse-git-resource",
 			AuthorHandle:      "concourse",
@@ -37,8 +38,9 @@ var _ = Describe("ResourcePage", func() {
 		Expect(doc).To(
 			SatisfyAll(
 				ContainSelectorWithText("h1", Equal("git resource")),
-				ContainSelectorWithText("p", Equal("https://github.com/concourse/git-resource")),
-				ContainSelectorWithText("#github-readme > div", Equal("foobar readme"))),
+				ContainSelectorWithText(".repository", Equal("https://github.com/concourse/git-resource")),
+				ContainSelectorWithText("#github-readme > div", Equal("foobar readme")),
+				ContainSelectorWithText(".desc", Equal("git resource description"))),
 		)
 	})
 })
