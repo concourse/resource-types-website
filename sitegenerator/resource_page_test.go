@@ -3,6 +3,8 @@ package sitegenerator_test
 import (
 	"bytes"
 
+	"github.com/PuerkitoBio/goquery"
+	. "github.com/concourse/dutyfree/matchers"
 	"github.com/concourse/dutyfree/sitegenerator"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -27,9 +29,16 @@ var _ = Describe("ResourcePage", func() {
 		err := ip.Generate(&b)
 
 		Expect(err).ToNot(HaveOccurred())
-		Expect(b.String()).To(ContainSubstring("https://github.com/concourse/git-resource"))
-		Expect(b.String()).To(ContainSubstring("git resource"))
-		Expect(b.String()).To(ContainSubstring(`<div id="github-readme">`))
-		Expect(b.String()).To(ContainSubstring("<div>foobar readme</div>"))
+
+		doc, err := goquery.NewDocumentFromReader(bytes.NewReader(b.Bytes()))
+
+		Expect(err).ToNot(HaveOccurred())
+
+		Expect(doc).To(
+			SatisfyAll(
+				ContainSelectorWithText("h1", Equal("git resource")),
+				ContainSelectorWithText("p", Equal("https://github.com/concourse/git-resource")),
+				ContainSelectorWithText("#github-readme > div", Equal("foobar readme"))),
+		)
 	})
 })

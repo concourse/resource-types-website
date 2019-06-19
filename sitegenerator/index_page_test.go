@@ -41,6 +41,8 @@ var _ = Describe("IndexPage", func() {
 
 		doc, err := goquery.NewDocumentFromReader(bytes.NewReader(b.Bytes()))
 
+		Expect(err).ToNot(HaveOccurred())
+
 		Expect(doc).To(
 			SatisfyAll(
 				ContainSelectorWithText("title", Equal("Duty Free")),
