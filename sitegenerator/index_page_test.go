@@ -35,7 +35,7 @@ var _ = Describe("IndexPage", func() {
 
 		b := bytes.Buffer{}
 
-		ip := sitegenerator.NewIndexPage("", resourceModels)
+		ip := sitegenerator.NewIndexPage(resourceModels)
 		err := ip.Generate(&b)
 		Expect(err).ToNot(HaveOccurred())
 
@@ -56,7 +56,7 @@ var _ = Describe("IndexPage", func() {
 	It("handles no resources", func() {
 		b := bytes.Buffer{}
 
-		ip := sitegenerator.NewIndexPage("", []sitegenerator.ResourceModel{})
+		ip := sitegenerator.NewIndexPage([]sitegenerator.ResourceModel{})
 		err := ip.Generate(&b)
 		Expect(err).ToNot(HaveOccurred())
 	})

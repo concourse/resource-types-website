@@ -1,19 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+{{template "page_layout.html" .}}
+
+{{define "title"}}
     <title>Duty Free - {{.Name}}</title>
-</head>
-<body>
+{{end}}
 
-<h1>{{.Name}}</h1>
+{{define "content"}}
 
-<p class="repository">{{.Repository}}</p>
+    <h2>{{.Name}}</h2>
 
-<p class="desc">{{.Description}}</p>
+    <p class="repository">{{.Repository}}</p>
 
-<div id="github-readme">
-    {{.Readme}}
-</div>
+    <p class="desc">{{.Description}}</p>
 
-</body>
-</html>
+    <div id="github-readme">
+        {{.Readme}}
+    </div>
+
+{{end}}

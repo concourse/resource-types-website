@@ -49,7 +49,7 @@ func main() {
 		usage(err.Error())
 	}
 
-	indexPage := sitegenerator.NewIndexPage("sitegenerator", resourceModels)
+	indexPage := sitegenerator.NewIndexPage(resourceModels)
 	err = indexPage.Generate(indexHTML)
 
 	if err != nil {
@@ -73,7 +73,7 @@ func main() {
 			continue
 		}
 
-		rp := sitegenerator.NewResourcePage("sitegenerator", resourceModel)
+		rp := sitegenerator.NewResourcePage(resourceModel)
 		err = rp.Generate(resourceHTML)
 
 		if err != nil {

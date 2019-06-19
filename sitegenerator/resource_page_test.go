@@ -26,7 +26,7 @@ var _ = Describe("ResourcePage", func() {
 
 		b := bytes.Buffer{}
 
-		ip := sitegenerator.NewResourcePage("", resourceModel)
+		ip := sitegenerator.NewResourcePage(resourceModel)
 		err := ip.Generate(&b)
 
 		Expect(err).ToNot(HaveOccurred())
@@ -37,7 +37,7 @@ var _ = Describe("ResourcePage", func() {
 
 		Expect(doc).To(
 			SatisfyAll(
-				ContainSelectorWithText("h1", Equal("git resource")),
+				ContainSelectorWithText("h2", Equal("git resource")),
 				ContainSelectorWithText(".repository", Equal("https://github.com/concourse/git-resource")),
 				ContainSelectorWithText("#github-readme > div", Equal("foobar readme")),
 				ContainSelectorWithText(".desc", Equal("git resource description"))),
