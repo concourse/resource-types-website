@@ -40,7 +40,8 @@ var _ = Describe("ResourcePage", func() {
 				ContainSelectorWithText("h2", Equal("git resource")),
 				ContainSelectorWithText(".repository", Equal("https://github.com/concourse/git-resource")),
 				ContainSelectorWithText("#github-readme > div", Equal("foobar readme")),
-				ContainSelectorWithText(".desc", Equal("git resource description"))),
-		)
+				ContainSelectorWithText(".desc", Equal("git resource description")),
+				ContainSelectorWithText(`a[href="https://github.com/concourse"]`, Equal("concourse")),
+			))
 	})
 })
