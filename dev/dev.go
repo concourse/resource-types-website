@@ -141,12 +141,15 @@ func githubMockServer(resourcesPath string, server *ghttp.Server) {
 		panic(err)
 	}
 
-	for _, resource := range resources {
+	content, err := ioutil.ReadFile("dev/git-resource-readme.html")
+
+	if err != nil {
+		panic(err)
+	}
+
+	for range resources {
 		server.AppendHandlers(
-			ghttp.RespondWith(http.StatusOK, fmt.Sprintf(`
-				<div id="readme">
-					<marquee>%s readme</marquee>
-				</div>`, resource.Name)),
+			ghttp.RespondWith(http.StatusOK, content),
 		)
 	}
 
