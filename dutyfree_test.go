@@ -126,7 +126,6 @@ var _ = Describe("Dutyfree", func() {
 
 				Expect(doc).To(SatisfyAll(
 					ContainSelectorWithText("title", ContainSubstring("Duty Free - %s resource", resource)),
-					ContainSelectorWithText("body", ContainSubstring("https://github.com/concourse/%s-resource", resource)),
 					ContainSelectorWithText("#github-readme #readme", ContainSubstring("%s foo", resource))))
 			}
 
