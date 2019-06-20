@@ -26,7 +26,7 @@
     grid-area: sidebar;
 }
 
-h1 {
+.logo-area h1 {
     color: white;
     font-size: 15px;
     margin: 0;
@@ -40,6 +40,8 @@ h2 {
 .content {
     grid-area: content;
     padding-top: 50px;
+    padding-right: 50px;
+    padding-bottom: 50px;
 }
 
 .tile {
@@ -53,7 +55,7 @@ h2 {
     position: relative;
 }
 
-.tile a {
+a {
     text-decoration: none;
     color: #3398dc;
 }
@@ -86,4 +88,60 @@ h2 {
 
 .github-icon-detail {
     height: 25px;
+    padding-right: 10px;
+}
+
+.top-area h2 {
+    float: left;
+}
+
+.top-area > div {
+    float: right;
+}
+
+section {
+    margin-bottom: 5px;
+    overflow: hidden;
+    border-bottom: solid 1px #e4e4e4;
+}
+
+section:nth-last-of-type(1) {
+    border-bottom: none;
+}
+
+.top-area .author {
+
+}
+
+#github-readme {
+    line-height: 1.5;
+}
+
+#github-readme code {
+    background-color: rgba(27, 31, 35, .05);
+    border-radius: 3px;
+    font-size: 85%;
+    margin: 0;
+    padding: .2em .4em;
+}
+
+#github-readme pre {
+    background-color: #f6f8fa;
+    border-radius: 3px;
+    font-size: 85%;
+    line-height: 1.45;
+    overflow: auto;
+    padding: 16px;
+}
+
+#github-readme pre code {
+    background-color: #f6f8fa;
+}
+
+#github-readme #readme {
+    margin-left: 20px;
+}
+
+.anchor {
+    display: none;
 }
