@@ -46,3 +46,45 @@ jobs:
     - put: git-dutyfree-gh-pages
       params:
         repository: git-dutyfree-gh-pages-output
+- name: take-screenshot
+  plan:
+    - get: git-dutyfree-gh-pages
+      trigger: true
+    - task: take-screenshot
+      config:
+        platform: linux
+        image_resource:
+          type: docker-image
+          source:
+            repository: carlocolombo/alpine-chrome
+            tag: latest
+        outputs:
+          - name: screenshots
+        run:
+          path: chromium-browser
+          args:
+          - --headless
+          - --disable-gpu
+          - --disable-software-rasterizer
+          - --disable-dev-shm-usage
+          - --no-sandbox
+          - --screenshot=screenshots/screen.png
+          - --window-size=1500,1200
+          - --hide-scrollbars
+          - https://concourse.github.io/dutyfree
+    - task: send-message
+      config:
+        platform: linux
+        image_resource:
+          type: docker-image
+          source:
+            repository: odpks/pks-ci
+            tag: latest
+        inputs:
+          - name: screenshots
+        run:
+          path: /bin/bash
+          args:
+            - -ec
+            - |
+              ls -al screenshots
