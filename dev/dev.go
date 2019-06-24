@@ -66,6 +66,9 @@ func main() {
   desc: 
 - repository: https://github.com/concourse/foo-resource
   name: foo resource
+- repository: https://github.com/pivotal-cf/bosh-resource
+  name: bosh resource
+  desc: a resource for all the bosh
 `)
 
 	log.Println("starting mock server")
