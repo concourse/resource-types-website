@@ -24,11 +24,12 @@
 
 #search-field {
     margin: 30px 0 0 20px;
-    width: 60%;
+    width: 90%;
 }
 
 ::placeholder {
     color: #cdcdcd;
+    padding-left: 5px;
 }
 
 .sidebar {
@@ -156,10 +157,15 @@ section:nth-last-of-type(1) {
 }
 
 .breadcrumb {
-    padding-bottom: 20px;
+    padding-bottom: 30px;
+}
+
+.breadcrumb span:last-child {
+    color: #757474;
 }
 
 .breadcrumb-link::after {
     content: '>';
     padding-left: 5px;
+    color: #757474;
 }
