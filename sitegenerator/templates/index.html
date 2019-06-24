@@ -4,6 +4,21 @@
     <title>Duty Free</title>
 {{end}}
 
+{{define "search"}}
+    <input type="text" placeholder="Search.." id="search-field">
+    <script>
+        document
+            .getElementById("search-field")
+            .addEventListener("keyup", ({target:{value}})=>{
+                document
+                    .querySelectorAll(".tile")
+                    .forEach( elem => {
+                        elem.style.display = elem.textContent.includes(value) ? "" : "none"
+                    })
+            })
+    </script>
+{{end}}
+
 {{define "content"}}
 <div>
     {{range .ResourceModels}}
