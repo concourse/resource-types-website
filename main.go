@@ -53,13 +53,13 @@ func main() {
 	err = indexPage.Generate(indexHTML)
 
 	if err != nil {
-		fmt.Println("Cannot write index.html", err)
+		fmt.Fprintln(os.Stderr, "Cannot write index.html", err)
 		os.Exit(1)
 	}
 
 	err = os.MkdirAll(path.Join(outputDir, "resources"), os.ModePerm)
 	if err != nil {
-		fmt.Println(err)
+		fmt.Fprintln(os.Stderr, err)
 		usage("resources folder cannot be created")
 	}
 
