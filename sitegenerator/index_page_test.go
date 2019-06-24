@@ -45,12 +45,13 @@ var _ = Describe("IndexPage", func() {
 
 		Expect(doc).To(
 			SatisfyAll(
-				ContainSelectorWithText("title", Equal("Duty Free")),
+				ContainSelectorWithText(".breadcrumb span:last-child", Equal("Home")),
 				ContainSelector(`a[href="resources/concourse-git-resource.html"]`),
 				ContainSelector(`a[href="resources/concourse-hg-resource.html"]`),
 				ContainSelector(`a[href="https://github.com/concourse"]`),
 				ContainSelector(`a[href="https://github.com/concourse/git-resource"]`),
-				ContainSelector(`img[title="Resource Source on Github"]`)))
+				ContainSelector(`img[title="Resource Source on Github"]`),
+				ContainSelectorWithText("title", Equal("Duty Free"))))
 	})
 
 	It("handles no resources", func() {

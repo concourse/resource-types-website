@@ -20,7 +20,20 @@
     </nav>
 
     <main class="content">
+
+        <div class="breadcrumb">
+        {{$lastIndex := lastindex .Path}}
+        {{range $index, $element := .Path}}
+            {{if $index | ne $lastIndex}}
+                    <span class="breadcrumb-link"><a href="/dutyfree">{{.}}</a></span>
+                {{else}}
+                    <span>{{.}}</span>
+            {{end}}
+        {{end}}
+        </div>
+
         {{template "content" .}}
+
     </main>
 </div>
 </body>

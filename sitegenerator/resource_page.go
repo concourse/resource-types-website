@@ -7,10 +7,11 @@ import (
 
 type ResourcePage struct {
 	ResourceModel
+	Path []string
 }
 
 func NewResourcePage(resourceModel ResourceModel) ResourcePage {
-	return ResourcePage{resourceModel}
+	return ResourcePage{resourceModel, []string{"Home", resourceModel.Name}}
 }
 
 func (rp *ResourcePage) Generate(w io.Writer) error {

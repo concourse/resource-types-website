@@ -145,3 +145,12 @@ section:nth-last-of-type(1) {
 .anchor {
     display: none;
 }
+
+.breadcrumb {
+    padding-bottom: 20px;
+}
+
+.breadcrumb-link::after {
+    content: '>';
+    padding-left: 5px;
+}

@@ -6,7 +6,7 @@
 
 {{define "content"}}
 <div>
-    {{range .}}
+    {{range .ResourceModels}}
         <div class="tile" id="{{.Identifier}}">
             <a target="_blank" href="{{.AuthorProfileLink}}" class="author">
                 {{.AuthorHandle}}
