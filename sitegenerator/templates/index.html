@@ -24,9 +24,14 @@
 <div>
     {{range .ResourceModels}}
         <div class="tile" id="{{.Identifier}}">
-            <a target="_blank" href="{{.AuthorProfileLink}}" class="author">
-                {{.AuthorHandle}}
-            </a>
+            <div class="author">
+                {{if .AuthorHandle | eq "concourse"}}
+                    <span class="official">official</span>
+                {{end}}
+                <a target="_blank" href="{{.AuthorProfileLink}}">
+                    {{.AuthorHandle}}
+                </a>
+            </div>
             <h2 class="name">
                 <a href="resources/{{.Identifier}}.html">
                     {{.Name}}

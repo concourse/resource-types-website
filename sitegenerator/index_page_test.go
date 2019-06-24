@@ -31,6 +31,15 @@ var _ = Describe("IndexPage", func() {
 				AuthorHandle:      "concourse",
 				AuthorProfileLink: "https://github.com/concourse",
 			},
+			{
+				Resource: sitegenerator.Resource{
+					Name:       "bosh resource",
+					Repository: "https://github.com/pivotal-cf/bosh-resource",
+				},
+				Identifier:        "pivotal-bosh-resource",
+				AuthorHandle:      "bosh",
+				AuthorProfileLink: "https://github.com/bosh",
+			},
 		}
 
 		b := bytes.Buffer{}
@@ -52,6 +61,14 @@ var _ = Describe("IndexPage", func() {
 				ContainSelector(`a[href="https://github.com/concourse/git-resource"]`),
 				ContainSelector(`img[title="Resource Source on Github"]`),
 				ContainSelectorWithText("title", Equal("Duty Free"))))
+
+		Expect(doc).To(
+			SatisfyAll(
+				ContainSelector("#concourse-git-resource .official"),
+				ContainSelector("#concourse-hg-resource .official"),
+				And(
+					ContainSelector("#pivotal-bosh-resource"),
+					Not(ContainSelector("#pivotal-bosh-resource .official")))))
 	})
 
 	It("handles no resources", func() {
