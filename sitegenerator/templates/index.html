@@ -10,10 +10,11 @@
         document
             .getElementById("search-field")
             .addEventListener("keyup", ({target:{value}})=>{
+                const re = new RegExp(value,"i")
                 document
                     .querySelectorAll(".tile")
                     .forEach( elem => {
-                        elem.style.display = elem.textContent.includes(value) ? "" : "none"
+                        elem.style.display = re.test(elem.textContent) ? "" : "none"
                     })
             })
     </script>
