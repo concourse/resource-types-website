@@ -61,11 +61,13 @@ func main() {
 - repository: https://github.com/concourse/git-resource
   name: git resource
   desc: git resource description
+  categories: [cat1, cat2, cat3]
 - repository: https://github.com/concourse/hg-resource
   name: hg resource
   desc: 
 - repository: https://github.com/concourse/foo-resource
   name: foo resource
+  categories: [cat1, cat5, cat42]
 - repository: https://github.com/pivotal-cf/bosh-resource
   name: bosh resource
   desc: a resource for all the bosh

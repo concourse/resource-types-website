@@ -17,6 +17,7 @@ var _ = Describe("IndexPage", func() {
 				Resource: sitegenerator.Resource{
 					Name:       "git resource",
 					Repository: "https://github.com/concourse/git-resource",
+					Categories: []string{"Category1", "Category2"},
 				},
 				Identifier:        "concourse-git-resource",
 				AuthorHandle:      "concourse",
@@ -26,6 +27,7 @@ var _ = Describe("IndexPage", func() {
 				Resource: sitegenerator.Resource{
 					Name:       "hg resource",
 					Repository: "https://github.com/concourse/hg-resource",
+					Categories: []string{},
 				},
 				Identifier:        "concourse-hg-resource",
 				AuthorHandle:      "concourse",
@@ -35,6 +37,7 @@ var _ = Describe("IndexPage", func() {
 				Resource: sitegenerator.Resource{
 					Name:       "bosh resource",
 					Repository: "https://github.com/pivotal-cf/bosh-resource",
+					Categories: []string{"Category2", "Category3", "Category4"},
 				},
 				Identifier:        "pivotal-bosh-resource",
 				AuthorHandle:      "bosh",
@@ -69,6 +72,13 @@ var _ = Describe("IndexPage", func() {
 				And(
 					ContainSelector("#pivotal-bosh-resource"),
 					Not(ContainSelector("#pivotal-bosh-resource .official")))))
+
+		Expect(doc).To(
+			SatisfyAll(
+				ContainSelector(".categories"),
+			))
+
+		Expect(doc.Find(".categories li").Length()).To(Equal(4))
 	})
 
 	It("handles no resources", func() {

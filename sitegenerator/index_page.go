@@ -8,12 +8,13 @@ import (
 type IndexPage struct {
 	ResourceModels []ResourceModel
 	Path           []string
+	CategoryList   []string
 }
 
 var IndexPagePath = []string{"All Resources"}
 
 func NewIndexPage(resourceModels []ResourceModel) IndexPage {
-	return IndexPage{resourceModels, IndexPagePath}
+	return IndexPage{resourceModels, IndexPagePath, createCategoryList(resourceModels)}
 }
 
 func (i *IndexPage) Generate(w io.Writer) error {
@@ -22,4 +23,24 @@ func (i *IndexPage) Generate(w io.Writer) error {
 		return fmt.Errorf("cannot write index.html: %s", err)
 	}
 	return nil
+}
+
+func createCategoryList(resources []ResourceModel) []string {
+	var categoryList []string
+	for _, resource := range resources {
+		categoryList = append(categoryList, resource.Categories...)
+	}
+
+	foundCategories := make(map[string]bool)
+	var uniqueCategoryList []string
+
+	for _, category := range categoryList {
+		found := foundCategories[category]
+		if !found {
+			foundCategories[category] = true
+			uniqueCategoryList = append(uniqueCategoryList, category)
+		}
+	}
+
+	return uniqueCategoryList
 }

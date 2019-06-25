@@ -20,6 +20,17 @@
     </script>
 {{end}}
 
+{{define "categories"}}
+
+    <ul class="categories">
+        {{range .CategoryList}}
+            <li>
+                {{.}}
+            </li>
+        {{end}}
+    </ul>
+{{end}}
+
 {{define "content"}}
 <div>
     {{range .ResourceModels}}
