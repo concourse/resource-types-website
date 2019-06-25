@@ -41,7 +41,7 @@ var _ = Describe("ResourcePage", func() {
 				ContainSelectorWithText("#github-readme > div", Equal("foobar readme")),
 				ContainSelectorWithText(".desc", Equal("git resource description")),
 				ContainSelectorWithText(`a[href="https://github.com/concourse"]`, Equal("concourse")),
-				ContainSelectorWithText(`.breadcrumb a[href="/dutyfree"]`, Equal("Home")),
+				ContainSelectorWithText(`.breadcrumb a[href="/dutyfree"]`, Equal("All Resources")),
 				ContainSelectorWithText(".breadcrumb span:last-child", Equal("git resource")),
 				ContainSelector(`a[href="https://github.com/concourse/git-resource"] img[title="Resource Source on Github"]`),
 			))

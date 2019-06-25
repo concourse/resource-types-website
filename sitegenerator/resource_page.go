@@ -11,7 +11,7 @@ type ResourcePage struct {
 }
 
 func NewResourcePage(resourceModel ResourceModel) ResourcePage {
-	return ResourcePage{resourceModel, []string{"Home", resourceModel.Name}}
+	return ResourcePage{resourceModel, append(IndexPagePath, resourceModel.Name)}
 }
 
 func (rp *ResourcePage) Generate(w io.Writer) error {

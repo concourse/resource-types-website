@@ -54,7 +54,7 @@ var _ = Describe("IndexPage", func() {
 
 		Expect(doc).To(
 			SatisfyAll(
-				ContainSelectorWithText(".breadcrumb span:last-child", Equal("Home")),
+				ContainSelectorWithText(".breadcrumb span:last-child", Equal("All Resources")),
 				ContainSelector(`a[href="resources/concourse-git-resource.html"]`),
 				ContainSelector(`a[href="resources/concourse-hg-resource.html"]`),
 				ContainSelector(`a[href="https://github.com/concourse"]`),

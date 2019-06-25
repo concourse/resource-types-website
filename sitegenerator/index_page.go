@@ -10,8 +10,10 @@ type IndexPage struct {
 	Path           []string
 }
 
+var IndexPagePath = []string{"All Resources"}
+
 func NewIndexPage(resourceModels []ResourceModel) IndexPage {
-	return IndexPage{resourceModels, []string{"Home"}}
+	return IndexPage{resourceModels, IndexPagePath}
 }
 
 func (i *IndexPage) Generate(w io.Writer) error {
