@@ -1,15 +1,14 @@
 package main
 
 import (
-	"context"
 	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
 	"os/exec"
-	"os/signal"
-	"syscall"
+	"path/filepath"
+	"strings"
 
 	"github.com/concourse/dutyfree/sitegenerator"
 	"github.com/onsi/gomega/gexec"
@@ -75,29 +74,20 @@ func run(done chan bool) {
 	}
 
 	<-session.Exited
+
 	server.Close()
 
-	srv := startHttpServer(outputDir, ":3000")
 	log.Println("Listening... on port 3000")
 	log.Println("http://localhost:3000/dutyfree")
 
 	<-done
 
-	srv.Shutdown(context.TODO())
+	cleanup()
+	run(done)
 }
 
 func main() {
-	sigs := make(chan os.Signal, 1)
 	done := make(chan bool, 1)
-
-	signal.Notify(sigs, syscall.SIGINT, syscall.SIGTERM)
-
-	go func() {
-		sig := <-sigs
-		log.Println(sig)
-		cleanup()
-		done <- true
-	}()
 
 	watcher, err := fsnotify.NewWatcher()
 	if err != nil {
@@ -113,10 +103,10 @@ func main() {
 					return
 				}
 				log.Println("event:", event)
-				if event.Op&fsnotify.Write == fsnotify.Write {
-					log.Println("modified file:", event.Name, "restarting")
-					done <- true
-				}
+
+				log.Println("modified file:", event.Name, "restarting")
+				done <- true
+
 			case err, ok := <-watcher.Errors:
 				if !ok {
 					return
@@ -126,7 +116,16 @@ func main() {
 		}
 	}()
 
-	err = watcher.Add("")
+	err = filepath.Walk(".", func(path string, fileInfo os.FileInfo, _ error) error {
+		if !strings.HasPrefix(path, ".") && fileInfo.IsDir() {
+			return watcher.Add(path)
+		}
+
+		return nil
+	})
+
+	startHttpServer(outputDir, ":3000")
+
 	if err != nil {
 		log.Fatal(err)
 	}
