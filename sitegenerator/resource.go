@@ -11,9 +11,10 @@ import (
 )
 
 type Resource struct {
-	Name        string `yaml:"name"`
-	Repository  string `yaml:"repository"`
-	Description string `yaml:"desc"`
+	Name        string   `yaml:"name"`
+	Repository  string   `yaml:"repository"`
+	Description string   `yaml:"desc"`
+	Categories  []string `yaml:"categories"`
 }
 
 type ResourceModel struct {

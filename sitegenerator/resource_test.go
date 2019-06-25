@@ -20,6 +20,7 @@ var _ = Describe("Resources", func() {
 name: time resource
 repository: https://github.com/concourse/time-resource
 desc: time resource description
+categories: [Category1, Category3]
 `), &r)
 
 		Expect(err).ToNot(HaveOccurred())
@@ -27,6 +28,7 @@ desc: time resource description
 			"Name":        Equal("time resource"),
 			"Repository":  Equal("https://github.com/concourse/time-resource"),
 			"Description": Equal("time resource description"),
+			"Categories":  Equal([]string{"Category1", "Category3"}),
 		}))
 	})
 

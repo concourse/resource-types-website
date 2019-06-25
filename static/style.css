@@ -1,9 +1,5 @@
 @import "modern-normalize.min.css";
 
-:root {
-    --conconcourse-blue: #ffffff;
-}
-
 .container {
     display: grid;
     grid-template-columns: 250px 1fr;
@@ -26,17 +22,36 @@
     background-color: #cdcdcd;
 }
 
+#search-field {
+    margin: 30px 0 0 20px;
+    width: 90%;
+}
+
+::placeholder {
+    color: #cdcdcd;
+    padding-left: 5px;
+}
+
 .sidebar {
     grid-area: sidebar;
 }
 
-h1 {
+.logo-area h1 {
     color: white;
     font-size: 15px;
+    margin: 0;
+}
+
+h2 {
+    font-size: 20px;
+    margin-top: 0px;
 }
 
 .content {
     grid-area: content;
+    padding-top: 50px;
+    padding-right: 50px;
+    padding-bottom: 50px;
 }
 
 .tile {
@@ -50,7 +65,7 @@ h1 {
     position: relative;
 }
 
-.tile a {
+a {
     text-decoration: none;
     color: #3398dc;
 }
@@ -70,6 +85,8 @@ h1 {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    color: #757474;
+    font-size: 15px;
 }
 
 .github-icon {
@@ -77,4 +94,88 @@ h1 {
     position: absolute;
     bottom: 10px;
     right: 10px;
+}
+
+.github-icon-detail {
+    height: 25px;
+    padding-right: 10px;
+}
+
+.top-area h2 {
+    float: left;
+}
+
+.top-area > div {
+    float: right;
+}
+
+section {
+    margin-bottom: 5px;
+    overflow: hidden;
+    border-bottom: solid 1px #e4e4e4;
+}
+
+section:nth-last-of-type(1) {
+    border-bottom: none;
+}
+
+.top-area .author {
+
+}
+
+#github-readme {
+    line-height: 1.5;
+}
+
+#github-readme code {
+    background-color: rgba(27, 31, 35, .05);
+    border-radius: 3px;
+    font-size: 85%;
+    margin: 0;
+    padding: .2em .4em;
+}
+
+#github-readme pre {
+    background-color: #f6f8fa;
+    border-radius: 3px;
+    font-size: 85%;
+    line-height: 1.45;
+    overflow: auto;
+    padding: 16px;
+}
+
+#github-readme pre code {
+    background-color: #f6f8fa;
+}
+
+#github-readme #readme {
+    margin-left: 20px;
+}
+
+.anchor {
+    display: none;
+}
+
+.breadcrumb {
+    padding-bottom: 30px;
+}
+
+.breadcrumb span:last-child {
+    color: #757474;
+}
+
+.breadcrumb-link::after {
+    content: '>';
+    padding-left: 5px;
+    color: #757474;
+}
+
+.official {
+    font-size: 0.8em;
+    color: rgba(52, 194, 101, 1);
+    background: rgba(52, 194, 101, 0.05);
+    border: 1px solid rgba(52, 194, 101, 0.8);
+    border-radius: 6px;
+    padding: 2px;
+    margin-right: 5px;
 }

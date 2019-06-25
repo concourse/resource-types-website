@@ -2,23 +2,23 @@ package sitegenerator
 
 import (
 	"fmt"
-	"html/template"
 	"io"
-	"path"
 )
 
 type IndexPage struct {
-	templateBasePath string
-	ResourceModels   []ResourceModel
+	ResourceModels []ResourceModel
+	Path           []string
+	CategoryList   []string
 }
 
-func NewIndexPage(templateBasePath string, resourceModels []ResourceModel) IndexPage {
-	return IndexPage{templateBasePath, resourceModels}
+var IndexPagePath = []string{"All Resources"}
+
+func NewIndexPage(resourceModels []ResourceModel) IndexPage {
+	return IndexPage{resourceModels, IndexPagePath, []string{}}
 }
 
 func (i *IndexPage) Generate(w io.Writer) error {
-	var tmpl = template.Must(template.ParseFiles(path.Join(i.templateBasePath, "templates/index.html")))
-	err := tmpl.Execute(w, i.ResourceModels)
+	err := load("index.html").ExecuteTemplate(w, "index.html", i)
 	if err != nil {
 		return fmt.Errorf("cannot write index.html: %s", err)
 	}

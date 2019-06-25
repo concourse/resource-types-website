@@ -1,41 +1,60 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+{{template "page_layout.html" .}}
+
+{{define "title"}}
     <title>Duty Free</title>
-    <link rel="stylesheet" type="text/css" href="static/style.css">
-</head>
-<body>
-<div class="container">
+{{end}}
 
-    <div class="logo-area">
-        <div class="title">
-            <h1>CONCOURSE DUTY FREE</h1>
-        </div>
-    </div>
+{{define "search"}}
+    <input type="text" placeholder="Search.." id="search-field">
+    <script>
+        document
+            .getElementById("search-field")
+            .addEventListener("keyup", ({target:{value}})=>{
+                const re = new RegExp(value,"i")
+                document
+                    .querySelectorAll(".tile")
+                    .forEach( elem => {
+                        elem.style.display = re.test(elem.textContent) ? "" : "none"
+                    })
+            })
+    </script>
+{{end}}
 
+{{define "categories"}}
+    {{range .CategoryList}}
+        <ul class="category">
+            <li>
+                {{.}}
+            </li>
+        </ul>
+    {{end}}
+{{end}}
 
-    <div class="search">
-    </div>
-
-    <nav class="sidebar"></nav>
-
-    <main class="content">
-        {{range .}}
-            <div class="tile" id="{{.Identifier}}">
-                <a target="_blank" href="{{.AuthorProfileLink}}" class="author">
+{{define "content"}}
+<div>
+    {{range .ResourceModels}}
+        <div class="tile" id="{{.Identifier}}">
+            <div class="author">
+                {{if .AuthorHandle | eq "concourse"}}
+                    <span class="official">official</span>
+                {{end}}
+                <a target="_blank" href="{{.AuthorProfileLink}}">
                     {{.AuthorHandle}}
                 </a>
-                <a href="resources/{{.Identifier}}.html" class="name">{{.Name}}</a>
-                <div class="desc">
-                    {{.Description}}
-                </div>
-                <a target="_blank" href="{{.Repository}}">
-                    <img src="static/GitHub-Mark-120px-plus.png" alt="Resource Source on Github" class="github-icon"
-                         title="Resource Source on Github">
-                </a>
             </div>
-        {{end}}
-    </main>
+            <h2 class="name">
+                <a href="resources/{{.Identifier}}.html">
+                    {{.Name}}
+                </a>
+            </h2>
+            <div class="desc">
+                {{.Description}}
+            </div>
+            <a target="_blank" href="{{.Repository}}">
+                <img src="static/GitHub-Mark-120px-plus.png" alt="Resource Source on Github" class="github-icon"
+                     title="Resource Source on Github">
+            </a>
+        </div>
+    {{end}}
 </div>
-</body>
-</html>
+{{end}}

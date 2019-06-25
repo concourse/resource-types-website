@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {{template "title" .}}
+    <link rel="stylesheet" type="text/css" href="/dutyfree/static/style.css">
+</head>
+<body>
+<div class="container">
+    <div class="logo-area">
+        <div class="title">
+            <h1>CONCOURSE DUTY FREE</h1>
+        </div>
+    </div>
+
+
+    <div class="search">
+        {{block "search" .}} {{end}}
+    </div>
+
+    <nav class="sidebar">
+        {{block "categories" .}} {{end}}
+    </nav>
+
+    <main class="content">
+
+        <div class="breadcrumb">
+        {{$lastIndex := lastindex .Path}}
+        {{range $index, $element := .Path}}
+            {{if $index | ne $lastIndex}}
+                    <span class="breadcrumb-link"><a href="/dutyfree">{{.}}</a></span>
+                {{else}}
+                    <span>{{.}}</span>
+            {{end}}
+        {{end}}
+        </div>
+
+        {{template "content" .}}
+
+    </main>
+</div>
+</body>
+</html>

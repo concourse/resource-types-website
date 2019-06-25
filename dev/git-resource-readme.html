@@ -1,0 +1,285 @@
+<div id="readme" class="Box-body readme blob instapaper_body js-code-block-container">
+  <article class="markdown-body entry-content p-3 p-md-6" itemprop="text"><h1><a id="user-content-git-resource" class="anchor" aria-hidden="true" href="#git-resource"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Git Resource</h1>
+    <p>Tracks the commits in a <a href="http://git-scm.com/" rel="nofollow">git</a> repository.</p>
+    <h2><a id="user-content-source-configuration" class="anchor" aria-hidden="true" href="#source-configuration"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Source Configuration</h2>
+    <ul>
+      <li>
+        <p><code>uri</code>: <em>Required.</em> The location of the repository.</p>
+      </li>
+      <li>
+        <p><code>branch</code>: The branch to track. This is <em>optional</em> if the resource is
+          only used in <code>get</code> steps; however, it is <em>required</em> when used in a <code>put</code> step. If unset for <code>get</code>, the repository's default branch is used; usually <code>master</code> but <a href="https://help.github.com/articles/setting-the-default-branch/">could be different</a>.</p>
+      </li>
+      <li>
+        <p><code>private_key</code>: <em>Optional.</em> Private key to use when pulling/pushing.
+          Example:</p>
+        <pre><code>private_key: |
+  -----BEGIN RSA PRIVATE KEY-----
+  MIIEowIBAAKCAQEAtCS10/f7W7lkQaSgD/mVeaSOvSF9ql4hf/zfMwfVGgHWjj+W
+  &lt;Lots more text&gt;
+  DWiJL+OFeg9kawcUL6hQ8JeXPhlImG6RTUffma9+iGQyyBMCGd1l
+  -----END RSA PRIVATE KEY-----
+</code></pre>
+      </li>
+      <li>
+        <p><code>forward_agent</code>: <em>Optional</em> Enables ForwardAgent SSH option when set to true. Useful when using proxy/jump hosts. Defaults to false.</p>
+      </li>
+      <li>
+        <p><code>username</code>: <em>Optional.</em> Username for HTTP(S) auth when pulling/pushing.
+          This is needed when only HTTP/HTTPS protocol for git is available (which does not support private key auth)
+          and auth is required.</p>
+      </li>
+      <li>
+        <p><code>password</code>: <em>Optional.</em> Password for HTTP(S) auth when pulling/pushing.</p>
+      </li>
+      <li>
+        <p><code>paths</code>: <em>Optional.</em> If specified (as a list of glob patterns), only changes
+          to the specified files will yield new versions from <code>check</code>.</p>
+      </li>
+      <li>
+        <p><code>ignore_paths</code>: <em>Optional.</em> The inverse of <code>paths</code>; changes to the specified
+          files are ignored.</p>
+        <p>Note that if you want to push commits that change these files via a <code>put</code>,
+          the commit will still be "detected", as <a href="https://github.com/concourse/concourse/issues/534"><code>check</code> and <code>put</code> both introduce
+            versions</a>.
+          To avoid this you should define a second resource that you use for commits
+          that change files that you don't want to feed back into your pipeline - think
+          of one as read-only (with <code>ignore_paths</code>) and one as write-only (which
+          shouldn't need it).</p>
+      </li>
+      <li>
+        <p><code>skip_ssl_verification</code>: <em>Optional.</em> Skips git ssl verification by exporting
+          <code>GIT_SSL_NO_VERIFY=true</code>.</p>
+      </li>
+      <li>
+        <p><code>tag_filter</code>: <em>Optional.</em> If specified, the resource will only detect commits
+          that have a tag matching the expression that have been made against
+          the <code>branch</code>. Patterns are <a href="http://man7.org/linux/man-pages/man7/glob.7.html" rel="nofollow">glob(7)</a>
+          compatible (as in, bash compatible).</p>
+      </li>
+      <li>
+        <p><code>git_config</code>: <em>Optional.</em> If specified as (list of pairs <code>name</code> and <code>value</code>)
+          it will configure git global options, setting each name with each value.</p>
+        <p>This can be useful to set options like <code>credential.helper</code> or similar.</p>
+        <p>See the <a href="https://www.kernel.org/pub/software/scm/git/docs/git-config.html" rel="nofollow"><code>git-config(1)</code> manual page</a>
+          for more information and documentation of existing git options.</p>
+      </li>
+      <li>
+        <p><code>disable_ci_skip</code>: <em>Optional.</em> Allows for commits that have been labeled with <code>[ci skip]</code> or <code>[skip ci]</code>
+          previously to be discovered by the resource.</p>
+      </li>
+      <li>
+        <p><code>commit_verification_keys</code>: <em>Optional.</em> Array of GPG public keys that the
+          resource will check against to verify the commit (details below).</p>
+      </li>
+      <li>
+        <p><code>commit_verification_key_ids</code>: <em>Optional.</em> Array of GPG public key ids that
+          the resource will check against to verify the commit (details below). The
+          corresponding keys will be fetched from the key server specified in
+          <code>gpg_keyserver</code>. The ids can be short id, long id or fingerprint.</p>
+      </li>
+      <li>
+        <p><code>gpg_keyserver</code>: <em>Optional.</em> GPG keyserver to download the public keys from.
+          Defaults to <code>hkp:///keys.gnupg.net/</code>.</p>
+      </li>
+      <li>
+        <p><code>git_crypt_key</code>: <em>Optional.</em> Base64 encoded
+          <a href="https://github.com/AGWA/git-crypt">git-crypt</a> key. Setting this will
+          unlock / decrypt the repository with <code>git-crypt</code>. To get the key simply
+          execute <code>git-crypt export-key -- - | base64</code> in an encrypted repository.</p>
+      </li>
+      <li>
+        <p><code>https_tunnel</code>: <em>Optional.</em> Information about an HTTPS proxy that will be used to tunnel SSH-based git commands over.
+          Has the following sub-properties:</p>
+        <ul>
+          <li><code>proxy_host</code>: <em>Required.</em> The host name or IP of the proxy server</li>
+          <li><code>proxy_port</code>: <em>Required.</em> The proxy server's listening port</li>
+          <li><code>proxy_user</code>: <em>Optional.</em> If the proxy requires authentication, use this username</li>
+          <li><code>proxy_password</code>: <em>Optional.</em> If the proxy requires authenticat, use this password</li>
+        </ul>
+      </li>
+    </ul>
+    <h3><a id="user-content-example" class="anchor" aria-hidden="true" href="#example"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example</h3>
+    <p>Resource configuration for a private repo with an HTTPS proxy:</p>
+    <div class="highlight highlight-source-yaml"><pre><span class="pl-ent">resources</span>:
+- <span class="pl-ent">name</span>: <span class="pl-s">source-code</span>
+  <span class="pl-ent">type</span>: <span class="pl-s">git</span>
+  <span class="pl-ent">source</span>:
+    <span class="pl-ent">uri</span>: <span class="pl-s">git@github.com:concourse/git-resource.git</span>
+    <span class="pl-ent">branch</span>: <span class="pl-s">master</span>
+    <span class="pl-ent">private_key</span>: <span class="pl-s">|</span>
+<span class="pl-s">      -----BEGIN RSA PRIVATE KEY-----</span>
+<span class="pl-s">      MIIEowIBAAKCAQEAtCS10/f7W7lkQaSgD/mVeaSOvSF9ql4hf/zfMwfVGgHWjj+W</span>
+<span class="pl-s">      &lt;Lots more text&gt;</span>
+<span class="pl-s">      DWiJL+OFeg9kawcUL6hQ8JeXPhlImG6RTUffma9+iGQyyBMCGd1l</span>
+<span class="pl-s">      -----END RSA PRIVATE KEY-----</span>
+<span class="pl-s"></span>    <span class="pl-ent">git_config</span>:
+    - <span class="pl-ent">name</span>: <span class="pl-s">core.bigFileThreshold</span>
+      <span class="pl-ent">value</span>: <span class="pl-c1">10m</span>
+    <span class="pl-ent">disable_ci_skip</span>: <span class="pl-c1">true</span>
+    <span class="pl-ent">git_crypt_key</span>: <span class="pl-s">AEdJVEN...snip...AAA==</span>
+    <span class="pl-ent">https_tunnel</span>:
+      <span class="pl-ent">proxy_host</span>: <span class="pl-s">proxy-server.mycorp.com</span>
+      <span class="pl-ent">proxy_port</span>: <span class="pl-c1">3128</span>
+      <span class="pl-ent">proxy_user</span>: <span class="pl-s">myuser</span>
+      <span class="pl-ent">proxy_password</span>: <span class="pl-s">myverysecurepassword</span></pre></div>
+    <p>Fetching a repo with only 100 commits of history:</p>
+    <div class="highlight highlight-source-yaml"><pre>- <span class="pl-ent">get</span>: <span class="pl-s">source-code</span>
+  <span class="pl-ent">params</span>: <span class="pl-s">{depth: 100}</span></pre></div>
+    <p>Pushing local commits to the repo:</p>
+    <div class="highlight highlight-source-yaml"><pre>- <span class="pl-ent">get</span>: <span class="pl-s">some-other-repo</span>
+- <span class="pl-ent">put</span>: <span class="pl-s">source-code</span>
+  <span class="pl-ent">params</span>: <span class="pl-s">{repository: some-other-repo}</span></pre></div>
+    <h2><a id="user-content-behavior" class="anchor" aria-hidden="true" href="#behavior"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Behavior</h2>
+    <h3><a id="user-content-check-check-for-new-commits" class="anchor" aria-hidden="true" href="#check-check-for-new-commits"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>check</code>: Check for new commits.</h3>
+    <p>The repository is cloned (or pulled if already present), and any commits
+      from the given version on are returned. If no version is given, the ref
+      for <code>HEAD</code> is returned.</p>
+    <p>Any commits that contain the string <code>[ci skip]</code> will be ignored. This
+      allows you to commit to your repository without triggering a new version.</p>
+    <h3><a id="user-content-in-clone-the-repository-at-the-given-ref" class="anchor" aria-hidden="true" href="#in-clone-the-repository-at-the-given-ref"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>in</code>: Clone the repository, at the given ref.</h3>
+    <p>Clones the repository to the destination, and locks it down to a given ref.
+      It will return the same given ref as version.</p>
+    <p><code>git-crypt</code> encrypted repositories will automatically be decrypted, when the
+      correct key is provided set in <code>git_crypt_key</code>.</p>
+    <h4><a id="user-content-parameters" class="anchor" aria-hidden="true" href="#parameters"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Parameters</h4>
+    <ul>
+      <li>
+        <p><code>depth</code>: <em>Optional.</em> If a positive integer is given, <em>shallow</em> clone the
+          repository using the <code>--depth</code> option. To prevent newer commits that do
+          not pass a <code>paths</code> filter test from skewing the cloned history away from
+          <code>version.ref</code>, this resource will automatically deepen the clone until
+          <code>version.ref</code> is found again.</p>
+      </li>
+      <li>
+        <p><code>submodules</code>: <em>Optional.</em> If <code>none</code>, submodules will not be
+          fetched. If specified as a list of paths, only the given paths will be
+          fetched. If not specified, or if <code>all</code> is explicitly specified, all
+          submodules are fetched.</p>
+      </li>
+      <li>
+        <p><code>submodule_recursive</code>: <em>Optional.</em> If <code>false</code>, a flat submodules checkout is performed. If not specified, or if <code>true</code> is explicitly specified, a recursive checkout is performed.</p>
+      </li>
+      <li>
+        <p><code>submodule_remote</code>: <em>Optional.</em> If <code>true</code>, the submodules are checked out for the specified remote branch specified in the <code>.gitmodules</code> file of the repository. If not specified, or if <code>false</code> is explicitly specified, the tracked sub-module revision of the repository is used to check out the submodules.</p>
+      </li>
+      <li>
+        <p><code>disable_git_lfs</code>: <em>Optional.</em> If <code>true</code>, will not fetch Git LFS files.</p>
+      </li>
+      <li>
+        <p><code>clean_tags</code>: <em>Optional.</em> If <code>true</code> all incoming tags will be deleted. This
+          is useful if you want to push tags, but have reasonable doubts that the tags
+          cached with the resource are outdated. The default value is <code>false</code>.</p>
+      </li>
+      <li>
+        <p><code>short_ref_format</code>: <em>Optional.</em> When populating <code>.git/short_ref</code> use this <code>printf</code> format. Defaults to <code>%s</code>.</p>
+      </li>
+    </ul>
+    <h4><a id="user-content-gpg-signature-verification" class="anchor" aria-hidden="true" href="#gpg-signature-verification"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>GPG signature verification</h4>
+    <p>If <code>commit_verification_keys</code> or <code>commit_verification_key_ids</code> is specified in
+      the source configuration, it will additionally verify that the resulting commit
+      has been GPG signed by one of the specified keys. It will error if this is not
+      the case.</p>
+    <h4><a id="user-content-additional-files-populated" class="anchor" aria-hidden="true" href="#additional-files-populated"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Additional files populated</h4>
+    <ul>
+      <li>
+        <p><code>.git/committer</code>: For committer notification on failed builds.
+          This special file <code>.git/committer</code> which is populated with the email address
+          of the author of the last commit. This can be used together with  an email
+          resource like <a href="https://github.com/mdomke/concourse-email-resource">mdomke/concourse-email-resource</a>
+          to notify the committer in an on_failure step.</p>
+      </li>
+      <li>
+        <p><code>.git/ref</code>: Version reference detected and checked out. It will usually contain
+          the commit SHA-1 ref, but also the detected tag name when using <code>tag_filter</code>.</p>
+      </li>
+      <li>
+        <p><code>.git/short_ref</code>: Short (first seven characters) of the <code>.git/ref</code>. Can be templated with <code>short_ref_format</code> parameter.</p>
+      </li>
+      <li>
+        <p><code>.git/commit_message</code>: For publishing the Git commit message on successful builds.</p>
+      </li>
+    </ul>
+    <h3><a id="user-content-out-push-to-a-repository" class="anchor" aria-hidden="true" href="#out-push-to-a-repository"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code>out</code>: Push to a repository.</h3>
+    <p>Push the checked-out reference to the source's URI and branch. All tags are
+      also pushed to the source. If a fast-forward for the branch is not possible
+      and the <code>rebase</code> parameter is not provided, the push will fail.</p>
+    <h4><a id="user-content-parameters-1" class="anchor" aria-hidden="true" href="#parameters-1"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Parameters</h4>
+    <ul>
+      <li>
+        <p><code>repository</code>: <em>Required.</em> The path of the repository to push to the source.</p>
+      </li>
+      <li>
+        <p><code>rebase</code>: <em>Optional.</em> If pushing fails with non-fast-forward, continuously
+          attempt rebasing and pushing.</p>
+      </li>
+      <li>
+        <p><code>merge</code>: <em>Optional.</em> If pushing fails with non-fast-forward, continuously
+          attempt to merge remote to local before pushing. Only one of <code>merge</code> or
+          <code>rebase</code> can be provided, but not both.</p>
+      </li>
+      <li>
+        <p><code>returning</code>: <em>Optional.</em> When passing the <code>merge</code> flag, specify whether the
+          merge commit or the original, unmerged commit should be passed as the output
+          ref. Options are <code>merged</code> and <code>unmerged</code>. Defaults to <code>merged</code>.</p>
+      </li>
+      <li>
+        <p><code>tag</code>: <em>Optional.</em> If this is set then HEAD will be tagged. The value should be
+          a path to a file containing the name of the tag.</p>
+      </li>
+      <li>
+        <p><code>only_tag</code>: <em>Optional.</em> When set to 'true' push only the tags of a repo.</p>
+      </li>
+      <li>
+        <p><code>tag_prefix</code>: <em>Optional.</em> If specified, the tag read from the file will be
+          prepended with this string. This is useful for adding <code>v</code> in front of
+          version numbers.</p>
+      </li>
+      <li>
+        <p><code>force</code>: <em>Optional.</em> When set to 'true' this will force the branch to be
+          pushed regardless of the upstream state.</p>
+      </li>
+      <li>
+        <p><code>annotate</code>: <em>Optional.</em> If specified the tag will be an
+          <a href="https://git-scm.com/book/en/v2/Git-Basics-Tagging#Annotated-Tags" rel="nofollow">annotated</a>
+          tag rather than a
+          <a href="https://git-scm.com/book/en/v2/Git-Basics-Tagging#Lightweight-Tags" rel="nofollow">lightweight</a>
+          tag. The value should be a path to a file containing the annotation message.</p>
+      </li>
+      <li>
+        <p><code>notes</code>: <em>Optional.</em> If this is set then notes will be added to HEAD to the
+          <code>refs/notes/commits</code> ref. The value should be a path to a file containing the notes.</p>
+      </li>
+    </ul>
+    <h2><a id="user-content-development" class="anchor" aria-hidden="true" href="#development"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Development</h2>
+    <h3><a id="user-content-prerequisites" class="anchor" aria-hidden="true" href="#prerequisites"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Prerequisites</h3>
+    <ul>
+      <li>golang is <em>required</em> - version 1.9.x is tested; earlier versions may also
+        work.</li>
+      <li>docker is <em>required</em> - version 17.06.x is tested; earlier versions may also
+        work.</li>
+    </ul>
+    <h3><a id="user-content-running-the-tests" class="anchor" aria-hidden="true" href="#running-the-tests"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Running the tests</h3>
+    <p>The tests have been embedded with the <code>Dockerfile</code>; ensuring that the testing
+      environment is consistent across any <code>docker</code> enabled platform. When the docker
+      image builds, the test are run inside the docker container, on failure they
+      will stop the build.</p>
+    <p>Run the tests with the following commands for both <code>alpine</code> and <code>ubuntu</code> images:</p>
+    <div class="highlight highlight-source-shell"><pre>docker build -t git-resource -f dockerfiles/alpine/Dockerfile <span class="pl-c1">.</span>
+docker build -t git-resource -f dockerfiles/ubuntu/Dockerfile <span class="pl-c1">.</span></pre></div>
+    <h4><a id="user-content-note-about-the-integration-tests" class="anchor" aria-hidden="true" href="#note-about-the-integration-tests"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Note about the integration tests</h4>
+    <p>If you want to run the integration tests, a bit more work is required. You will require
+      an actual git repo to which you can push and pull, configured for SSH access. To do this,
+      add two files to <code>integration-tests/ssh</code> (note that names <strong>are</strong> important):</p>
+    <ul>
+      <li><code>test_key</code>: This is the private key used to authenticate against your repo.</li>
+      <li><code>test_repo</code>: This file contains one line of the form <code>test_repo_url[#test_branch]</code>.
+        If the branch is not specified, it defaults to <code>master</code>. For example,
+        <code>git@github.com:concourse-git-tester/git-resource-integration-tests.git</code> or
+        <code>git@github.com:concourse-git-tester/git-resource-integration-tests.git#testing</code></li>
+    </ul>
+    <h3><a id="user-content-contributing" class="anchor" aria-hidden="true" href="#contributing"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Contributing</h3>
+    <p>Please make all pull requests to the <code>master</code> branch and ensure tests pass
+      locally.</p>
+  </article>
+</div>
