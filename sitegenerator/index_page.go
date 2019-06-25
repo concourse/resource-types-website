@@ -8,12 +8,13 @@ import (
 type IndexPage struct {
 	ResourceModels []ResourceModel
 	Path           []string
+	CategoryList   []string
 }
 
 var IndexPagePath = []string{"All Resources"}
 
 func NewIndexPage(resourceModels []ResourceModel) IndexPage {
-	return IndexPage{resourceModels, IndexPagePath}
+	return IndexPage{resourceModels, IndexPagePath, []string{}}
 }
 
 func (i *IndexPage) Generate(w io.Writer) error {
