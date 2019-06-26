@@ -24,45 +24,15 @@
 
     <ul class="categories">
         <li>
-            <a href="#" id="all-resources">All Resources</a>
+            <a href="#" id="all-resources">All</a>
         </li>
         {{range .CategoryList}}
             <li>
-                <a class="category-filter" href="#category={{.}}" data-category="{{.}}">{{.}}</a>
+                <a class="category-filter" href="#" data-category="{{.}}">{{.}}</a>
             </li>
         {{end}}
     </ul>
-    <script>
-        (function () {
-            const unselectAll = () => document
-                .querySelectorAll(".categories a.category-filter")
-                .forEach(elem => elem.classList.remove("selected"))
 
-            document
-                .querySelector(".categories")
-                .addEventListener("click", ({target}) => {
-                    if (target.matches(".category-filter")) {
-                        const category = target.dataset.category
-
-                        unselectAll()
-                        target.classList.add("selected")
-
-                        document
-                            .querySelectorAll(".tile")
-                            .forEach(elem => {
-                                const show = elem.querySelector(`.category[data-category="${category}"]`)
-                                elem.style.display = show ? "" : "none"
-                            })
-
-                    } else if (target.matches("#all-resources")) {
-                        unselectAll()
-                        document
-                            .querySelectorAll(".tile")
-                            .forEach(elem => elem.style.display = "")
-                    }
-                })
-        })()
-    </script>
 {{end}}
 
 {{define "content"}}
@@ -103,4 +73,58 @@
         </div>
     {{end}}
 </div>
+{{end}}
+
+
+{{define "scripts"}}
+<script>
+    (function () {
+
+        const unselectAll = () => document
+            .querySelectorAll(".categories a.category-filter")
+            .forEach(elem => elem.classList.remove("selected"))
+
+        const allResources = document
+            .querySelector(".breadcrumb span:first-child")
+            .textContent
+
+
+        document
+            .querySelector(".categories")
+            .addEventListener("click", (event) => {
+                event.preventDefault()
+                event.stopPropagation()
+
+                const target = event.target
+                if (target.matches(".category-filter")) {
+                    const category = target.dataset.category
+
+                    unselectAll()
+                    target.classList.add("selected")
+
+                    document
+                        .querySelector(".breadcrumb span:first-child")
+                        .textContent = category
+
+                    document
+                        .querySelectorAll(".tile")
+                        .forEach(elem => {
+                            const show = elem.querySelector(`.category[data-category="${category}"]`)
+                            elem.style.display = show ? "" : "none"
+                        })
+
+                } else if (target.matches("#all-resources")) {
+                    unselectAll()
+
+                    document
+                        .querySelectorAll(".tile")
+                        .forEach(elem => elem.style.display = "")
+
+                    document
+                        .querySelector(".breadcrumb span:first-child")
+                        .textContent = allResources
+                }
+            })
+    })()
+</script>
 {{end}}
