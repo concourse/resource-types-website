@@ -23,18 +23,58 @@
 {{define "categories"}}
 
     <ul class="categories">
+        <li>
+            <a href="#" id="all-resource">All Resources</a>
+        </li>
         {{range .CategoryList}}
             <li>
-                {{.}}
+                <a class="category-filter" href="#category={{.}}" data-category="{{.}}">{{.}}</a>
             </li>
         {{end}}
     </ul>
+    <script>
+        (function () {
+            const unselectAll = () => document
+                .querySelectorAll(".categories a.category-filter")
+                .forEach(elem => elem.classList.remove("selected"))
+
+            document
+                .querySelectorAll(".categories a.category-filter")
+                .forEach(elem => elem.addEventListener('click', ({target}) => {
+                    const category = target.dataset.category
+
+                    unselectAll()
+
+                    target.classList.add("selected")
+
+                    document
+                        .querySelectorAll(".tile")
+                        .forEach(elem => {
+                            const show = elem.querySelector(`.category[data-category="${category}"]`)
+                            elem.style.display = show ? "" : "none"
+                        })
+                }))
+
+            document
+                .getElementById("all-resource")
+                .addEventListener('click', () => {
+                    unselectAll()
+
+                    document
+                        .querySelectorAll(".tile")
+                        .forEach(elem => elem.style.display = "")
+                })
+        })()
+    </script>
 {{end}}
 
 {{define "content"}}
 <div>
     {{range .ResourceModels}}
-        <div class="tile" id="{{.Identifier}}">
+        <div class="tile" id="{{.Identifier}}" >
+            {{range .Categories}}
+                <span class="category" style="display:none" data-category="{{.}}"></span>
+            {{end}}
             <div class="author">
                 {{if .AuthorHandle | eq "concourse"}}
                     <span class="official">official</span>

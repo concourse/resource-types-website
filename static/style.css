@@ -194,3 +194,8 @@ section:nth-last-of-type(1) {
     left: 10px;
     bottom: 13px;
 }
+
+
+.category-filter.selected {
+    font-weight: bold;
+}

@@ -61,7 +61,7 @@ func main() {
 - repository: https://github.com/concourse/git-resource
   name: git resource
   desc: git resource description
-  categories: [cat1, cat2, cat3]
+  categories: [cat1, cat2, cat3, category with space]
   get: yes
   put: yes
 - repository: https://github.com/concourse/hg-resource
