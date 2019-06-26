@@ -68,7 +68,6 @@
   put: yes
   categories:
     - Integration
-    - Other
 - name: 'cf resource'
   repository: https://github.com/concourse/cf-resource
   desc: An output only resource (at the moment) that will deploy an application to a Cloud Foundry deployment.
