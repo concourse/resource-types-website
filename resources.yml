@@ -1,192 +1,352 @@
 - name: 'git resource'
   repository: https://github.com/concourse/git-resource
   desc: Tracks the commits in a git repository.
+  get: yes
+  put: yes
 - name: 'hg resource'
   repository: https://github.com/concourse/hg-resource
   desc: Tracks the commits in a Mercurial repository.
+  get: yes
+  put: yes
 - name: 'time resource'
   repository: https://github.com/concourse/time-resource
   desc: Implements a resource that reports new versions on a configured interval. The interval can be arbitrarily long.
+  get: yes
+  put: yes
 - name: 's3 resource'
   repository: https://github.com/concourse/s3-resource
   desc: Versions objects in an S3 bucket, by pattern-matching filenames to identify version numbers.
+  get: yes
+  put: yes
 - name: 'semver resource'
   repository: https://github.com/concourse/semver-resource
   desc: A resource for managing a version number. Persists the version number in one of several backing stores.
+  get: yes
+  put: yes
 - name: 'github-release resource'
   repository: https://github.com/concourse/github-release-resource
   desc: Fetches and creates versioned GitHub resources.
+  get: yes
+  put: yes
 - name: 'registry-image resource'
   repository: https://github.com/concourse/registry-image-resource
   desc: Supports checking, fetching, and pushing of images to Docker registries.
+  get: yes
+  put: yes
 - name: 'docker-image resource'
   repository: https://github.com/concourse/docker-image-resource
   desc: Tracks and builds Docker images.
+  get: yes
+  put: yes
 - name: 'pool resource'
   repository: https://github.com/concourse/pool-resource
   desc: A pool of locks (modeling semaphores). Allows you to lock environments, pipeline flow, or other entities which have to be interacted with in a serial manner.
+  get: yes
+  put: yes
 - name: 'cf resource'
   repository: https://github.com/concourse/cf-resource
   desc: An output only resource (at the moment) that will deploy an application to a Cloud Foundry deployment.
+  get: yes
+  put: yes
 - name: 'bosh-io-release resource'
   repository: https://github.com/concourse/bosh-io-release-resource
   desc: Tracks the versions of a release on bosh.io.
+  get: yes
+  put: no
 - name: 'bosh-io-stemcell resource'
   repository: https://github.com/concourse/bosh-io-stemcell-resource
   desc: Tracks the versions of a stemcell on bosh.io.
+  get: yes
+  put: no
 - name: Slack Reading and Posting
   repository: https://github.com/jleben/slack-chat-resource
   desc: This repository provides Concourse resource types to read, act on, and reply to messages on Slack.
+  get: yes
+  put: yes
 - name: Slack notifications
   repository: https://github.com/cloudfoundry-community/slack-notification-resource
   desc: Sends messages to Slack.
+  get: no
+  put: yes
 - name: Github Pull Requests
   repository: https://github.com/telia-oss/github-pr-resource
   desc: A Concourse resource for pull requests on Github. Written in Go and based on the Github V4 (GraphQL) API.
+  get: yes
+  put: yes
 - name: GitLab Merge Requests
   repository: https://github.com/swisscom/gitlab-merge-request-resource
   desc: A concourse resource to check for new merge requests on GitLab and update the merge request status.
+  get: yes
+  put: yes
 - name: OpenStack Swift
   repository: https://github.com/sapcc/concourse-swift-resource
   desc: Versions objects in a Swift container, by pattern-matching filenames to identify version numbers. This resource is heavily inspired by the official S3 resource.
+  get: yes
+  put: yes
 - name: Key Value resource
   repository: https://github.com/swce/keyval-resource
   desc: Implements a resource that passes key values between jobs without using any external resource such as git/s3 etc.
+  get: yes
+  put: yes
 - name: Flowdock notifications
   repository: https://github.com/starkandwayne/flowdock-concourse-notification-resource
   desc: Concourse CI resource for sending notifications to Flowdock
+  get: yes
+  put: yes
 - name: Email
   repository: https://github.com/pivotal-cf/email-resource
   desc: A Concourse resource that sends emails.
+  get: no
+  put: yes
 - name: Formatted Email
   repository: https://github.com/santoshjpawar/concourse-email-notification
   desc: Can be used to send HTML formatted email notifications from Concourse.CI build.
+  get: yes
+  put: yes
 - name: Email with integrated MTA
   repository: https://github.com/mdomke/concourse-email-resource
   desc: A Concourse CI resource to send emails.
+  get: no
+  put: yes
 - name: Bintray
   repository: https://github.com/jamiemonserrate/bintray-resource
   desc: Versions objects in bintray
+  get: yes
+  put: yes
 - name: Perforce
   repository: https://github.com/olhtbr/p4-resource
+  get: yes
+  put: yes
 - name: BOSH Errands
   repository: https://github.com/starkandwayne/bosh-errand-resource-boshrelease
   desc: Run BOSH errands on Concourse!
+  get: no
+  put: yes
 - name: 'BOSH Config: cloud-config and runtime-config'
   repository: https://github.com/EMC-Dojo/bosh-config-resource
   desc: An output only resource (at the moment) that will set runtime-config and cloud-config on a bosh director.
+  get: no
+  put: yes
 - name: BOSH Release
   repository: https://github.com/dpb587/bosh-release-resource
   desc: A Concourse resource for working with versions of a BOSH release. Specifically focused on support for non-bosh.io releases, private release repositories, version constraints, dev releases, and finalize-release tasks.
+  get: yes
+  put: yes
 - name: Pool Trigger
   repository: https://github.com/cfmobile/pool-trigger-resource
   desc: A resource solely for triggering concourse builds when resources are added to pools.
+  get: no
+  put: no
 - name: Pivotal Network
   repository: https://github.com/pivotal-cf-experimental/pivnet-resource
   desc: Interact with Pivotal Network from concourse.
+  get: yes
+  put: yes
 - name: FTP
   repository: https://github.com/aequitas/concourse-ftp-resource
   desc: Concourse resource to interact with FTP servers.
+  get: yes
+  put: yes
 - name: lftp, access resources via ftp, http, sftp and fish
   repository: https://github.com/openSUSE/lftp-concourse-resource
+  get: yes
+  put: yes
 - name: Cloudformation
   repository: https://github.com/pivotal-cf-experimental/cloudformation-resource
+  get: no
+  put: yes
 - name: Generic HTTP API
   repository: https://github.com/aequitas/concourse-http-api-resource
+  get: no
+  put: yes
 - name: Hockey App
   repository: https://github.com/seadowg/hockey-resource
+  get: yes
+  put: yes
 - name: Concourse Pipelines
   repository: https://github.com/robdimsdale/concourse-pipeline-resource
+  get: yes
+  put: yes
 - name: Twitter
   repository: https://github.com/ECSTeam/twitter-resource
+  get: no
+  put: yes
 - name: HipChat Notifications
   repository: https://github.com/cloudfoundry-community/hipchat-notification-resource
+  get: no
+  put: yes
 - name: Matrix Notifications
   repository: https://github.com/freelock/matrix-notification-resource
+  get: no
+  put: yes
 - name: 'Smuggler: generic resource framework'
   repository: https://github.com/redfactorlabs/concourse-smuggler-resource
+  get: yes
+  put: yes
 - name: GitHub Commit Status
   repository: https://github.com/dpb587/github-status-resource
+  get: yes
+  put: yes
 - name: GitHub Deployment
   repository: https://github.com/ahume/github-deployment-resource
+  get: yes
+  put: yes
 - name: AMI Updates
   repository: https://github.com/jdub/ami-resource
+  get: yes
+  put: yes
 - name: Debian/Ubuntu Sources Updates
   repository: https://github.com/jdub/debian-sources-resource
+  get: yes
+  put: no
 - name: Open Build Service
   repository: https://github.com/SUSE/open-build-service-resource
+  get: yes
+  put: yes
 - name: Travis-ci
   repository: https://github.com/Orange-OpenSource/travis-resource
+  get: yes
+  put: yes
 - name: Bitbucket Notifications
   repository: https://github.com/karunamon/concourse-resource-bitbucket
+  get: no
+  put: yes
 - name: Terraform
   repository: https://github.com/ljfranklin/terraform-resource
+  get: yes
+  put: yes
 - name: bbl (BOSH Bootloader) state
   repository: https://github.com/cloudfoundry/bbl-state-resource
+  get: yes
+  put: yes
 - name: Azure Blobstore
   repository: https://github.com/pivotal-cf/azure-blobstore-resource
+  get: yes
+  put: yes
 - name: Rsync
   repository: https://github.com/mrsixw/concourse-rsync-resource
+  get: yes
+  put: yes
 - name: 'Rsync: rsyncd, for local net'
   repository: https://github.com/chemist/rsync-resource
+  get: yes
+  put: yes
 - name: PyPI Packages
   repository: https://github.com/cf-platform-eng/concourse-pypi-resource
+  get: yes
+  put: yes
 - name: 'Devpi Server: PyPI mirror and package server'
   repository: https://github.com/mdomke/concourse-devpi-resource
+  get: yes
+  put: yes
 - name: Jira Integration
   repository: https://github.com/danrspencer/jira-resource
+  get: yes
+  put: yes
 - name: Google Drive
   repository: https://github.com/jpatel-pivotal/google-drive-concourse-resource
+  get: yes
+  put: yes
 - name: Google Calendar
   repository: https://github.com/henrytk/calendar-resource
+  get: yes
+  put: yes
 - name: pagerduty Notifications
   repository: https://github.com/FidelityInternational/concourse-pagerduty-notification-resource
+  get: no
+  put: yes
 - name: Telegram
   repository: https://github.com/w32blaster/telegram-notification-resource
+  get: no
+  put: yes
 - name: Telegram
   repository: https://github.com/carlo-colombo/telegram-resource
+  get: yes
+  put: yes
 - name: Telegram
   repository: https://github.com/Cuttlerat/concourse-telegram-resource
+  get: yes
+  put: yes
 - name: Google Cloud Storage
   repository: https://github.com/frodenas/gcs-resource
+  get: yes
+  put: yes
 - name: Fly
   repository: https://github.com/troykinsella/concourse-fly-resource
+  get: no
+  put: yes
 - name: Kubernetes
   repository: https://github.com/jcderr/concourse-kubernetes-resource
+  get: no
+  put: yes
 - name: Kubernetes
   repository: https://github.com/zlabjp/kubernetes-resource
+  get: no
+  put: yes
 - name: K8s-Kubernetes
   repository: https://github.com/srinivasa-vasu/concourse-k8s
+  get: no
+  put: yes
 - name: Kubernetes Helm
   repository: https://github.com/linkyard/concourse-helm-resource
+  get: no
+  put: yes
 - name: Helm Chart resource
   repository: https://github.com/linkyard/helm-chart-resource
+  get: no
+  put: yes
 - name: Helm Chart repository (ChartMuseum) resource
   repository: https://github.com/cathive/concourse-chartmuseum-resource
+  get: yes
+  put: yes
 - name: Vault
   repository: https://github.com/Docurated/concourse-vault-resource
+  get: yes
+  put: no
 - name: AWS Key Management Service
   repository: https://github.com/everpeace/aws-kms-resource
+  get: yes
+  put: no
 - name: Marathon
   repository: https://github.com/ckaznocha/marathon-resource
+  get: yes
+  put: yes
 - name: RSS
   repository: https://github.com/suhlig/concourse-rss-resource
+  get: yes
+  put: no
 - name: Maven Resource
   repository: https://github.com/nulldriver/maven-resource
+  get: yes
+  put: yes
 - name: cURL File Resource
   repository: https://github.com/pivotalservices/concourse-curl-resource
+  get: yes
+  put: no
 - name: Pivnet Resource (rsamban)
   repository: https://github.com/rsamban/pivnet-resource
+  get: yes
+  put: no
 - name: Cloud Foundry Events
   repository: https://github.com/mevansam/cf-event-resource-type
+  get: yes
+  put: no
 - name: Apache Directory Index
   repository: https://github.com/mastertinner/apache-directory-index-resource
+  get: yes
+  put: no
 - name: Cloud Foundry CLI Resource
   repository: https://github.com/nulldriver/cf-cli-resource
+  get: no
+  put: yes
 - name: Counter
   repository: https://github.com/jinlee/counter-resource
+  get: yes
+  put: yes
 - name: Capistrano
   repository: https://github.com/SHyx0rmZ/capistrano-resource
+  get: no
+  put: yes
 - name: aptly CLI
   repository: https://github.com/SHyx0rmZ/aptly-cli-resource
 - name: Prometheus Alertmanager
