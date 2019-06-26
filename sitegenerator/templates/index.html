@@ -24,7 +24,7 @@
 
     <ul class="categories">
         <li>
-            <a href="#" id="all-resource">All Resources</a>
+            <a href="#" id="all-resources">All Resources</a>
         </li>
         {{range .CategoryList}}
             <li>
@@ -39,30 +39,27 @@
                 .forEach(elem => elem.classList.remove("selected"))
 
             document
-                .querySelectorAll(".categories a.category-filter")
-                .forEach(elem => elem.addEventListener('click', ({target}) => {
-                    const category = target.dataset.category
+                .querySelector(".categories")
+                .addEventListener("click", ({target}) => {
+                    if (target.matches(".category-filter")) {
+                        const category = target.dataset.category
 
-                    unselectAll()
+                        unselectAll()
+                        target.classList.add("selected")
 
-                    target.classList.add("selected")
+                        document
+                            .querySelectorAll(".tile")
+                            .forEach(elem => {
+                                const show = elem.querySelector(`.category[data-category="${category}"]`)
+                                elem.style.display = show ? "" : "none"
+                            })
 
-                    document
-                        .querySelectorAll(".tile")
-                        .forEach(elem => {
-                            const show = elem.querySelector(`.category[data-category="${category}"]`)
-                            elem.style.display = show ? "" : "none"
-                        })
-                }))
-
-            document
-                .getElementById("all-resource")
-                .addEventListener('click', () => {
-                    unselectAll()
-
-                    document
-                        .querySelectorAll(".tile")
-                        .forEach(elem => elem.style.display = "")
+                    } else if (target.matches("#all-resources")) {
+                        unselectAll()
+                        document
+                            .querySelectorAll(".tile")
+                            .forEach(elem => elem.style.display = "")
+                    }
                 })
         })()
     </script>
