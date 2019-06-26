@@ -62,15 +62,21 @@ func main() {
   name: git resource
   desc: git resource description
   categories: [cat1, cat2, cat3]
+  get: yes
+  put: yes
 - repository: https://github.com/concourse/hg-resource
   name: hg resource
   desc: 
+  get: 
+  put: false
 - repository: https://github.com/concourse/foo-resource
   name: foo resource
   categories: [cat1, cat5, cat42]
+  put: yes
 - repository: https://github.com/pivotal-cf/bosh-resource
   name: bosh resource
   desc: a resource for all the bosh
+  get: yes
 `)
 
 	log.Println("starting mock server")

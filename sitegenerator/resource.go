@@ -15,6 +15,8 @@ type Resource struct {
 	Repository  string   `yaml:"repository"`
 	Description string   `yaml:"desc"`
 	Categories  []string `yaml:"categories"`
+	Get         bool     `yaml:"get"`
+	Put         bool     `yaml:"put"`
 }
 
 type ResourceModel struct {

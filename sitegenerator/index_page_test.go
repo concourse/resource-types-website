@@ -18,6 +18,8 @@ var _ = Describe("IndexPage", func() {
 					Name:       "git resource",
 					Repository: "https://github.com/concourse/git-resource",
 					Categories: []string{"Category1", "Category2"},
+					Get:        true,
+					Put:        true,
 				},
 				Identifier:        "concourse-git-resource",
 				AuthorHandle:      "concourse",
@@ -28,6 +30,8 @@ var _ = Describe("IndexPage", func() {
 					Name:       "hg resource",
 					Repository: "https://github.com/concourse/hg-resource",
 					Categories: []string{},
+					Get:        false,
+					Put:        false,
 				},
 				Identifier:        "concourse-hg-resource",
 				AuthorHandle:      "concourse",
@@ -38,6 +42,7 @@ var _ = Describe("IndexPage", func() {
 					Name:       "bosh resource",
 					Repository: "https://github.com/pivotal-cf/bosh-resource",
 					Categories: []string{"Category2", "Category3", "Category4"},
+					Get:        true,
 				},
 				Identifier:        "pivotal-bosh-resource",
 				AuthorHandle:      "bosh",
@@ -63,7 +68,13 @@ var _ = Describe("IndexPage", func() {
 				ContainSelector(`a[href="https://github.com/concourse"]`),
 				ContainSelector(`a[href="https://github.com/concourse/git-resource"]`),
 				ContainSelector(`img[title="Resource Source on Github"]`),
-				ContainSelectorWithText("title", Equal("Duty Free"))))
+				ContainSelectorWithText("title", Equal("Duty Free")),
+				ContainSelectorWithText("#concourse-git-resource .get", Equal("Get")),
+				ContainSelectorWithText("#concourse-git-resource .put", Equal("Put")),
+				Not(ContainSelectorWithText("#concourse-hg-resource .get", Equal("Get"))),
+				Not(ContainSelectorWithText("#concourse-hg-resource .put", Equal("Put"))),
+				ContainSelectorWithText("#pivotal-bosh-resource .get", Equal("Get")),
+				Not(ContainSelectorWithText("#pivotal-bosh-resource .put", Equal("Put")))))
 
 		Expect(doc).To(
 			SatisfyAll(

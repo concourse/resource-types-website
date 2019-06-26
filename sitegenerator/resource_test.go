@@ -21,6 +21,8 @@ name: time resource
 repository: https://github.com/concourse/time-resource
 desc: time resource description
 categories: [Category1, Category3]
+get: 
+put: yes
 `), &r)
 
 		Expect(err).ToNot(HaveOccurred())
@@ -29,6 +31,8 @@ categories: [Category1, Category3]
 			"Repository":  Equal("https://github.com/concourse/time-resource"),
 			"Description": Equal("time resource description"),
 			"Categories":  Equal([]string{"Category1", "Category3"}),
+			"Get":         Equal(false),
+			"Put":         Equal(true),
 		}))
 	})
 

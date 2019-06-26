@@ -55,6 +55,14 @@
                 <img src="static/GitHub-Mark-120px-plus.png" alt="Resource Source on Github" class="github-icon"
                      title="Resource Source on Github">
             </a>
+            <div class="tags">
+                {{if .Get}}
+                    <span class="get">Get</span>
+                {{end}}
+                {{if .Put}}
+                    <span class="put">Put</span>
+                {{end}}
+            </div>
         </div>
     {{end}}
 </div>

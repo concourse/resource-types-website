@@ -179,3 +179,18 @@ section:nth-last-of-type(1) {
     padding: 2px;
     margin-right: 5px;
 }
+
+.get, .put {
+    font-size: 0.8em;
+    color: rgb(255, 255, 255);
+    background: rgb(151, 151, 151);
+    border-radius: 6px;
+    padding: 3px 8px;
+    margin-right: 5px;
+}
+
+.tags {
+    position: absolute;
+    left: 10px;
+    bottom: 13px;
+}
