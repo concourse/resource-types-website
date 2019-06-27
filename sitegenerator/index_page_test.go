@@ -89,7 +89,7 @@ var _ = Describe("IndexPage", func() {
 				ContainSelector(".categories"),
 			))
 
-		Expect(doc.Find(".categories li").Length()).To(Equal(4))
+		Expect(doc.Find(".categories li a.category-filter").Length()).To(Equal(4))
 	})
 
 	It("handles no resources", func() {
