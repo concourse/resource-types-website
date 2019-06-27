@@ -15,5 +15,4 @@ run:
   dir: git-dutyfree
   args:
     - test
-    - -ginkgo.v
-    - -ginkgo.progress
+    - ./...
