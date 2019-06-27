@@ -20,6 +20,7 @@ var _ = Describe("IndexPage", func() {
 					Categories: []string{"Category1", "Category2"},
 					Get:        true,
 					Put:        true,
+					Verified:   true,
 				},
 				Identifier:        "concourse-git-resource",
 				AuthorHandle:      "concourse",
@@ -32,6 +33,7 @@ var _ = Describe("IndexPage", func() {
 					Categories: []string{},
 					Get:        false,
 					Put:        false,
+					Verified:   true,
 				},
 				Identifier:        "concourse-hg-resource",
 				AuthorHandle:      "concourse",
@@ -43,6 +45,7 @@ var _ = Describe("IndexPage", func() {
 					Repository: "https://github.com/pivotal-cf/bosh-resource",
 					Categories: []string{"Category2", "Category3", "Category4"},
 					Get:        true,
+					Verified:   false,
 				},
 				Identifier:        "pivotal-bosh-resource",
 				AuthorHandle:      "bosh",
@@ -68,7 +71,18 @@ var _ = Describe("IndexPage", func() {
 				ContainSelector(`a[href="https://github.com/concourse"]`),
 				ContainSelector(`a[href="https://github.com/concourse/git-resource"]`),
 				ContainSelector(`img[title="Resource Source on Github"]`),
-				ContainSelectorWithText("title", Equal("Duty Free")),
+				ContainSelectorWithText("title", Equal("Duty Free"))))
+
+		By("creating a tile for each resource")
+		Expect(doc).To(
+			SatisfyAll(
+				ContainSelector("#concourse-git-resource"),
+				ContainSelector("#concourse-hg-resource"),
+				ContainSelector("#pivotal-bosh-resource")))
+
+		By("creating appropriate get and put tags to resources")
+		Expect(doc).To(
+			SatisfyAll(
 				ContainSelectorWithText("#concourse-git-resource .get", Equal("Get")),
 				ContainSelectorWithText("#concourse-git-resource .put", Equal("Put")),
 				Not(ContainSelectorWithText("#concourse-hg-resource .get", Equal("Get"))),
@@ -76,20 +90,23 @@ var _ = Describe("IndexPage", func() {
 				ContainSelectorWithText("#pivotal-bosh-resource .get", Equal("Get")),
 				Not(ContainSelectorWithText("#pivotal-bosh-resource .put", Equal("Put")))))
 
+		By("adding official tag to concourse team resources")
 		Expect(doc).To(
 			SatisfyAll(
 				ContainSelector("#concourse-git-resource .official"),
 				ContainSelector("#concourse-hg-resource .official"),
-				And(
-					ContainSelector("#pivotal-bosh-resource"),
-					Not(ContainSelector("#pivotal-bosh-resource .official")))))
+				Not(ContainSelector("#pivotal-bosh-resource .official"))))
 
+		By("generating categories")
+		Expect(doc).To(ContainSelector(".categories"))
+		Expect(doc.Find(".categories li a.category-filter").Length()).To(Equal(4))
+
+		By("adding verified tag to resources verified by concourse")
 		Expect(doc).To(
 			SatisfyAll(
-				ContainSelector(".categories"),
-			))
+				ContainSelectorWithText("#concourse-git-resource .verified", Equal("Verified")),
+				Not(ContainSelector("#pivotal-bosh-resource .verified"))))
 
-		Expect(doc.Find(".categories li a.category-filter").Length()).To(Equal(4))
 	})
 
 	It("handles no resources", func() {

@@ -17,6 +17,7 @@ type Resource struct {
 	Categories  []string `yaml:"categories"`
 	Get         bool     `yaml:"get"`
 	Put         bool     `yaml:"put"`
+	Verified    bool     `yaml:"verified"`
 }
 
 type ResourceModel struct {

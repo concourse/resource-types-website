@@ -170,6 +170,23 @@ section:nth-last-of-type(1) {
     color: #757474;
 }
 
+.verified {
+    position: absolute;
+    width: 64px;
+    height: 18px;
+    left: 0px;
+    top: 0px;
+
+    background: #C4C4C4;
+    color: #FFFFFF;
+}
+
+.verified-text {
+    text-align: center;
+    line-height: 18px;
+    font-size: 10px;
+}
+
 .official {
     font-size: 0.8em;
     color: rgba(52, 194, 101, 1);

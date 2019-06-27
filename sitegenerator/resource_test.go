@@ -23,6 +23,7 @@ desc: time resource description
 categories: [Category1, Category3]
 get: 
 put: yes
+verified: Yes
 `), &r)
 
 		Expect(err).ToNot(HaveOccurred())
@@ -33,6 +34,7 @@ put: yes
 			"Categories":  Equal([]string{"Category1", "Category3"}),
 			"Get":         Equal(false),
 			"Put":         Equal(true),
+			"Verified":    Equal(true),
 		}))
 	})
 

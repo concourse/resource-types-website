@@ -42,6 +42,11 @@
             {{range .Categories}}
                 <span class="category" style="display:none" data-category="{{.}}"></span>
             {{end}}
+            {{if .Verified}}
+                <div class="verified">
+                    <div class="verified-text">Verified</div>
+                </div>
+            {{end}}
             <div class="author">
                 {{if .AuthorHandle | eq "concourse"}}
                     <span class="official">official</span>
