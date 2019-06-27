@@ -93,7 +93,7 @@ a {
     height: 25px;
     position: absolute;
     bottom: 10px;
-    right: 10px;
+    left: 10px;
 }
 
 .github-icon-detail {
@@ -191,10 +191,15 @@ section:nth-last-of-type(1) {
 
 .tags {
     position: absolute;
-    left: 10px;
+    right: 10px;
     bottom: 13px;
 }
 
+.github-stars {
+    position: absolute;
+    left: 50px;
+    bottom: 10px;
+}
 
 .category-filter.selected {
     font-weight: bold;
