@@ -6,6 +6,7 @@
   categories:
     - Version Control
     - Trigger
+  verified: Yes
 - name: 'hg resource'
   repository: https://github.com/concourse/hg-resource
   desc: Tracks the commits in a Mercurial repository.
@@ -14,6 +15,7 @@
   categories:
     - Version Control
     - Trigger
+  verified: Yes
 - name: 'time resource'
   repository: https://github.com/concourse/time-resource
   desc: Implements a resource that reports new versions on a configured interval. The interval can be arbitrarily long.
@@ -21,6 +23,7 @@
   put: yes
   categories:
     - Trigger
+  verified: Yes
 - name: 's3 resource'
   repository: https://github.com/concourse/s3-resource
   desc: Versions objects in an S3 bucket, by pattern-matching filenames to identify version numbers.
@@ -28,6 +31,7 @@
   put: yes
   categories:
     - Storage
+  verified: Yes
 - name: 'semver resource'
   repository: https://github.com/concourse/semver-resource
   desc: A resource for managing a version number. Persists the version number in one of several backing stores.
@@ -37,6 +41,7 @@
     - Version Control
     - Trigger
     - Release Engineering
+  verified: Yes
 - name: 'github-release resource'
   repository: https://github.com/concourse/github-release-resource
   desc: Fetches and creates versioned GitHub resources.
@@ -45,6 +50,7 @@
   categories:
     - Release Engineering
     - Storage
+  verified: Yes
 - name: 'registry-image resource'
   repository: https://github.com/concourse/registry-image-resource
   desc: Supports checking, fetching, and pushing of images to Docker registries.
@@ -52,6 +58,7 @@
   put: yes
   categories:
     - Storage
+  verified: Yes
 - name: 'docker-image resource'
   repository: https://github.com/concourse/docker-image-resource
   desc: Tracks and builds Docker images.
@@ -61,6 +68,7 @@
     - Deployment
     - Trigger
     - Release Engineering
+  verified: Yes
 - name: 'pool resource'
   repository: https://github.com/concourse/pool-resource
   desc: A pool of locks (modeling semaphores). Allows you to lock environments, pipeline flow, or other entities which have to be interacted with in a serial manner.
@@ -68,6 +76,7 @@
   put: yes
   categories:
     - Integration
+  verified: Yes
 - name: 'cf resource'
   repository: https://github.com/concourse/cf-resource
   desc: An output only resource (at the moment) that will deploy an application to a Cloud Foundry deployment.
@@ -75,6 +84,7 @@
   put: yes
   categories:
     - Deployment
+  verified: Yes
 - name: 'bosh-io-release resource'
   repository: https://github.com/concourse/bosh-io-release-resource
   desc: Tracks the versions of a release on bosh.io.
@@ -84,6 +94,7 @@
     - Deployment
     - Storage
     - Release Engineering
+  verified: Yes
 - name: 'bosh-io-stemcell resource'
   repository: https://github.com/concourse/bosh-io-stemcell-resource
   desc: Tracks the versions of a stemcell on bosh.io.
@@ -93,6 +104,7 @@
     - Deployment
     - Storage
     - Release Engineering
+  verified: Yes
 - name: Slack Reading and Posting
   repository: https://github.com/jleben/slack-chat-resource
   desc: This repository provides Concourse resource types to read, act on, and reply to messages on Slack.
