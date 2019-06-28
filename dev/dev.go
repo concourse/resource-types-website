@@ -65,6 +65,25 @@ func main() {
   get: yes
   put: yes
   verified: Yes
+  example: |-
+    ---
+    jobs:
+    - name: alert
+      public: true
+      plan:
+      - put: errand-prod
+        params:
+          manifest: prod.yml
+          errand: smoke_tests
+
+    resources:
+    - name: errand-prod
+      type: bosh-errand
+      source:
+        target: {{bosh-target}}
+        username: admin
+        password: admin
+        deployment: cf-prod
 - repository: https://github.com/concourse/hg-resource
   name: hg resource
   desc: 

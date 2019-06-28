@@ -24,6 +24,25 @@ categories: [Category1, Category3]
 get: 
 put: yes
 verified: Yes
+example: |-
+  ---
+  jobs:
+  - name: alert
+    public: true
+    plan:
+    - put: errand-prod
+      params:
+        manifest: prod.yml
+        errand: smoke_tests
+
+  resources:
+  - name: errand-prod
+    type: bosh-errand
+    source:
+      target: {{bosh-target}}
+      username: admin
+      password: admin
+      deployment: cf-prod
 `), &r)
 
 		Expect(err).ToNot(HaveOccurred())
@@ -35,6 +54,24 @@ verified: Yes
 			"Get":         Equal(false),
 			"Put":         Equal(true),
 			"Verified":    Equal(true),
+			"Example": Equal(`---
+jobs:
+- name: alert
+  public: true
+  plan:
+  - put: errand-prod
+    params:
+      manifest: prod.yml
+      errand: smoke_tests
+
+resources:
+- name: errand-prod
+  type: bosh-errand
+  source:
+    target: {{bosh-target}}
+    username: admin
+    password: admin
+    deployment: cf-prod`),
 		}))
 	})
 

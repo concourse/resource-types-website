@@ -21,6 +21,14 @@
             <h3>Description</h3>
             <p class="desc">{{.Description}}</p>
         </div>
+        {{if .Example | ne ""}}
+            <div class="example">
+                <div class="example-content">
+                    <h3>Example</h3>
+                    <pre><code>{{.Example}}</code></pre>
+                </div>
+            </div>
+        {{end}}
     </section>
     <section id="github-readme">
         <h3>Read Me</h3>

@@ -119,15 +119,38 @@ section:nth-last-of-type(1) {
     border-bottom: none;
 }
 
+.middle-area > div {
+    float: left;
+    width: 50%;
+}
+
+.middle-area .example {
+    position: relative;
+}
+
+.example-content {
+    padding-left: 20px;
+}
+
+.middle-area .example::before {
+    content: "";
+    position: absolute;
+    top: 65px;
+    bottom: 50px;
+    border-left: solid 1px #cdcdcd;
+}
+
 .top-area .author {
 
 }
 
-#github-readme {
+#github-readme,
+.example {
     line-height: 1.5;
 }
 
-#github-readme code {
+#github-readme code,
+.example code {
     background-color: rgba(27, 31, 35, .05);
     border-radius: 3px;
     font-size: 85%;
@@ -135,7 +158,8 @@ section:nth-last-of-type(1) {
     padding: .2em .4em;
 }
 
-#github-readme pre {
+#github-readme pre,
+.example pre {
     background-color: #f6f8fa;
     border-radius: 3px;
     font-size: 85%;
@@ -144,7 +168,8 @@ section:nth-last-of-type(1) {
     padding: 16px;
 }
 
-#github-readme pre code {
+#github-readme pre code,
+.example pre code {
     background-color: #f6f8fa;
 }
 

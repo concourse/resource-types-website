@@ -17,6 +17,7 @@ var _ = Describe("ResourcePage", func() {
 				Name:        "git resource",
 				Repository:  "https://github.com/concourse/git-resource",
 				Description: "git resource description",
+				Example:     "This is an\n example",
 			},
 			Identifier:        "concourse-git-resource",
 			AuthorHandle:      "concourse",
@@ -44,6 +45,7 @@ var _ = Describe("ResourcePage", func() {
 				ContainSelectorWithText(`.breadcrumb a[href="/dutyfree"]`, Equal("All Resources")),
 				ContainSelectorWithText(".breadcrumb span:last-child", Equal("git resource")),
 				ContainSelector(`a[href="https://github.com/concourse/git-resource"] img[title="Resource Source on Github"]`),
+				ContainSelectorWithText(".example", Equal("This is an\n example")),
 			))
 	})
 })
