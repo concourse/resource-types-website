@@ -24,6 +24,19 @@
   categories:
     - Trigger
   verified: Yes
+  example: |-
+    resources:
+    - name: 5m
+      type: time
+      source: {interval: 5m}
+
+    jobs:
+    - name: something-every-5m
+      plan:
+      - get: 5m
+        trigger: true
+      - task: something
+        config: # ...
 - name: 's3 resource'
   repository: https://github.com/concourse/s3-resource
   desc: Versions objects in an S3 bucket, by pattern-matching filenames to identify version numbers.
@@ -77,6 +90,37 @@
   categories:
     - Integration
   verified: Yes
+  example: |-
+    resources:
+      - name: aws-environments
+        type: pool
+        source:
+          uri: git@github.com:concourse/locks.git
+          branch: master
+          pool: aws
+          private_key: |
+            -----BEGIN RSA PRIVATE KEY-----
+            MIIEowIBAAKCAQEAtCS10/f7W7lkQaSgD/mVeaSOvSF9ql4hf/zfMwfVGgHWjj+W
+            <Lots more text>
+            DWiJL+OFeg9kawcUL6hQ8JeXPhlImG6RTUffma9+iGQyyBMCGd1l
+            -----END RSA PRIVATE KEY-----
+
+    jobs:
+      - name: deploy-aws
+        plan:
+          - put: aws-environments
+            params: {acquire: true}
+          - task: deploy-aws
+            file: my-scripts/deploy-aws.yml
+
+      - name: test-aws
+        plan:
+          - get: aws-environments
+            passed: [deploy-aws]
+          - task: test-aws
+            file: my-scripts/test-aws.yml
+          - put: aws-environments
+            params: {release: aws-environments}
 - name: 'cf resource'
   repository: https://github.com/concourse/cf-resource
   desc: An output only resource (at the moment) that will deploy an application to a Cloud Foundry deployment.
@@ -172,6 +216,25 @@
   desc: Run BOSH errands on Concourse!
   get: no
   put: yes
+  example: |-
+    ---
+    jobs:
+    - name: alert
+      public: true
+      plan:
+      - put: errand-prod
+        params:
+          manifest: prod.yml
+          errand: smoke_tests
+
+    resources:
+    - name: errand-prod
+      type: bosh-errand
+      source:
+        target: {{bosh-target}}
+        username: admin
+        password: admin
+        deployment: cf-prod
 - name: 'BOSH Config: cloud-config and runtime-config'
   repository: https://github.com/EMC-Dojo/bosh-config-resource
   desc: An output only resource (at the moment) that will set runtime-config and cloud-config on a bosh director.
@@ -205,6 +268,29 @@
   repository: https://github.com/pivotal-cf-experimental/cloudformation-resource
   get: no
   put: yes
+  example: |-
+    resource_types:
+    - name: cloudformation
+      type: docker-image
+        source:
+          repository: pcfseceng/cloudformation-resource
+
+    resources:
+    - name: aws-setup
+      type: cloudformation
+      source:
+        aws_access_key: some_access_key
+        aws_secret_key: some_secret_key
+        aws_region: us-east-1
+
+    jobs:
+    - name: update-cloudformation
+      plan:
+      - put: aws-setup
+        params:
+          cloudformation_file: path/to/cloudformation/configuration/file
+          stack_name: name_of_aws_stack_to_configure
+          policy_file: path/to/cloudformation/policy/file
 - name: Generic HTTP API
   repository: https://github.com/aequitas/concourse-http-api-resource
   get: no
