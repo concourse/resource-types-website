@@ -355,14 +355,6 @@
   repository: https://github.com/cloudfoundry/bbl-state-resource
   get: yes
   put: yes
-- name: Azure Blobstore
-  repository: https://github.com/pivotal-cf/azure-blobstore-resource
-  get: yes
-  put: yes
-- name: Rsync
-  repository: https://github.com/mrsixw/concourse-rsync-resource
-  get: yes
-  put: yes
   example: |-
     jobs:
     - name: bbl-up-a-specifically-named-environment
@@ -395,6 +387,14 @@
         params:
           command: down
           state_dir: bbl-state
+- name: Azure Blobstore
+  repository: https://github.com/pivotal-cf/azure-blobstore-resource
+  get: yes
+  put: yes
+- name: Rsync
+  repository: https://github.com/mrsixw/concourse-rsync-resource
+  get: yes
+  put: yes
 - name: 'Rsync: rsyncd, for local net'
   repository: https://github.com/chemist/rsync-resource
   get: yes
