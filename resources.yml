@@ -363,6 +363,38 @@
   repository: https://github.com/mrsixw/concourse-rsync-resource
   get: yes
   put: yes
+  example: |-
+    jobs:
+    - name: bbl-up-a-specifically-named-environment
+      plan:
+      - put: bbl-state
+        params:
+          command: up
+          name: my-lonely-bosh-director
+
+    - name: bbl-up-a-randomly-named-environment
+      plan:
+      - put: bbl-state
+        params:
+          command: up
+
+    - name: bbl-update-that-randomly-named-env
+      plan:
+      - get: bbl-state
+        passed: [bbl-up-a-randomly-named-environment]
+      - put: bbl-state
+        params:
+          command: up
+          name_file: bbl-state/name
+
+    - name: bbl-delete-that-env-you-just-updated
+      plan:
+      - get: bbl-state-resource
+        passed: [bbl-update-that-env-from-before]
+      - put: bbl-state
+        params:
+          command: down
+          state_dir: bbl-state
 - name: 'Rsync: rsyncd, for local net'
   repository: https://github.com/chemist/rsync-resource
   get: yes
