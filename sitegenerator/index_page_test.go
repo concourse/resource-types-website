@@ -82,12 +82,12 @@ var _ = Describe("IndexPage", func() {
 		By("creating appropriate get and put tags to resources")
 		Expect(doc).To(
 			SatisfyAll(
-				ContainSelectorWithText("#concourse-git-resource .get", Equal("Get")),
-				ContainSelectorWithText("#concourse-git-resource .put", Equal("Put")),
-				Not(ContainSelectorWithText("#concourse-hg-resource .get", Equal("Get"))),
-				Not(ContainSelectorWithText("#concourse-hg-resource .put", Equal("Put"))),
-				ContainSelectorWithText("#pivotal-bosh-resource .get", Equal("Get")),
-				Not(ContainSelectorWithText("#pivotal-bosh-resource .put", Equal("Put")))))
+				ContainSelectorWithText("#concourse-git-resource .get", Equal("GET")),
+				ContainSelectorWithText("#concourse-git-resource .put", Equal("PUT")),
+				Not(ContainSelectorWithText("#concourse-hg-resource .get", Equal("GET"))),
+				Not(ContainSelectorWithText("#concourse-hg-resource .put", Equal("PUT"))),
+				ContainSelectorWithText("#pivotal-bosh-resource .get", Equal("GET")),
+				Not(ContainSelectorWithText("#pivotal-bosh-resource .put", Equal("PUT")))))
 
 		By("generating categories")
 		Expect(doc).To(ContainSelector(".categories"))
