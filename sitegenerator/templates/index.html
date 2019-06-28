@@ -47,14 +47,6 @@
                     <div class="verified-text">Verified</div>
                 </div>
             {{end}}
-            <div class="author">
-                {{if .AuthorHandle | eq "concourse"}}
-                    <span class="official">official</span>
-                {{end}}
-                <a target="_blank" href="{{.AuthorProfileLink}}">
-                    {{.AuthorHandle}}
-                </a>
-            </div>
             <h2 class="name">
                 <a href="resources/{{.Identifier}}.html">
                     {{.Name}}

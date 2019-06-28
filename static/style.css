@@ -70,14 +70,9 @@ a {
     color: #3398dc;
 }
 
-.tile .author {
-    display: block;
-    width: 100%;
-    text-align: right;
-}
-
 .tile .name {
     display: block;
+    padding-top: 20px;
     margin-bottom: 10px;
 }
 
@@ -210,16 +205,6 @@ section:nth-last-of-type(1) {
     text-align: center;
     line-height: 18px;
     font-size: 10px;
-}
-
-.official {
-    font-size: 0.8em;
-    color: rgba(52, 194, 101, 1);
-    background: rgba(52, 194, 101, 0.05);
-    border: 1px solid rgba(52, 194, 101, 0.8);
-    border-radius: 6px;
-    padding: 2px;
-    margin-right: 5px;
 }
 
 .get, .put {

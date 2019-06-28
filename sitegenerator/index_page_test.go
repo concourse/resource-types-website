@@ -68,7 +68,6 @@ var _ = Describe("IndexPage", func() {
 				ContainSelectorWithText(".breadcrumb span:last-child", Equal("All Resources")),
 				ContainSelector(`a[href="resources/concourse-git-resource.html"]`),
 				ContainSelector(`a[href="resources/concourse-hg-resource.html"]`),
-				ContainSelector(`a[href="https://github.com/concourse"]`),
 				ContainSelector(`a[href="https://github.com/concourse/git-resource"]`),
 				ContainSelector(`img[title="Resource Source on Github"]`),
 				ContainSelectorWithText("title", Equal("Duty Free"))))
@@ -89,13 +88,6 @@ var _ = Describe("IndexPage", func() {
 				Not(ContainSelectorWithText("#concourse-hg-resource .put", Equal("Put"))),
 				ContainSelectorWithText("#pivotal-bosh-resource .get", Equal("Get")),
 				Not(ContainSelectorWithText("#pivotal-bosh-resource .put", Equal("Put")))))
-
-		By("adding official tag to concourse team resources")
-		Expect(doc).To(
-			SatisfyAll(
-				ContainSelector("#concourse-git-resource .official"),
-				ContainSelector("#concourse-hg-resource .official"),
-				Not(ContainSelector("#pivotal-bosh-resource .official"))))
 
 		By("generating categories")
 		Expect(doc).To(ContainSelector(".categories"))
