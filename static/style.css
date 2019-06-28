@@ -1,8 +1,12 @@
 @import "modern-normalize.min.css";
 
+* {
+    font-family: 'Roboto', sans-serif;
+}
+
 .container {
     display: grid;
-    grid-template-columns: 250px 1fr;
+    grid-template-columns: 220px 1fr;
     grid-template-rows: 75px 1fr;
     grid-template-areas: "logo search" "sidebar content";
 }
@@ -10,21 +14,26 @@
 .logo-area {
     grid-area: logo;
     background-color: #757474;
+    height: 60px;
 }
 
 .title {
     margin: auto;
-    padding: 30px 0 0 20px;
 }
 
 .search {
     grid-area: search;
     background-color: #cdcdcd;
+    height: 60px;
 }
 
 #search-field {
-    margin: 30px 0 0 20px;
-    width: 90%;
+    height: 35px;
+    width: 747px;
+    margin: 13px 0 0 44px;
+    border: 1px solid #BDBDBD;
+    box-sizing: border-box;
+    border-radius: 2px;
 }
 
 ::placeholder {
@@ -38,13 +47,12 @@
 
 .logo-area h1 {
     color: white;
-    font-size: 15px;
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 16px;
+    letter-spacing: 0.01em;
     margin: 0;
-}
-
-h2 {
-    font-size: 20px;
-    margin-top: 0px;
+    padding: 25px 0 0 25px;
 }
 
 .content {
@@ -55,25 +63,32 @@ h2 {
 }
 
 .tile {
-    width: 326px;
-    height: 130px;
-    border: 2px solid #e4e4e4;
-    box-shadow: 3px 6px 4px 1px #bdbdbd;
+    width: 359px;
+    height: 173px;
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.2), 0px 2px 2px rgba(0, 0, 0, 0.12), 0px 0px 2px rgba(0, 0, 0, 0.14);
+    border-radius: 4px;
     padding: 10px;
-    margin: 10px;
+    margin: 15px;
     float: left;
     position: relative;
 }
 
 a {
     text-decoration: none;
-    color: #3398dc;
+    color: #0C6AF6;
 }
 
 .tile .name {
     display: block;
-    padding-top: 20px;
+    padding-left: 17px;
     margin-bottom: 10px;
+}
+
+.tile .name a {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 21px;
 }
 
 .tile .desc {
@@ -81,14 +96,16 @@ a {
     overflow: hidden;
     text-overflow: ellipsis;
     color: #757474;
-    font-size: 15px;
+    font-size: 12px;
+    line-height: 14px;
+    padding-left: 17px;
 }
 
 .github-icon {
     height: 25px;
     position: absolute;
     bottom: 10px;
-    left: 10px;
+    left: 20px;
 }
 
 .github-icon-detail {
@@ -98,6 +115,8 @@ a {
 
 .top-area h2 {
     float: left;
+    font-size: 20px;
+    margin-top: 0px;
 }
 
 .top-area > div {
@@ -117,6 +136,10 @@ section:nth-last-of-type(1) {
 .middle-area > div {
     float: left;
     width: 50%;
+}
+
+.middle-area .desc {
+    font-size: 12px;
 }
 
 .middle-area .example {
@@ -141,7 +164,8 @@ section:nth-last-of-type(1) {
 
 #github-readme,
 .example {
-    line-height: 1.5;
+    font-size: 12px;
+    line-height: 14px;
 }
 
 #github-readme code,
@@ -192,9 +216,9 @@ section:nth-last-of-type(1) {
 
 .verified {
     position: absolute;
-    width: 64px;
+    width: 80px;
     height: 18px;
-    left: 0px;
+    right: 0px;
     top: 0px;
 
     background: #C4C4C4;
@@ -203,16 +227,25 @@ section:nth-last-of-type(1) {
 
 .verified-text {
     text-align: center;
-    line-height: 18px;
-    font-size: 10px;
+    line-height: 15px;
+    font-size: 13px;
+    display: block;
+    padding-top: 2px;
+}
+
+.get-tag, .put-tag {
+    width: 25px;
+    height: 14px;
 }
 
 .get, .put {
-    font-size: 0.8em;
+    display: inline;
+    font-size: 9px;
+    font-weight: bold;
     color: rgb(255, 255, 255);
     background: rgb(151, 151, 151);
-    border-radius: 6px;
-    padding: 3px 8px;
+    border-radius: 25px;
+    padding: 3px 10px;
     margin-right: 5px;
 }
 
@@ -224,10 +257,18 @@ section:nth-last-of-type(1) {
 
 .github-stars {
     position: absolute;
-    left: 50px;
+    left: 55px;
     bottom: 10px;
 }
 
-.category-filter.selected {
+.category-filter .selected {
     font-weight: bold;
+}
+
+.categories {
+    list-style: none
+}
+
+.categories a {
+    color: #757474;
 }
