@@ -61,7 +61,7 @@ func main() {
 - repository: https://github.com/concourse/git-resource
   name: git resource
   desc: git resource description
-  categories: [cat1, cat2, cat3, category with space]
+  categories: [Version Control, Deployment, category with space]
   get: yes
   put: yes
   verified: Yes
@@ -92,7 +92,7 @@ func main() {
   verified: Yes
 - repository: https://github.com/concourse/foo-resource
   name: foo resource
-  categories: [cat1, cat5, cat42]
+  categories: [Notifications, cat5, cat42]
   put: yes
   verified: Yes
 - repository: https://github.com/pivotal-cf/bosh-resource

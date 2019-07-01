@@ -62,6 +62,10 @@
     padding-bottom: 50px;
 }
 
+.tile-container {
+    margin-left: -15px;
+}
+
 .tile {
     width: 359px;
     height: 173px;
@@ -261,14 +265,24 @@ section:nth-last-of-type(1) {
     bottom: 10px;
 }
 
-.category-filter .selected {
+.category-filter.selected {
     font-weight: bold;
 }
 
-.categories {
-    list-style: none
+ul.categories {
+    list-style: none;
+    padding-top:100px;
+    padding-left: 0px;
+    margin-right: 24px;
+    font-size: 16px;
+    font-weight: 400;
 }
 
 .categories a {
     color: #757474;
+}
+
+.categories li {
+    padding: 15px 24px;
+    border-top: 1px solid #EBEBEB;
 }
