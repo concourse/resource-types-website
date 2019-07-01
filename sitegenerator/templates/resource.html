@@ -17,14 +17,17 @@
         </div>
     </section>
     <section class="middle-area">
+        <img class="github-last-commit"
+             alt="GitHub last commit"
+             src="https://img.shields.io/github/last-commit/{{.AuthorHandle}}/{{.Repo}}.svg?labelColor=757474&color=C4C4C4&style=flat-square">
         <div class="description">
             <h3>Description</h3>
             <p class="desc">{{.Description}}</p>
         </div>
         {{if .Example | ne ""}}
             <div class="example">
+                <h3>Example</h3>
                 <div class="example-content">
-                    <h3>Example</h3>
                     <pre><code>{{.Example}}</code></pre>
                 </div>
             </div>

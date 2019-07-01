@@ -154,6 +154,10 @@ section:nth-last-of-type(1) {
     padding-left: 20px;
 }
 
+.example h3 {
+    padding-left: 20px;
+}
+
 .middle-area .example::before {
     content: "";
     position: absolute;
@@ -166,8 +170,13 @@ section:nth-last-of-type(1) {
 
 }
 
+.github-last-commit {
+    display: block;
+    padding: 10px 0 10px 0;
+}
+
 #github-readme,
-.example {
+.example-content {
     font-size: 12px;
     line-height: 14px;
 }
