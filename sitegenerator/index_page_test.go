@@ -90,7 +90,12 @@ var _ = Describe("IndexPage", func() {
 				Not(ContainSelectorWithText("#pivotal-bosh-resource .put", Equal("PUT")))))
 
 		By("generating categories")
-		Expect(doc).To(ContainSelector(".categories"))
+		Expect(doc).To(
+			SatisfyAll(
+				ContainSelector(".categories"),
+				ContainSelectorWithText(`.categories li a[data-category="Category1"]`, Equal("Category1 (1)")),
+				ContainSelectorWithText(`.categories li a[data-category="Category2"]`, Equal("Category2 (2)"))))
+
 		Expect(doc.Find(".categories li a.category-filter").Length()).To(Equal(4))
 
 		By("adding verified tag to resources verified by concourse")

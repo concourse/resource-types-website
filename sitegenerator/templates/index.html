@@ -28,7 +28,7 @@
         </li>
         {{range .CategoryList}}
             <li>
-                <a class="category-filter" href="#" data-category="{{.}}">{{.}}</a>
+                <a class="category-filter" href="#" data-category="{{.CategoryName}}">{{.CategoryName}} ({{.CategoryCount}})</a>
             </li>
         {{end}}
     </ul>

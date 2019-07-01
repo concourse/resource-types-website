@@ -92,7 +92,7 @@ func main() {
   verified: Yes
 - repository: https://github.com/concourse/foo-resource
   name: foo resource
-  categories: [Notifications, cat5, cat42]
+  categories: [Notifications, cat5, cat42, Deployment]
   put: yes
   verified: Yes
 - repository: https://github.com/pivotal-cf/bosh-resource
