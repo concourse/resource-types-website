@@ -85,7 +85,8 @@ a {
 .tile .name {
     display: block;
     padding-left: 17px;
-    margin-bottom: 10px;
+    margin-top: 8px;
+    margin-bottom: 1px;
 }
 
 .tile .name a {
@@ -291,4 +292,10 @@ ul.categories {
 .categories li {
     padding: 15px 24px;
     border-top: 1px solid #EBEBEB;
+}
+
+.last-version {
+    filter: invert(1);
+    padding-left: 13px;
+    padding-bottom: 5px;
 }

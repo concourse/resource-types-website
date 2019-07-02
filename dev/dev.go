@@ -97,9 +97,10 @@ func main() {
   verified: Yes
 - repository: https://github.com/pivotal-cf/bosh-resource
   name: bosh resource
-  desc: a resource for all the bosh
+  desc: A Concourse resource for working with versions of a BOSH release. Specifically focused on support for non-bosh.io releases, private release repositories, version constraints, dev releases, and finalize-release tasks.
   get: yes
   verified: No
+  categories: [Release Engineering]
 `)
 
 	log.Println("starting mock server")
