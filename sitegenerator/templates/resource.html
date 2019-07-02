@@ -15,21 +15,26 @@
         <a href="{{.AuthorProfileLink}}" target="_blank" class="author item">{{.AuthorHandle}}</a>
     </section>
     <section class="middle-area">
-        <img class="github-last-commit"
-             alt="GitHub last commit"
-             src="https://img.shields.io/github/last-commit/{{.AuthorHandle}}/{{.Repo}}.svg?labelColor=757474&color=C4C4C4&style=flat-square">
-        <div class="description">
-            <h3>Description</h3>
-            <p class="desc">{{.Description}}</p>
+        <div class="row">
+            <img class="github-last-commit"
+                 alt="GitHub last commit"
+                 src="https://img.shields.io/github/last-commit/{{.AuthorHandle}}/{{.Repo}}.svg?labelColor=757474&color=C4C4C4&style=flat-square">
+            {{template "github-stars" .}}
         </div>
-        {{if .Example | ne ""}}
-            <div class="example">
-                <h3>Example</h3>
-                <div class="example-content">
-                    <pre><code>{{.Example}}</code></pre>
-                </div>
+        <div class="row">
+            <div class="description">
+                <h3>Description</h3>
+                <p class="desc">{{.Description}}</p>
             </div>
-        {{end}}
+            {{if .Example | ne ""}}
+                <div class="example">
+                    <h3>Example</h3>
+                    <div class="example-content">
+                        <pre><code>{{.Example}}</code></pre>
+                    </div>
+                </div>
+            {{end}}
+        </div>
     </section>
     <section id="github-readme">
         <h3>Read Me</h3>

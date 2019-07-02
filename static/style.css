@@ -144,7 +144,16 @@ section:nth-last-of-type(1) {
     border-bottom: none;
 }
 
-.middle-area > div {
+.middle-area {
+    padding-right: 15px;
+}
+
+.middle-area .row {
+    clear: both;
+}
+
+.middle-area .description,
+.middle-area .example{
     float: left;
     width: 50%;
 }
@@ -173,13 +182,22 @@ section:nth-last-of-type(1) {
     border-left: solid 1px #cdcdcd;
 }
 
-.top-area .author {
-
-}
-
-.github-last-commit {
+.middle-area .github-last-commit,
+.middle-area .github-stars {
     display: block;
     padding: 10px 0 10px 0;
+}
+
+.middle-area .github-last-commit {
+    float: left;
+}
+
+.middle-area .github-stars {
+    float: right;
+}
+
+#github-readme h3 {
+    font-size: 18px;
 }
 
 #github-readme,
@@ -275,7 +293,7 @@ section:nth-last-of-type(1) {
     bottom: 13px;
 }
 
-.github-stars {
+.tile .github-stars {
     position: absolute;
     left: 55px;
     bottom: 10px;
@@ -285,7 +303,7 @@ section:nth-last-of-type(1) {
     font-weight: bold;
 }
 
-ul.categories {
+.categories {
     list-style: none;
     padding-top:100px;
     padding-left: 0px;
@@ -303,7 +321,7 @@ ul.categories {
     border-top: 1px solid #EBEBEB;
 }
 
-.index-page .last-version {
+.tile .last-version {
     padding-bottom: 10px;
     font-size: 12px;
     height: 23px;
