@@ -7,6 +7,7 @@
     - Version Control
     - Trigger
   verified: Yes
+  version: v1.5.0
 - name: 'hg resource'
   repository: https://github.com/concourse/hg-resource
   desc: Tracks the commits in a Mercurial repository.
@@ -16,6 +17,7 @@
     - Version Control
     - Trigger
   verified: Yes
+  version: v1.0.2
 - name: 'time resource'
   repository: https://github.com/concourse/time-resource
   desc: Implements a resource that reports new versions on a configured interval. The interval can be arbitrarily long.
@@ -24,6 +26,7 @@
   categories:
     - Trigger
   verified: Yes
+  version: v1.2.1
   example: |-
     resources:
     - name: 5m
@@ -45,6 +48,7 @@
   categories:
     - Storage
   verified: Yes
+  version: v1.0.2
 - name: 'semver resource'
   repository: https://github.com/concourse/semver-resource
   desc: A resource for managing a version number. Persists the version number in one of several backing stores.
@@ -64,6 +68,7 @@
     - Release Engineering
     - Storage
   verified: Yes
+  version: v1.1.1
 - name: 'registry-image resource'
   repository: https://github.com/concourse/registry-image-resource
   desc: Supports checking, fetching, and pushing of images to Docker registries.
@@ -72,6 +77,7 @@
   categories:
     - Storage
   verified: Yes
+  version: v0.6.1
 - name: 'docker-image resource'
   repository: https://github.com/concourse/docker-image-resource
   desc: Tracks and builds Docker images.
@@ -82,6 +88,7 @@
     - Trigger
     - Release Engineering
   verified: Yes
+  version: v1.3.1
 - name: 'pool resource'
   repository: https://github.com/concourse/pool-resource
   desc: A pool of locks (modeling semaphores). Allows you to lock environments, pipeline flow, or other entities which have to be interacted with in a serial manner.
@@ -90,6 +97,7 @@
   categories:
     - Integration
   verified: Yes
+  version: v1.0.2
   example: |-
     resources:
       - name: aws-environments
@@ -129,6 +137,7 @@
   categories:
     - Deployment
   verified: Yes
+  version: v1.1.0
 - name: 'bosh-io-release resource'
   repository: https://github.com/concourse/bosh-io-release-resource
   desc: Tracks the versions of a release on bosh.io.
@@ -425,16 +434,21 @@
   put: yes
 - name: Telegram
   repository: https://github.com/w32blaster/telegram-notification-resource
+  desc: Sends Telegram message with build info for ConcourseCI.
   get: no
   put: yes
+  verified: Yes
 - name: Telegram
   repository: https://github.com/carlo-colombo/telegram-resource
+  desc: Sends Telegram message with build info for ConcourseCI.
   get: yes
   put: yes
 - name: Telegram
   repository: https://github.com/Cuttlerat/concourse-telegram-resource
-  get: yes
-  put: yes
+  desc: Sends Telegram message with build info for ConcourseCI.
+  get: no
+  put: no
+  version: 1.5.0
 - name: Google Cloud Storage
   repository: https://github.com/frodenas/gcs-resource
   get: yes
