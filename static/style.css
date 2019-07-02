@@ -1,6 +1,6 @@
 @import "modern-normalize.min.css";
 
-* {
+*:not(pre span) {
     font-family: 'Roboto', sans-serif;
 }
 
@@ -158,10 +158,6 @@ section:nth-last-of-type(1) {
     width: 50%;
 }
 
-.middle-area .desc {
-    font-size: 12px;
-}
-
 .middle-area .example {
     position: relative;
 }
@@ -196,12 +192,7 @@ section:nth-last-of-type(1) {
     float: right;
 }
 
-#github-readme h3 {
-    font-size: 18px;
-}
-
-#github-readme,
-.example-content {
+#github-readme {
     font-size: 12px;
     line-height: 14px;
 }
@@ -325,4 +316,8 @@ section:nth-last-of-type(1) {
     padding-bottom: 10px;
     font-size: 12px;
     height: 23px;
+}
+
+.detail-page h3 {
+    font-size: 20px;
 }
