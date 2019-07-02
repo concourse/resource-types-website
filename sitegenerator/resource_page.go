@@ -6,12 +6,13 @@ import (
 )
 
 type ResourcePage struct {
+	PageName string
 	ResourceModel
 	Path []string
 }
 
 func NewResourcePage(resourceModel ResourceModel) ResourcePage {
-	return ResourcePage{resourceModel, append(IndexPagePath, resourceModel.Name)}
+	return ResourcePage{"detail-page",resourceModel, append(IndexPagePath, resourceModel.Name)}
 }
 
 func (rp *ResourcePage) Generate(w io.Writer) error {

@@ -63,6 +63,8 @@ var _ = Describe("IndexPage", func() {
 
 		Expect(err).ToNot(HaveOccurred())
 
+		Expect(doc).To(ContainSelector(".container.index-page"))
+
 		Expect(doc).To(
 			SatisfyAll(
 				ContainSelectorWithText(".breadcrumb span:last-child", Equal("All Resources")),

@@ -6,6 +6,7 @@ import (
 )
 
 type IndexPage struct {
+	PageName string
 	ResourceModels []ResourceModel
 	Path           []string
 	CategoryList   []Category
@@ -19,7 +20,7 @@ type Category struct {
 var IndexPagePath = []string{"All Resources"}
 
 func NewIndexPage(resourceModels []ResourceModel) IndexPage {
-	return IndexPage{resourceModels, IndexPagePath, createCategoryList(resourceModels)}
+	return IndexPage{"index-page", resourceModels, IndexPagePath, createCategoryList(resourceModels)}
 }
 
 func (i *IndexPage) Generate(w io.Writer) error {

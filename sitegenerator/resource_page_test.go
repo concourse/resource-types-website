@@ -36,6 +36,8 @@ var _ = Describe("ResourcePage", func() {
 
 		Expect(err).ToNot(HaveOccurred())
 
+		Expect(doc).To(ContainSelector(".container.detail-page"))
+
 		Expect(doc).To(
 			SatisfyAll(
 				ContainSelectorWithText("h2", Equal("git resource")),
