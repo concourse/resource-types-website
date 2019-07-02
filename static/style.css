@@ -299,3 +299,7 @@ ul.categories {
     padding-left: 13px;
     padding-bottom: 5px;
 }
+
+.detail-page .last-version {
+    padding-top: 3px;
+}
