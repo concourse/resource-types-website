@@ -24,6 +24,7 @@ categories: [Category1, Category3]
 get: 
 put: yes
 verified: Yes
+version: v1.5.0
 example: |-
   ---
   jobs:
@@ -54,6 +55,7 @@ example: |-
 			"Get":         Equal(false),
 			"Put":         Equal(true),
 			"Verified":    Equal(true),
+			"Version":     Equal("v1.5.0"),
 			"Example": Equal(`---
 jobs:
 - name: alert
@@ -83,7 +85,6 @@ resources:
 
 		Expect(err).To(HaveOccurred())
 		Expect(err.Error()).To(ContainSubstring(fmt.Sprintf("invalid repository for the resource (%s)", "time resource")))
-
 	})
 
 	It("calculates the additional fields", func() {

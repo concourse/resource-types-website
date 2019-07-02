@@ -65,6 +65,7 @@ func main() {
   get: yes
   put: yes
   verified: Yes
+  version: v1.5.0
   example: |-
     ---
     jobs:
@@ -84,22 +85,24 @@ func main() {
         username: admin
         password: admin
         deployment: cf-prod
+- repository: https://github.com/pivotal-cf/bosh-resource
+  name: bosh resource
+  desc: a resource for all the bosh
+  get: yes
+  verified: No
 - repository: https://github.com/concourse/hg-resource
   name: hg resource
   desc: 
   get: 
   put: false
   verified: Yes
+  version: v1.0.2
 - repository: https://github.com/concourse/foo-resource
   name: foo resource
   categories: [Notifications, cat5, cat42, Deployment]
   put: yes
   verified: Yes
-- repository: https://github.com/pivotal-cf/bosh-resource
-  name: bosh resource
-  desc: a resource for all the bosh
-  get: yes
-  verified: No
+
 `)
 
 	log.Println("starting mock server")

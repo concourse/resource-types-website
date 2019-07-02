@@ -21,6 +21,7 @@ var _ = Describe("IndexPage", func() {
 					Get:        true,
 					Put:        true,
 					Verified:   true,
+					Version:    "v1.5.0",
 				},
 				Identifier:        "concourse-git-resource",
 				AuthorHandle:      "concourse",
@@ -34,6 +35,7 @@ var _ = Describe("IndexPage", func() {
 					Get:        false,
 					Put:        false,
 					Verified:   true,
+					Version:    "v1.0.2",
 				},
 				Identifier:        "concourse-hg-resource",
 				AuthorHandle:      "concourse",
@@ -46,6 +48,7 @@ var _ = Describe("IndexPage", func() {
 					Categories: []string{"Category2", "Category3", "Category4"},
 					Get:        true,
 					Verified:   false,
+					Version:    "",
 				},
 				Identifier:        "pivotal-bosh-resource",
 				AuthorHandle:      "bosh",
@@ -105,6 +108,14 @@ var _ = Describe("IndexPage", func() {
 			SatisfyAll(
 				ContainSelectorWithText("#concourse-git-resource .verified", Equal("Verified")),
 				Not(ContainSelector("#pivotal-bosh-resource .verified"))))
+
+		By("adding latest version to the tiles")
+		Expect(doc).To(
+			SatisfyAll(
+				ContainSelectorWithText("#concourse-git-resource .last-version", Equal("v1.5.0")),
+				ContainSelectorWithText("#concourse-hg-resource .last-version", Equal("v1.0.2")),
+				ContainSelectorWithText("#pivotal-bosh-resource .last-version", Equal("")),
+			))
 
 	})
 

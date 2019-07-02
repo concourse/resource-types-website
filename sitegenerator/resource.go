@@ -19,6 +19,7 @@ type Resource struct {
 	Put         bool     `yaml:"put"`
 	Verified    bool     `yaml:"verified"`
 	Example     string   `yaml:"example"`
+	Version     string   `yaml:"version"`
 }
 
 type ResourceModel struct {
