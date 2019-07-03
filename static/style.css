@@ -262,11 +262,6 @@ section:nth-last-of-type(1) {
     padding-top: 2px;
 }
 
-.get-tag, .put-tag {
-    width: 25px;
-    height: 14px;
-}
-
 .get, .put {
     display: inline;
     font-size: 9px;
@@ -278,10 +273,14 @@ section:nth-last-of-type(1) {
     margin-right: 5px;
 }
 
-.tags {
+.tile .tags {
     position: absolute;
     right: 10px;
     bottom: 13px;
+}
+
+.detail-page .tags {
+    margin-top: 25px;
 }
 
 .tile .github-stars {
