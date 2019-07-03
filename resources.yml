@@ -59,6 +59,7 @@
     - Trigger
     - Release Engineering
   verified: Yes
+  version: v1.0.2
 - name: 'github-release resource'
   repository: https://github.com/concourse/github-release-resource
   desc: Fetches and creates versioned GitHub resources.
@@ -443,11 +444,19 @@
   desc: Sends Telegram message with build info for ConcourseCI.
   get: yes
   put: yes
+  example: |-
+    resources:
+    - name: start
+    type: telegram 
+    source:
+    filter: '/start'
+    flags: i
+    telegram_key: {{telegram_bot_token}}
 - name: Telegram
   repository: https://github.com/Cuttlerat/concourse-telegram-resource
   desc: Sends Telegram message with build info for ConcourseCI.
-  get: no
-  put: no
+  get: yes
+  put: yes
   version: 1.5.0
 - name: Google Cloud Storage
   repository: https://github.com/frodenas/gcs-resource
