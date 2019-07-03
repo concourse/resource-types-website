@@ -24,7 +24,17 @@
         <div class="row">
             <div class="description">
                 <h3>Description</h3>
-                <p class="desc">{{.Description}}</p>
+                <div class="desc">
+                    {{.Description}}
+                </div>
+                <div class="tags">
+                    {{if .Get}}
+                        <span class="get">GET</span>
+                    {{end}}
+                    {{if .Put}}
+                        <span class="put">PUT</span>
+                    {{end}}
+                </div>
             </div>
             {{if .Example | ne ""}}
                 <div class="example">
