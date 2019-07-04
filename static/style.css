@@ -280,7 +280,7 @@ section:nth-last-of-type(1) {
 }
 
 .detail-page .tags {
-    margin-top: 25px;
+    margin: 25px 0 10px;
 }
 
 .tile .github-stars {
