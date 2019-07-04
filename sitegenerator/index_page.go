@@ -3,17 +3,18 @@ package sitegenerator
 import (
 	"fmt"
 	"io"
+	"log"
 )
 
 type IndexPage struct {
-	PageName string
+	PageName       string
 	ResourceModels []ResourceModel
 	Path           []string
 	CategoryList   []Category
 }
 
 type Category struct {
-	CategoryName string
+	CategoryName  string
 	CategoryCount int
 }
 
@@ -28,6 +29,7 @@ func (i *IndexPage) Generate(w io.Writer) error {
 	if err != nil {
 		return fmt.Errorf("cannot write index.html: %s", err)
 	}
+	log.Print("Index page generated")
 	return nil
 }
 

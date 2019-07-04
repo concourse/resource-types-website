@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 	"os"
 	"path"
@@ -85,6 +86,7 @@ func main() {
 
 	copy.Copy("static", path.Join(outputDir, "static"))
 
+	log.Print("Duty Free generation completed!")
 	os.Exit(0)
 }
 

@@ -3,6 +3,7 @@ package sitegenerator
 import (
 	"fmt"
 	"io"
+	"log"
 )
 
 type ResourcePage struct {
@@ -12,7 +13,7 @@ type ResourcePage struct {
 }
 
 func NewResourcePage(resourceModel ResourceModel) ResourcePage {
-	return ResourcePage{"detail-page",resourceModel, append(IndexPagePath, resourceModel.Name)}
+	return ResourcePage{"detail-page", resourceModel, append(IndexPagePath, resourceModel.Name)}
 }
 
 func (rp *ResourcePage) Generate(w io.Writer) error {
@@ -21,5 +22,6 @@ func (rp *ResourcePage) Generate(w io.Writer) error {
 	if err != nil {
 		return fmt.Errorf("cannot write resource %s: %s", rp.Repository, err)
 	}
+	log.Printf("Page %s generated", rp.Identifier)
 	return nil
 }
