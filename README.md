@@ -9,6 +9,7 @@ Duty Free is a website for showcasing re-usable components of Concourse. With Du
   - ssh key (as `ci.private`) for pushing to the `gh-pages` branch
   - Github token (as `github_token`) to retrieve the readme of the resources from Github 
   - slack hook, to notify about a new push deployment of the website
+- The website is rebuilt every day (9 am UTC) to refresh the content of readme of the resources
 
 ## Run a development server
 
