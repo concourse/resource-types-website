@@ -5,6 +5,7 @@
   put: yes
   categories:
     - Version Control
+    - Trigger
   verified: Yes
   version: v1.5.0
 - name: 'hg resource'
@@ -14,6 +15,7 @@
   put: yes
   categories:
     - Version Control
+    - Trigger
   verified: Yes
   version: v1.0.2
 - name: 'time resource'
@@ -21,6 +23,8 @@
   desc: Implements a resource that reports new versions on a configured interval. The interval can be arbitrarily long.
   get: yes
   put: yes
+  categories:
+    - Trigger
   verified: Yes
   version: v1.2.1
   example: |-
@@ -52,6 +56,7 @@
   put: yes
   categories:
     - Version Control
+    - Trigger
     - Release Engineering
   verified: Yes
   version: v1.0.2
@@ -81,6 +86,7 @@
   put: yes
   categories:
     - Deployment
+    - Trigger
     - Release Engineering
   verified: Yes
   version: v1.3.1
@@ -89,6 +95,8 @@
   desc: A pool of locks (modeling semaphores). Allows you to lock environments, pipeline flow, or other entities which have to be interacted with in a serial manner.
   get: yes
   put: yes
+  categories:
+    - Integration
   verified: Yes
   version: v1.0.2
   example: |-
@@ -239,11 +247,13 @@
         deployment: cf-prod
 - name: 'BOSH Config: cloud-config and runtime-config'
   repository: https://github.com/EMC-Dojo/bosh-config-resource
+  desc: An output only resource (at the moment) that will set runtime-config and cloud-config on a bosh director.
   get: no
   put: yes
 - name: BOSH Release
   repository: https://github.com/dpb587/bosh-release-resource
-  desc: A Concourse resource for working with versions of a BOSH release. 
+  desc: A Concourse resource for working with versions of a BOSH release. Specifically focused on support for non-bosh.io releases, private release repositories, version constraints, dev releases, and finalize-release tasks.
+  get: yes
   put: yes
 - name: Pool Trigger
   repository: https://github.com/cfmobile/pool-trigger-resource
