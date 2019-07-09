@@ -21,7 +21,12 @@ type Category struct {
 var IndexPagePath = []string{"All Resources"}
 
 func NewIndexPage(resourceModels []ResourceModel) IndexPage {
-	return IndexPage{"index-page", resourceModels, IndexPagePath, createCategoryList(resourceModels)}
+	return IndexPage{
+		"index-page",
+		resourceModels,
+		IndexPagePath,
+		createCategoryList(resourceModels),
+	}
 }
 
 func (i *IndexPage) Generate(w io.Writer) error {
@@ -34,13 +39,17 @@ func (i *IndexPage) Generate(w io.Writer) error {
 }
 
 func createCategoryList(resources []ResourceModel) []Category {
-	var categoryList []string
+	var (
+		categoryList        []string
+		uniqueCategoryList  []Category
+		uniqueCategoryNames []string
+	)
+
 	for _, resource := range resources {
 		categoryList = append(categoryList, resource.Categories...)
 	}
 
 	foundCategories := make(map[string]int)
-	var uniqueCategoryList []Category
 
 	for _, category := range categoryList {
 		_, found := foundCategories[category]
@@ -49,11 +58,12 @@ func createCategoryList(resources []ResourceModel) []Category {
 			foundCategories[category] = foundCategories[category] + 1
 		} else {
 			foundCategories[category] = 1
+			uniqueCategoryNames = append(uniqueCategoryNames, category)
 		}
 	}
 
-	for categoryName, categoryCount := range foundCategories {
-		uniqueCategoryList = append(uniqueCategoryList, Category{categoryName, categoryCount})
+	for _, categoryName := range uniqueCategoryNames {
+		uniqueCategoryList = append(uniqueCategoryList, Category{categoryName, foundCategories[categoryName]})
 	}
 
 	return uniqueCategoryList
