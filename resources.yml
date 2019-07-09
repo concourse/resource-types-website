@@ -434,7 +434,6 @@
   desc: Sends Telegram message with build info for ConcourseCI.
   get: yes
   put: yes
-  version: v2.5.0
   example: |-
     resources:
     - name: start
@@ -448,7 +447,7 @@
   desc: Sends Telegram message with build info for ConcourseCI.
   get: yes
   put: yes
-  version: v1.5.0
+  version: 1.5.0
 - name: Google Cloud Storage
   repository: https://github.com/frodenas/gcs-resource
   get: yes
