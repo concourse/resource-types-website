@@ -631,3 +631,5 @@
   repository: https://github.com/brightzheng100/semver-config-concourse-resource
 - name: Deploygate Resource
   repository: https://github.com/YuukiARIA/concourse-deploygate-resource
+- name: Romver Resource
+  repository: https://github.com/cappyzawa/romver-resource
