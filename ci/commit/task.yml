@@ -38,7 +38,7 @@ run:
               "type": "section",
               "text": {
                 "type": "mrkdwn",
-                "text": "<!subteam^SJBELM1GS|duty-free-team> New version available at https://concourse.github.io/dutyfree"
+                "text": "New version available at https://concourse.github.io/dutyfree"
               }
             }
           ]}' "${SLACK_HOOK}"
