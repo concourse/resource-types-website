@@ -557,8 +557,6 @@
   repository: https://github.com/elgohr/concourse-blackduck
 - name: Metadata resource
   repository: https://github.com/swce/metadata-resource
-- name: Spinnaker Resource
-  repository: https://github.com/pivotal-cf/spinnaker-resource
 - name: New Relic Deploy Resource
   repository: https://github.com/crstamps2/newrelic-deploy-resource
 - name: Artifactory Resource
