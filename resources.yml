@@ -4,7 +4,7 @@
   get: yes
   put: yes
   categories:
-    - Version Control
+    - Version Control Is Awesome
     - Trigger
   verified: Yes
   version: v1.5.0
