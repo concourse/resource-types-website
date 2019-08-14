@@ -631,3 +631,7 @@
   repository: https://github.com/YuukiARIA/concourse-deploygate-resource
 - name: Romver Resource
   repository: https://github.com/cappyzawa/romver-resource
+- name: PCF Ops Manager Installations Resource
+  repository: https://github.com/pjk25/concourse-opsman-installations-resource
+  desc: "Emits a new version when an \"Apply Changes\" completes. Optionally fetch the installation logs."
+  get: yes
