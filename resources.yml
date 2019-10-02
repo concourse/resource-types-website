@@ -635,3 +635,13 @@
   repository: https://github.com/pjk25/concourse-opsman-installations-resource
   desc: "Emits a new version when an \"Apply Changes\" completes. Optionally fetch the installation logs."
   get: yes
+- name: 'consuyl-kv resource'
+  repository: https://github.com/mdb/concourse-consul-kv-resource
+  desc: Gets and sets values to and from Consul's KV store
+  get: yes
+  put: yes
+  categories:
+    - Deployment
+    - Storage
+    - Configuration Management
+    - Release Engineering
