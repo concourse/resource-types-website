@@ -635,3 +635,10 @@
   repository: https://github.com/pjk25/concourse-opsman-installations-resource
   desc: "Emits a new version when an \"Apply Changes\" completes. Optionally fetch the installation logs."
   get: yes
+- name: Grafana Annotation Resource
+  repository: https://github.com/alphagov/paas-grafana-annotation-resource
+  desc: "Creates or updates a Grafana annotation"
+  put: yes
+  categories:
+    - Notification
+    - Deployment
