@@ -1,27 +1,19 @@
-module Main exposing (view)
+module Main exposing (main, view)
 
-import Html exposing (..)
-import Html.Attributes exposing (..)
+import Banner.View as Banner exposing (view)
+import Html exposing (Html, div)
+import Html.Attributes exposing (class, style)
 
-
+main : Html msg
 main =
-    view model
+    div [] [ view ]
 
 
-model =
-    {}
-
-
-view : {} -> Html msg
-view viewModel =
-    div []
-        [ div
-            [ class "banner-title"
-            , style "height" "176px"
-            , style "text-align" "center"
-            ]
-            [ Html.text "Concourse Resources" ]
-        , div
-            [ class "banner-body" ]
-            [ Html.text "" ]
+view : Html msg
+view =
+    div
+        [ class "wrapper"
+        , style "margin" "0 auto"
+        ]
+        [ Banner.view
         ]

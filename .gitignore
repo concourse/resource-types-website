@@ -8,3 +8,9 @@ web/elm-stuff/
 web/repl-temp-*
 web/elm.js
 web/index.html
+# elm make
+web/public/elm.js
+
+# yarn
+yarn.lock
+node_modules/
