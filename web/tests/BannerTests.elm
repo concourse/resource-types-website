@@ -16,6 +16,7 @@ suite =
                         [ class "banner-container"
                         , style "height" "176px"
                         , style "background-color" "#2A3239"
+                        , style "font-family" "Roboto Slab"
                         ]
         , describe "banner title"
             [ test "has the text Concourse Resources" <|
@@ -27,11 +28,6 @@ suite =
                     bannerTitle
                         |> Query.has
                             [ style "font-size" "24px" ]
-            , test "has a specific font" <|
-                \_ ->
-                    bannerTitle
-                        |> Query.has
-                            [ style "font-family" "Roboto Slab" ]
             , test "has a white font color" <|
                 \_ ->
                     bannerTitle

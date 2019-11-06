@@ -6,9 +6,7 @@ import Html.Attributes exposing (class, href, rel, style)
 
 
 main =
-    div []
-        [ view
-        ]
+    div [] [ view ]
 
 
 view : Html msg
@@ -17,9 +15,7 @@ view =
         [ class "wrapper"
         , style "width" "1024px"
         , style "margin" "0 auto"
+        , style "font-face" "Roboto Slab"
         ]
-        [ node "link"
-            [ href "https://fonts.googleapis.com/css?family=Jura", rel "stylesheet" ]
-            []
-        , Banner.view
+        [ Banner.view
         ]
