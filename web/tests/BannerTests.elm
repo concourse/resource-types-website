@@ -17,6 +17,8 @@ suite =
                         , style "height" "176px"
                         , style "background-color" "#2A3239"
                         , style "font-family" "Roboto Slab"
+                        , style "background-image" "url(banner-background.png)"
+                        , style "background-size" "1024px"
                         ]
         , describe "banner title"
             [ test "has the text Concourse Resources" <|

@@ -12,6 +12,8 @@ container =
     , style "display" "grid"
     , style "background-color" "#2A3239"
     , style "font-family" "Roboto Slab"
+    , style "background-image" "url(banner-background.png)"
+    , style "background-size" "1024px"
     ]
 
 
