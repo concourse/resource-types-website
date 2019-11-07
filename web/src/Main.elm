@@ -14,7 +14,6 @@ view =
     div
         [ class "wrapper"
         , style "margin" "0 auto"
-        , style "font-face" "Roboto Slab"
         ]
         [ Banner.view
         ]

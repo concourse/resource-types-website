@@ -18,7 +18,7 @@ suite =
                         , style "background-color" "#2A3239"
                         , style "font-family" "Roboto Slab"
                         , style "background-image" "url(banner-background.png)"
-                        , style "background-size" "1024px"
+                        , style "background-size" "100%"
                         ]
         , describe "banner title"
             [ test "has the text Concourse Resources" <|
@@ -77,11 +77,11 @@ suite =
                             , style "justify-content" "center"
                             , style "text-align" "center"
                             ]
-            , test "has a set width" <|
+            , test "has a set width that also handles small screens" <|
                 \_ ->
                     bannerBody
                         |> Query.has
-                            [ style "grid-template-columns" "400px" ]
+                            [ style "grid-template-columns" "minmax(auto, 400px)" ]
             , test "has a line height" <|
                 \_ ->
                     bannerBody

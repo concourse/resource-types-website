@@ -12,7 +12,7 @@ container =
     , style "display" "grid"
     , style "background-color" "#2A3239"
     , style "background-image" "url(banner-background.png)"
-    , style "background-size" "1024px"
+    , style "background-size" "100%"
     ]
 
 
@@ -32,7 +32,7 @@ body =
     , style "justify-content" "center"
     , style "font-family" "Barlow"
     , style "color" "#FFFFFF"
-    , style "grid-template-columns" "400px"
+    , style "grid-template-columns" "minmax(auto, 400px)"
     , style "text-align" "center"
     , style "line-height" "24px"
     ]
