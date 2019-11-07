@@ -1,4 +1,14 @@
 resources:
+- name: ci
+  type: git
+  icon: store-24-hour
+  source:
+    uri: git@github.com:concourse/dutyfree.git
+    branch: master
+    paths:
+    - ci/
+    private_key: ((ci.private))
+
 - name: git-dutyfree
   type: git
   icon: store-24-hour
@@ -6,6 +16,15 @@ resources:
     uri: git@github.com:concourse/dutyfree.git
     branch: master
     private_key: ((ci.private))
+
+- name: git-dutyfree-new
+  type: git
+  icon: store-24-hour
+  source:
+    uri: git@github.com:concourse/dutyfree.git
+    branch: develop
+    private_key: ((ci.private))
+
 - name: git-dutyfree-gh-pages
   type: git
   icon: shopping
@@ -13,6 +32,7 @@ resources:
     uri: git@github.com:concourse/dutyfree.git
     branch: gh-pages
     private_key: ((ci.private))
+
 - name: every-day
   type: time
   source:
@@ -22,27 +42,43 @@ resources:
 jobs:
 - name: run-tests
   plan:
+  - get: ci
   - get: git-dutyfree
     trigger: true
   - task: run-tests
-    file: git-dutyfree/ci/run-test/task.yml
+    file: ci/tasks/test.yml
+
+- name: run-elm-tests
+  plan:
+  - get: ci
+  - get: git-dutyfree-new
+    trigger: true
+  - task: run-elm-tests
+    file: ci/tasks/elm-test.yml
 
 - name: build
   plan:
+    - get: ci
     - get: git-dutyfree
       trigger: true
-      passed: [run-tests]
+      passed:
+      - run-tests
+    - get: git-dutyfree-new
+      trigger: true
+      passed:
+      - run-elm-tests
     - get: every-day
       trigger: true
     - get: git-dutyfree-gh-pages
     - task: generate-html
-      file: git-dutyfree/ci/generate-html/task.yml
+      file: ci/generate-html.yml
       params:
         GITHUB_TOKEN: ((github_token))
     - task: commit
-      file: git-dutyfree/ci/commit/task.yml
+      file: ci/commit.yml
       params:
         SLACK_HOOK: ((slack-hook))
     - put: git-dutyfree-gh-pages
       params:
         repository: git-dutyfree-gh-pages-output
+
