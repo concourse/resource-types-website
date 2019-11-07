@@ -34,4 +34,5 @@ body =
     , style "color" "#FFFFFF"
     , style "grid-template-columns" "400px"
     , style "text-align" "center"
+    , style "line-height" "24px"
     ]

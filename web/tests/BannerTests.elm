@@ -23,7 +23,7 @@ suite =
         , describe "banner title"
             [ test "has the text Concourse Resources" <|
                 \_ ->
-                    bannerView
+                    bannerTitle
                         |> Query.has [ text "Concourse Resources" ]
             , test "has a larger font size" <|
                 \_ ->
@@ -82,6 +82,11 @@ suite =
                     bannerBody
                         |> Query.has
                             [ style "grid-template-columns" "400px" ]
+            , test "has a line height" <|
+                \_ ->
+                    bannerBody
+                        |> Query.has
+                            [ style "line-height" "24px" ]
             ]
         ]
 
