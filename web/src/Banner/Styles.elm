@@ -11,7 +11,6 @@ container =
     [ style "height" "176px"
     , style "display" "grid"
     , style "background-color" "#2A3239"
-    , style "font-family" "Roboto Slab"
     , style "background-image" "url(banner-background.png)"
     , style "background-size" "1024px"
     ]
@@ -22,13 +21,17 @@ title =
     , style "display" "grid"
     , style "align-items" "center"
     , style "justify-content" "center"
+    , style "font-family" "Roboto Slab"
     , style "color" "#FFFFFF"
+    , style "line-height" "32px"
     ]
 
 
 body =
     [ style "display" "grid"
-    , style "align-items" "center"
     , style "justify-content" "center"
+    , style "font-family" "Barlow"
     , style "color" "#FFFFFF"
+    , style "grid-template-columns" "400px"
+    , style "text-align" "center"
     ]

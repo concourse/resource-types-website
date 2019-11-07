@@ -1,6 +1,6 @@
 module BannerTests exposing (..)
 
-import Banner.Banner as Banner exposing (..)
+import Banner.View as Banner exposing (..)
 import Test exposing (Test, describe, test)
 import Test.Html.Query as Query
 import Test.Html.Selector exposing (class, style, tag, text)
@@ -35,6 +35,16 @@ suite =
                     bannerTitle
                         |> Query.has
                             [ style "color" "#FFFFFF" ]
+            , test "has Roboto Slab font" <|
+                \_ ->
+                    bannerTitle
+                        |> Query.has
+                            [ style "font-family" "Roboto Slab" ]
+            , test "has a line height" <|
+                \_ ->
+                    bannerTitle
+                        |> Query.has
+                            [ style "line-height" "32px" ]
             , test "center aligns" <|
                 \_ ->
                     bannerTitle
@@ -54,14 +64,24 @@ suite =
                     bannerBody
                         |> Query.has
                             [ style "color" "#FFFFFF" ]
+            , test "has a barlow font" <|
+                \_ ->
+                    bannerBody
+                        |> Query.has
+                            [ style "font-family" "Barlow" ]
             , test "center aligns" <|
                 \_ ->
                     bannerBody
                         |> Query.has
                             [ style "display" "grid"
-                            , style "align-items" "center"
                             , style "justify-content" "center"
+                            , style "text-align" "center"
                             ]
+            , test "has a set width" <|
+                \_ ->
+                    bannerBody
+                        |> Query.has
+                            [ style "grid-template-columns" "400px" ]
             ]
         ]
 
