@@ -1,6 +1,6 @@
 #!/bin/bash
 
-pushd dutyfree
+pushd dutyfree/web
   yarn install
   yarn test
 popd

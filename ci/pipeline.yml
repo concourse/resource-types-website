@@ -22,7 +22,7 @@ resources:
   icon: store-24-hour
   source:
     uri: git@github.com:concourse/dutyfree.git
-    branch: develop
+    branch: elm-bootstrap
     private_key: ((dutyfreeci.private))
 
 - name: git-dutyfree-gh-pages
