@@ -71,6 +71,9 @@ jobs:
     - get: every-day
       trigger: true
     - get: git-dutyfree-gh-pages
+    - task: build-elm
+      file: ci/tasks/elm-build.yml
+
     - task: generate-html
       file: ci/generate-html.yml
       params:

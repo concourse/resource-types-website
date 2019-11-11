@@ -1,0 +1,7 @@
+#!/bin/bash
+
+pushd dutyfree
+  yarn build
+popd
+
+cp -r dutyfree/web/public/* elmsite/

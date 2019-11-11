@@ -10,6 +10,7 @@ image_resource:
 inputs:
   - name: generated-html
   - name: git-dutyfree-gh-pages
+  - name: elmsite
 
 outputs:
   - name: git-dutyfree-gh-pages-output
@@ -22,6 +23,7 @@ run:
 
       cp -r git-dutyfree-gh-pages/. git-dutyfree-gh-pages-output
       cp -r generated-html/.        git-dutyfree-gh-pages-output
+      cp -r elmsite/.               git-dutyfree-gh-pages-output/elmsite
 
       cd git-dutyfree-gh-pages-output
 
