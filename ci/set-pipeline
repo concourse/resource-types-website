@@ -1,6 +1,6 @@
 #!/bin/bash
 
-fly -t concourse set-pipeline \
-    -c "pipeline.yml" \
+fly -t local set-pipeline \
+    -c "ci/pipeline.yml" \
     -p "dutyfree" \
-    --load-vars-from <(lpass show 'Shared-Duty Free/secrets' --notes)
+    --load-vars-from <(lpass show 'Shared-Concourse/dutyfreeci' --notes)

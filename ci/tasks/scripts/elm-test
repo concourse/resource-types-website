@@ -1,0 +1,6 @@
+#!/bin/bash
+
+pushd dutyfree
+  yarn install
+  yarn test
+popd

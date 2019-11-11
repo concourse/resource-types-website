@@ -9,7 +9,7 @@ image_resource:
 
 inputs:
   - name: ci
-  - name: git-dutyfree-new
+  - name: dutyfree
 
 run:
-  path: ci/tasks/scripts/test-elm
+  path: ci/tasks/scripts/elm-test

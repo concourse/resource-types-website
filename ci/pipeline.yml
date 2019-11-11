@@ -4,10 +4,10 @@ resources:
   icon: store-24-hour
   source:
     uri: git@github.com:concourse/dutyfree.git
-    branch: master
+    branch: pipeline
     paths:
     - ci/
-    private_key: ((ci.private))
+    private_key: ((dutyfreeci.private))
 
 - name: git-dutyfree
   type: git
@@ -15,7 +15,7 @@ resources:
   source:
     uri: git@github.com:concourse/dutyfree.git
     branch: master
-    private_key: ((ci.private))
+    private_key: ((dutyfreeci.private))
 
 - name: git-dutyfree-new
   type: git
@@ -23,7 +23,7 @@ resources:
   source:
     uri: git@github.com:concourse/dutyfree.git
     branch: develop
-    private_key: ((ci.private))
+    private_key: ((dutyfreeci.private))
 
 - name: git-dutyfree-gh-pages
   type: git
@@ -31,7 +31,7 @@ resources:
   source:
     uri: git@github.com:concourse/dutyfree.git
     branch: gh-pages
-    private_key: ((ci.private))
+    private_key: ((dutyfreeci.private))
 
 - name: every-day
   type: time
@@ -54,6 +54,7 @@ jobs:
   - get: git-dutyfree-new
     trigger: true
   - task: run-elm-tests
+    input_mapping: {dutyfree: git-dutyfree-new}
     file: ci/tasks/elm-test.yml
 
 - name: build
@@ -73,11 +74,11 @@ jobs:
     - task: generate-html
       file: ci/generate-html.yml
       params:
-        GITHUB_TOKEN: ((github_token))
+        GITHUB_TOKEN: ((dutyfreeci.github_token))
     - task: commit
       file: ci/commit.yml
       params:
-        SLACK_HOOK: ((slack-hook))
+        SLACK_HOOK: ((dutyfreeci.slack_hook))
     - put: git-dutyfree-gh-pages
       params:
         repository: git-dutyfree-gh-pages-output
