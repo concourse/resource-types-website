@@ -12,4 +12,4 @@ inputs:
   - name: dutyfree
 
 run:
-  path: ci/tasks/scripts/elm-test
+  path: ci/ci/tasks/scripts/elm-test

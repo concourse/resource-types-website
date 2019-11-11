@@ -55,7 +55,7 @@ jobs:
     trigger: true
   - task: run-elm-tests
     input_mapping: {dutyfree: git-dutyfree-new}
-    file: ci/tasks/elm-test.yml
+    file: ci/ci/tasks/elm-test.yml
 
 - name: build
   plan:
