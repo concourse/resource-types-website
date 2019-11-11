@@ -1,6 +1,9 @@
 #!/bin/bash
 
+set -e
+
 pushd dutyfree
+  yarn install
   yarn build
 popd
 

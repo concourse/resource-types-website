@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 pushd dutyfree/web
   yarn install
   yarn test

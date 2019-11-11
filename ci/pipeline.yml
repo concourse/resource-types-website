@@ -33,11 +33,11 @@ resources:
     branch: gh-pages
     private_key: ((dutyfreeci.private))
 
-- name: every-day
-  type: time
-  source:
-    start: 8:00 AM
-    stop: 9:00 AM
+# - name: every-day
+#   type: time
+#   source:
+#     start: 8:00 AM
+#     stop: 9:00 AM
 
 jobs:
 - name: run-tests
@@ -46,7 +46,7 @@ jobs:
   - get: git-dutyfree
     trigger: true
   - task: run-tests
-    file: ci/tasks/test.yml
+    file: ci/ci/tasks/test.yml
 
 - name: run-elm-tests
   plan:
@@ -68,18 +68,19 @@ jobs:
       trigger: true
       passed:
       - run-elm-tests
-    - get: every-day
-      trigger: true
+    # - get: every-day
+    #   trigger: true
     - get: git-dutyfree-gh-pages
     - task: build-elm
-      file: ci/tasks/elm-build.yml
+      input_mapping: {dutyfree: git-dutyfree-new}
+      file: ci/ci/tasks/elm-build.yml
 
     - task: generate-html
-      file: ci/generate-html.yml
+      file: ci/ci/tasks/generate-html.yml
       params:
         GITHUB_TOKEN: ((dutyfreeci.github_token))
     - task: commit
-      file: ci/commit.yml
+      file: ci/ci/tasks/commit.yml
       params:
         SLACK_HOOK: ((dutyfreeci.slack_hook))
     - put: git-dutyfree-gh-pages
