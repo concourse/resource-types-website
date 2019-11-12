@@ -1,2 +1,16 @@
 .DS_Store
 .idea/
+
+### Elm ###
+# elm-package generated files
+web/elm-stuff/
+# elm-repl generated files
+web/repl-temp-*
+web/elm.js
+web/index.html
+# elm make
+web/public/elm.js
+
+# yarn
+yarn.lock
+node_modules/
