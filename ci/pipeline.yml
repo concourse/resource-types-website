@@ -1,48 +1,87 @@
 resources:
+- name: ci
+  type: git
+  icon: store-24-hour
+  source:
+    uri: git@github.com:concourse/dutyfree.git
+    branch: develop
+    paths:
+    - ci/
+    private_key: ((dutyfreerepo.private_key))
+
 - name: git-dutyfree
   type: git
   icon: store-24-hour
   source:
     uri: git@github.com:concourse/dutyfree.git
     branch: master
-    private_key: ((ci.private))
+    ignore_paths:
+    - ci/
+    private_key: ((dutyfreerepo.private_key))
+
+- name: git-dutyfree-new
+  type: git
+  icon: store-24-hour
+  source:
+    uri: git@github.com:concourse/dutyfree.git
+    branch: develop
+    ignore_paths:
+    - ci/
+    private_key: ((dutyfreerepo.private_key))
+
 - name: git-dutyfree-gh-pages
   type: git
   icon: shopping
   source:
     uri: git@github.com:concourse/dutyfree.git
     branch: gh-pages
-    private_key: ((ci.private))
-- name: every-day
-  type: time
-  source:
-    start: 8:00 AM
-    stop: 9:00 AM
+    private_key: ((dutyfreerepo.private_key))
 
 jobs:
 - name: run-tests
   plan:
+  - get: ci
   - get: git-dutyfree
     trigger: true
   - task: run-tests
-    file: git-dutyfree/ci/run-test/task.yml
+    file: ci/ci/tasks/test.yml
+
+- name: run-elm-tests
+  plan:
+  - get: ci
+  - get: git-dutyfree-new
+    trigger: true
+  - task: run-elm-tests
+    input_mapping: {dutyfree: git-dutyfree-new}
+    file: ci/ci/tasks/elm-test.yml
 
 - name: build
   plan:
+    - get: ci
     - get: git-dutyfree
       trigger: true
-      passed: [run-tests]
-    - get: every-day
+      passed:
+      - run-tests
+    - get: git-dutyfree-new
       trigger: true
+      passed:
+      - run-elm-tests
+    # - get: every-day
+    #   trigger: true
     - get: git-dutyfree-gh-pages
+    - task: build-elm
+      input_mapping: {dutyfree: git-dutyfree-new}
+      file: ci/ci/tasks/elm-build.yml
+
     - task: generate-html
-      file: git-dutyfree/ci/generate-html/task.yml
+      file: ci/ci/tasks/generate-html.yml
       params:
-        GITHUB_TOKEN: ((github_token))
+        GITHUB_TOKEN: ((dutyfreerepo.github_token))
     - task: commit
-      file: git-dutyfree/ci/commit/task.yml
+      file: ci/ci/tasks/commit.yml
       params:
-        SLACK_HOOK: ((slack-hook))
+        SLACK_HOOK: ((slack_hook.value))
     - put: git-dutyfree-gh-pages
       params:
         repository: git-dutyfree-gh-pages-output
+
