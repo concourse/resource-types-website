@@ -80,7 +80,7 @@ jobs:
     - task: commit
       file: ci/ci/tasks/commit.yml
       params:
-        SLACK_HOOK: ((slack_hook.value))
+        SLACK_HOOK: ((slack_hook))
     - put: git-dutyfree-gh-pages
       params:
         repository: git-dutyfree-gh-pages-output
