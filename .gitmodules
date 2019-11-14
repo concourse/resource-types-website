@@ -1,0 +1,3 @@
+[submodule "resource-types"]
+	path = resource-types
+	url = https://github.com/concourse/resource-types
