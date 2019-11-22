@@ -1,3 +1,13 @@
+- name: 'Bishoy resource'
+  repository: https://github.com/concourse/git-resource
+  desc: Tracks the commits in a git repository.
+  get: yes
+  put: yes
+  categories:
+    - Version Control
+    - Trigger
+  verified: Yes
+  version: v1.5.0
 - name: 'git resource'
   repository: https://github.com/concourse/git-resource
   desc: Tracks the commits in a git repository.
