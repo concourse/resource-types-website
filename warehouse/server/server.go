@@ -22,16 +22,15 @@ func (s *Server) Start() {
 	r := mux.NewRouter()
 	r.HandleFunc("/info", InfoHandler)
 
-	staticHandler := staticServer{staticPath: "build", indexPath: "index.html"}
+	staticHandler := staticServer{staticPath: "../web/public", indexPath: "index.html"}
 	r.PathPrefix("/").Handler(staticHandler)
 
 	s.Exited = make(chan bool)
 
 	go func() {
 		srv := &http.Server{
-			Handler: router,
-			Addr:    "127.0.0.1:9090",
-			// Good practice: enforce timeouts for servers you create!
+			Handler:      r,
+			Addr:         "127.0.0.1:9090",
 			WriteTimeout: 15 * time.Second,
 			ReadTimeout:  15 * time.Second,
 		}
