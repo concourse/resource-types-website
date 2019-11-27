@@ -1,0 +1,4 @@
+name: test
+github_link: https://github.com/concourse/test
+description: |
+  This is a very long description

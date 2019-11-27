@@ -7,11 +7,11 @@ import (
 
 func main() {
 
-	s := server.Server {
+	s := server.Server{
 		Port: 9090,
 	}
 
 	s.Start()
 	fmt.Println("Dutyfree server started")
-	<- s.Exited
+	<-s.Exited
 }
