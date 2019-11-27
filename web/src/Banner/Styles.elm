@@ -1,42 +1,82 @@
 module Banner.Styles exposing
-    ( body
-    , container
-    , title
+    ( backgroundColor
+    , backgroundImage
+    , bannerHeight
+    , bodyColor
+    , bodyFont
+    , bodySize
+    , bodyWidth
+    , titleColor
+    , titleFont
+    , titleLineHeight
+    , titleSize
     )
 
-import Html
-import Html.Attributes exposing (style)
+import Common.Common as Common
 
 
-container : List (Html.Attribute msg)
-container =
-    [ style "height" "176px"
-    , style "display" "grid"
-    , style "background-color" "#2A3239"
-    , style "background-image" "url(banner-background.png)"
-    , style "background-size" "100%"
-    ]
+
+-- CONTAINER
 
 
-title : List (Html.Attribute msg)
-title =
-    [ style "font-size" "24px"
-    , style "display" "grid"
-    , style "align-items" "center"
-    , style "justify-content" "center"
-    , style "font-family" "Roboto Slab"
-    , style "color" "#FFFFFF"
-    , style "line-height" "32px"
-    ]
+bannerHeight : Int
+bannerHeight =
+    176
 
 
-body : List (Html.Attribute msg)
-body =
-    [ style "display" "grid"
-    , style "justify-content" "center"
-    , style "font-family" "Barlow"
-    , style "color" "#FFFFFF"
-    , style "grid-template-columns" "minmax(auto, 400px)"
-    , style "text-align" "center"
-    , style "line-height" "24px"
-    ]
+backgroundImage : String
+backgroundImage =
+    "banner-background.png"
+
+
+backgroundColor : Common.RGB
+backgroundColor =
+    Common.darkGrey
+
+
+
+-- TITLE
+
+
+titleFont : String
+titleFont =
+    "Roboto Slab"
+
+
+titleColor : Common.RGB
+titleColor =
+    Common.white
+
+
+titleSize : Int
+titleSize =
+    24
+
+
+titleLineHeight : Int
+titleLineHeight =
+    32
+
+
+
+-- BODY
+
+
+bodyFont : String
+bodyFont =
+    "Barlow"
+
+
+bodyColor : Common.RGB
+bodyColor =
+    Common.white
+
+
+bodySize : Int
+bodySize =
+    16
+
+
+bodyWidth : Int
+bodyWidth =
+    400
