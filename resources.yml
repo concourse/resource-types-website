@@ -635,3 +635,8 @@
   repository: https://github.com/pjk25/concourse-opsman-installations-resource
   desc: "Emits a new version when an \"Apply Changes\" completes. Optionally fetch the installation logs."
   get: yes
+- name: PCF Foundation Resource
+  repository: https://github.com/pjk25/concourse-pcf-foundation-resource
+  desc: "Models the deployed configuration of a PCF Foundation (Director and all Tiles), via OpsMan. Leverages the om cli to do so."
+  get: yes
+  put: yes
