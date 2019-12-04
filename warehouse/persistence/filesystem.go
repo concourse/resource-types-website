@@ -1,14 +1,13 @@
 package persistence
 
 import (
-	"fmt"
 	"github.com/concourse/dutyfree/resource"
-	"io/ioutil"
 	"gopkg.in/yaml.v2"
+	"io/ioutil"
 )
 
 type Filesystem struct {
-	Location string
+	Location  string
 	resources []resource.Resource
 }
 
@@ -29,7 +28,7 @@ func (fs *Filesystem) LoadResources() error {
 				return err
 			}
 			var currResource resource.Resource
-			err = yaml.Unmarshal(fileBytes, &currResource)
+			err = yaml.UnmarshalStrict(fileBytes, &currResource)
 			if err != nil {
 				return err
 			}

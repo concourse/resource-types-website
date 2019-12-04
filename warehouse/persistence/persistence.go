@@ -9,5 +9,3 @@ type persistence interface {
 	WriteResource(r resource.Resource) error
 	WriteBulkResources(r []resource.Resource) error
 }
-
-
