@@ -1,19 +1,30 @@
-module Main exposing (main, view)
+module Main exposing (banner, layout, main, resourceList)
 
 import Banner.View as Banner exposing (view)
-import Html exposing (Html, div)
-import Html.Attributes exposing (class, style)
+import Element exposing (Element, column, fill, width)
+import Html exposing (Html)
+import ResourceList.View as ResourceList exposing (view)
+
 
 main : Html msg
 main =
-    div [] [ view ]
+    Element.layout [] layout
 
 
-view : Html msg
-view =
-    div
-        [ class "wrapper"
-        , style "margin" "0 auto"
-        ]
-        [ Banner.view
+banner : Element msg
+banner =
+    Banner.view
+
+
+resourceList : Element msg
+resourceList =
+    ResourceList.view
+
+
+layout : Element msg
+layout =
+    column
+        [ width fill ]
+        [ banner
+        , resourceList
         ]
