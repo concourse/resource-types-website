@@ -22,6 +22,10 @@ suite =
                 \_ ->
                     resourceListContainer.spacing
                         |> Expect.equal Styles.spacing
+            , test "has an outside margin" <|
+                \_ ->
+                    resourceListContainer.outsideMargin
+                        |> Expect.equal Styles.outsideMargin
             ]
         ]
 

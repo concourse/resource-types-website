@@ -31,7 +31,7 @@ backgroundImage =
 
 backgroundColor : Common.RGB
 backgroundColor =
-    Common.darkGrey
+    Common.bannerBackgroundColor
 
 
 
