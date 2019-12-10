@@ -2,9 +2,12 @@ module Common.Common exposing
     ( RGB
     , ResourceType
     , Shadow
+    , bannerBackgroundColor
+    , cardDescriptionColor
+    , cardTitleColor
     , center
-    , darkGrey
-    , greyishRed
+    , gridSize
+    , shadowColor
     , white
     )
 
@@ -41,6 +44,15 @@ type alias ResourceType =
 
 
 
+-- UNITS
+
+
+gridSize : Int
+gridSize =
+    8
+
+
+
 -- STYLING
 
 
@@ -53,8 +65,8 @@ center =
 -- COLORS
 
 
-darkGrey : RGB
-darkGrey =
+bannerBackgroundColor : RGB
+bannerBackgroundColor =
     { red = 42, green = 50, blue = 57, alpha = 1 }
 
 
@@ -63,6 +75,16 @@ white =
     { red = 255, green = 255, blue = 255, alpha = 1 }
 
 
-greyishRed : RGB
-greyishRed =
-    { red = 98, blue = 85, green = 85, alpha = 0.4 }
+shadowColor : RGB
+shadowColor =
+    { red = 98, blue = 85, green = 85, alpha = 0.2 }
+
+
+cardDescriptionColor : RGB
+cardDescriptionColor =
+    { red = 90, blue = 85, green = 85, alpha = 1 }
+
+
+cardTitleColor : RGB
+cardTitleColor =
+    { red = 42, blue = 41, green = 41, alpha = 2 }
