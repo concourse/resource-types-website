@@ -21,7 +21,7 @@ import Common.Common as Common
 
 bannerHeight : Int
 bannerHeight =
-    176
+    Common.gridSize * 22
 
 
 backgroundImage : String
@@ -79,4 +79,4 @@ bodySize =
 
 bodyWidth : Int
 bodyWidth =
-    400
+    Common.gridSize * 50

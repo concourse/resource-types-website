@@ -17,6 +17,7 @@ import Element
         , image
         , maximum
         , mouseOver
+        , newTabLink
         , paddingEach
         , paragraph
         , px
@@ -36,6 +37,14 @@ edges =
     , right = 0
     , bottom = 0
     , left = 0
+    }
+
+
+testModel : { url : String, name : String, description : String }
+testModel =
+    { url = "https://github.com/FidelityInternational/concourse-pagerduty-notification-resource"
+    , name = "Pager Duty goes on and on and on"
+    , description = "Sends alerts to Pagerduty. This resource can now send log output of failing Concourse task(s) to Pagerduty, as well as the standard description and incident_key fields."
     }
 
 
@@ -60,86 +69,88 @@ view =
         , rounded container.borderRadius
         , paddingEach { edges | left = container.paddingLeft }
         , mouseOver
-            [ shadow hoverShadow ]
+            [ shadow cardHoverShadow ]
         , shadow cardShadow
         ]
-        (column
-            []
-            [ paragraph
-                [ Font.size name.size
-                , Font.family [ Font.typeface name.font ]
-                , Font.color <| fromRgb255 name.color
-                , width (fill |> maximum name.maxWidth)
-                , height (fill |> maximum name.maxHeight)
-                , paddingEach { edges | top = name.paddingTop }
-                , clip
-                ]
-                -- TODO: unfortunate way of ellipsis
-                [ html
-                    (Html.div
-                        Overrides.ellipsis
-                        [ Html.text "Pager Duty" ]
-                    )
-                ]
-            , paragraph
-                [ Font.size description.size
-                , Font.family [ Font.typeface description.font ]
-                , Font.color <| fromRgb255 description.color
-                , width (fill |> maximum description.maxWidth)
-                , height (fill |> maximum description.maxHeight)
-                , spacing description.spacing
-                , paddingEach { edges | top = description.paddingTop }
-                , clipY
-                ]
-                [ text "Sends alerts to Pagerduty. This resource can now send Sends alerts to Pagerduty. This resource can now send Sends alerts to Pagerduty." ]
-            , paragraph [ paddingEach { edges | top = github.paddingTop } ]
-                [ image
-                    [ height <| px github.imageHeight
-                    , width <| px github.imageWidth
+        (newTabLink []
+            { url = testModel.url
+            , label =
+                column
+                    []
+                    [ paragraph
+                        [ Font.size name.size
+                        , Font.family [ Font.typeface name.font ]
+                        , Font.color <| fromRgb255 name.color
+                        , width (fill |> maximum name.maxWidth)
+                        , paddingEach { edges | top = name.paddingTop }
+                        , clip
+                        ]
+                        [ html
+                            (Html.div
+                                Overrides.ellipsis
+                                [ Html.text testModel.name ]
+                            )
+                        ]
+                    , paragraph
+                        [ Font.size description.size
+                        , Font.family [ Font.typeface description.font ]
+                        , Font.color <| fromRgb255 description.color
+                        , width (fill |> maximum description.maxWidth)
+                        , height (fill |> maximum description.maxHeight)
+                        , spacing description.spacing
+                        , paddingEach { edges | top = description.paddingTop }
+                        , clipY
+                        ]
+                        [ text testModel.description ]
+                    , paragraph [ paddingEach { edges | top = github.paddingTop } ]
+                        [ image
+                            [ height <| px github.imageHeight
+                            , width <| px github.imageWidth
+                            ]
+                            { src = github.imageName
+                            , description = ""
+                            }
+                        ]
                     ]
-                    { src = github.imageName
-                    , description = ""
-                    }
-                ]
-            ]
+            }
         )
 
 
 cardShadow : { offset : ( Float, Float ), blur : Float, size : Float, color : Color }
 cardShadow =
     let
-        container =
-            card.container
+        shadow =
+            card.container.shadow
     in
     { offset =
-        ( container.shadow.offsetX
-        , container.shadow.offsetY
+        ( shadow.offsetX
+        , shadow.offsetY
         )
-    , blur = container.shadow.blur
-    , size = container.shadow.size
+    , blur = shadow.blur
+    , size = shadow.size
     , color =
-        rgba255 container.shadow.color.red
-            container.shadow.color.blue
-            container.shadow.color.green
-            container.shadow.color.alpha
+        rgba255 shadow.color.red
+            shadow.color.blue
+            shadow.color.green
+            shadow.color.alpha
     }
 
 
-hoverShadow : { offset : ( Float, Float ), blur : Float, size : Float, color : Color }
-hoverShadow =
+cardHoverShadow : { offset : ( Float, Float ), blur : Float, size : Float, color : Color }
+cardHoverShadow =
     let
-        container =
-            card.container
+        hoverShadow =
+            card.container.hoverShadow
     in
     { offset =
-        ( container.hoverShadow.offsetX
-        , container.hoverShadow.offsetY
+        ( hoverShadow.offsetX
+        , hoverShadow.offsetY
         )
-    , blur = container.hoverShadow.blur
-    , size = container.hoverShadow.size
+    , blur = hoverShadow.blur
+    , size = hoverShadow.size
     , color =
-        rgba255 container.hoverShadow.color.red
-            container.hoverShadow.color.blue
-            container.hoverShadow.color.green
-            container.hoverShadow.color.alpha
+        rgba255 hoverShadow.color.red
+            hoverShadow.color.blue
+            hoverShadow.color.green
+            hoverShadow.color.alpha
     }

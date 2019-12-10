@@ -1,7 +1,7 @@
 module Card.CardTests exposing (cardContainer, cardResourceType, suite)
 
 import Card.Card as Card exposing (container)
-import Card.Styles as Styles exposing (..)
+import Card.Styles as Styles
 import Expect exposing (equal)
 import Test exposing (Test, describe, test)
 
@@ -57,10 +57,6 @@ suite =
                     \_ ->
                         cardResourceType.name.maxWidth
                             |> Expect.equal Styles.nameMaxWidth
-                , test "has a max height" <|
-                    \_ ->
-                        cardResourceType.name.maxHeight
-                            |> Expect.equal Styles.nameMaxHeight
                 ]
             , describe "description"
                 [ test "has a font size" <|

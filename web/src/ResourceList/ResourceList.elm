@@ -1,10 +1,6 @@
-module ResourceList.ResourceList exposing (Container, ResourceList, container, resourceList)
+module ResourceList.ResourceList exposing (Container, container)
 
 import ResourceList.Styles as Styles exposing (maxWidth, outsideMargin, paddingVertical)
-
-
-type alias ResourceList =
-    { container : Container }
 
 
 type alias Container =
@@ -22,8 +18,3 @@ container =
     , spacing = Styles.spacing
     , outsideMargin = Styles.outsideMargin
     }
-
-
-resourceList : ResourceList
-resourceList =
-    { container = container }

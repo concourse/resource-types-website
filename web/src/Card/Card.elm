@@ -33,7 +33,6 @@ type alias Name =
     , font : String
     , paddingTop : Int
     , maxWidth : Int
-    , maxHeight : Int
     , color : RGB
     }
 
@@ -90,7 +89,6 @@ name =
     , font = Styles.nameFont
     , paddingTop = Styles.namePaddingTop
     , maxWidth = Styles.nameMaxWidth
-    , maxHeight = Styles.nameMaxHeight
     , color = Styles.nameColor
     }
 

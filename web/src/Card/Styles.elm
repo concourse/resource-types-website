@@ -19,7 +19,6 @@ module Card.Styles exposing
     , githubImageWidth
     , nameColor
     , nameFont
-    , nameMaxHeight
     , nameMaxWidth
     , namePaddingTop
     , nameSize
@@ -34,12 +33,12 @@ import Common.Common as Common exposing (RGB, Shadow)
 
 containerHeight : Int
 containerHeight =
-    160
+    Common.gridSize * 20
 
 
 containerWidth : Int
 containerWidth =
-    280
+    Common.gridSize * 35
 
 
 containerBorderRadius : Int
@@ -104,12 +103,7 @@ namePaddingTop =
 
 nameMaxWidth : Int
 nameMaxWidth =
-    containerWidth - containerSpacing
-
-
-nameMaxHeight : Int
-nameMaxHeight =
-    48
+    containerWidth - (containerSpacing * 2)
 
 
 
@@ -119,11 +113,6 @@ nameMaxHeight =
 descriptionSize : Int
 descriptionSize =
     12
-
-
-descriptionLineHeight : Int
-descriptionLineHeight =
-    14
 
 
 descriptionFont : String
@@ -143,12 +132,12 @@ descriptionColor =
 
 descriptionMaxWidth : Int
 descriptionMaxWidth =
-    containerWidth - (Common.gridSize * 4)
+    containerWidth - (containerSpacing * 2)
 
 
 descriptionSpacing : Int
 descriptionSpacing =
-    descriptionLineHeight - descriptionSize
+    descriptionSize - Common.gridSize
 
 
 
