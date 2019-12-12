@@ -1,0 +1,15 @@
+{
+"resourceTypes": [
+{
+"name":"Pager Duty",
+"description":"Something describing this",
+"url":"http://www.example.com"
+}
+,
+{
+"name":"James' Special Resource Type",
+"description":"Something describing this",
+"url":"http://www.jomsie.com"
+}
+]
+}

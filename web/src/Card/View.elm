@@ -2,6 +2,7 @@ module Card.View exposing (view)
 
 import Card.Card exposing (card)
 import Common.Overrides as Overrides exposing (ellipsis)
+import Common.Common exposing (ResourceType)
 import Element
     exposing
         ( Color
@@ -48,8 +49,8 @@ testModel =
     }
 
 
-view : Element msg
-view =
+view : ResourceType -> Element msg
+view resourceType =
     let
         container =
             card.container
@@ -73,7 +74,7 @@ view =
         , shadow cardShadow
         ]
         (newTabLink []
-            { url = testModel.url
+            { url = resourceType.url
             , label =
                 column
                     []
@@ -88,7 +89,7 @@ view =
                         [ html
                             (Html.div
                                 Overrides.ellipsis
-                                [ Html.text testModel.name ]
+                                [ Html.text resourceType.name ]
                             )
                         ]
                     , paragraph
@@ -101,7 +102,7 @@ view =
                         , paddingEach { edges | top = description.paddingTop }
                         , clipY
                         ]
-                        [ text testModel.description ]
+                        [ text resourceType.description ]
                     , paragraph [ paddingEach { edges | top = github.paddingTop } ]
                         [ image
                             [ height <| px github.imageHeight
