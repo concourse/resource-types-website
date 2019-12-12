@@ -2,13 +2,10 @@ package server
 
 import (
 	"fmt"
-	"github.com/concourse/dutyfree/server/handler"
 	"net"
 	"net/http"
 	"strconv"
 	"time"
-
-	"github.com/gorilla/mux"
 )
 
 type Server struct {
@@ -19,17 +16,17 @@ type Server struct {
 func (s *Server) Start() {
 	warehouseMux := http.NewServeMux()
 
-	warehouseMux.Handle("/api/v1", newApiHandler)
-	warehouseMux.Handle("/", handler.NewstaticHandler("../../public"))
-	r := mux.NewRouter()
+	//warehouseMux.Handle("/api/v1", newApiHandler)
+	warehouseMux.Handle("/", NewPublicHandler("../../../web/public/"))
 	go func() {
 		srv := &http.Server{
-			Handler:      r,
+			Handler:      warehouseMux,
 			Addr:         net.JoinHostPort("localhost", strconv.Itoa(s.Port)),
 			WriteTimeout: 15 * time.Second,
 			ReadTimeout:  15 * time.Second,
 		}
 
+		fmt.Println("I am about to start")
 		err := srv.ListenAndServe()
 		if err != nil {
 			fmt.Println("ERROR: ", err)
