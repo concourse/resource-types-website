@@ -83,7 +83,6 @@ view =
                         , Font.color <| fromRgb255 name.color
                         , width (fill |> maximum name.maxWidth)
                         , paddingEach { edges | top = name.paddingTop }
-                        , clip
                         ]
                         [ html
                             (Html.div
