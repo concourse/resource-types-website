@@ -1,8 +1,8 @@
 module Card.View exposing (view)
 
 import Card.Card exposing (card)
-import Common.Overrides as Overrides exposing (ellipsis)
 import Common.Common exposing (ResourceType)
+import Common.Overrides as Overrides exposing (ellipsis)
 import Element
     exposing
         ( Color
@@ -17,6 +17,7 @@ import Element
         , html
         , image
         , maximum
+        , minimum
         , mouseOver
         , newTabLink
         , paddingEach
@@ -38,14 +39,6 @@ edges =
     , right = 0
     , bottom = 0
     , left = 0
-    }
-
-
-testModel : { url : String, name : String, description : String }
-testModel =
-    { url = "https://github.com/FidelityInternational/concourse-pagerduty-notification-resource"
-    , name = "Pager Duty goes on and on and on"
-    , description = "Sends alerts to Pagerduty. This resource can now send log output of failing Concourse task(s) to Pagerduty, as well as the standard description and incident_key fields."
     }
 
 
@@ -97,7 +90,11 @@ view resourceType =
                         , Font.family [ Font.typeface description.font ]
                         , Font.color <| fromRgb255 description.color
                         , width (fill |> maximum description.maxWidth)
-                        , height (fill |> maximum description.maxHeight)
+                        , height
+                            (fill
+                                |> maximum description.maxHeight
+                                |> minimum description.minHeight
+                            )
                         , spacing description.spacing
                         , paddingEach { edges | top = description.paddingTop }
                         , clipY

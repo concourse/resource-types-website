@@ -43,6 +43,7 @@ type alias Description =
     , paddingTop : Int
     , color : RGB
     , maxHeight : Int
+    , minHeight : Int
     , maxWidth : Int
     , spacing : Int
     }
@@ -100,6 +101,7 @@ description =
     , paddingTop = Styles.descriptionPaddingTop
     , color = Styles.descriptionColor
     , maxHeight = Styles.descriptionMaxHeight
+    , minHeight = Styles.descriptionMinHeight
     , maxWidth = Styles.descriptionMaxWidth
     , spacing = Styles.descriptionSpacing
     }

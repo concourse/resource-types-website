@@ -6,6 +6,7 @@ import Common.Overrides as Overrides exposing (grid)
 import Element exposing (Element, fill, maximum, paddingXY, width, wrappedRow)
 import ResourceList.ResourceList exposing (container)
 
+
 view : List ResourceType -> Element msg
 view resourceList =
     wrappedRow
@@ -17,5 +18,6 @@ view resourceList =
         (List.map viewCard resourceList)
 
 
-viewCard resourceType = 
+viewCard : ResourceType -> Element msg
+viewCard resourceType =
     CardView.view resourceType

@@ -1,13 +1,28 @@
-module Main exposing (layout, main)
+module Main exposing (Model, Msg, buildErrorMessage, layout, main, resourceTypeDecoder, update, view)
 
 import Banner.View as Banner exposing (view)
 import Browser
-import Element exposing (Element, column, fill, width, text)
+import Common.Common exposing (ResourceType)
+import Element exposing (Element, column, fill, text, width)
 import Html exposing (Html)
 import Http
-import Json.Decode exposing (Decoder, Error(..), decodeString, field, list, map3, string)
+import Json.Decode exposing (Decoder, Error(..), field, list, map3, string)
 import ResourceList.View as ResourceList exposing (view)
-import Common.Common exposing (ResourceType)
+
+
+type Msg
+    = DataReceived (Result Http.Error (List ResourceType))
+
+
+type alias Model =
+    { resourceTypes : List ResourceType
+    , errorMessage : Maybe String
+    }
+
+
+apiUrl : String
+apiUrl =
+    "http://localhost:5019/resourceTypes"
 
 
 main : Program () Model Msg
@@ -19,21 +34,24 @@ main =
         , subscriptions = \_ -> Sub.none
         }
 
---main : Html msg
---main =
---    Element.layout [] layout
 
-type Msg
-    = SendHttpRequest
-    | DataReceived (Result Http.Error (List ResourceType))
+init : () -> ( Model, Cmd Msg )
+init _ =
+    ( { resourceTypes = []
+      , errorMessage = Nothing
+      }
+    , httpCommand
+    )
+
+
+view : Model -> Html Msg
+view model =
+    Element.layout [] (layout model)
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        SendHttpRequest ->
-            ( model, httpCommand )
-
         DataReceived (Ok resourceTypes) ->
             ( { model
                 | resourceTypes = resourceTypes
@@ -50,13 +68,12 @@ update msg model =
             )
 
 
-init : () -> ( Model, Cmd Msg )
-init _ =
-    ( { resourceTypes = []
-      , errorMessage = Nothing
-      }
-    , httpCommand
-    )
+httpCommand : Cmd Msg
+httpCommand =
+    Http.get
+        { url = apiUrl
+        , expect = Http.expectJson DataReceived (list resourceTypeDecoder)
+        }
 
 
 buildErrorMessage : Http.Error -> String
@@ -77,47 +94,28 @@ buildErrorMessage httpError =
         Http.BadBody message ->
             message
 
-view : Model -> Html Msg
-view model =
-    Element.layout [] (layout model)
 
-
-
-
-layout : Model ->Element msg
-layout model  =
+layout : Model -> Element msg
+layout model =
     column
         [ width fill ]
         [ Banner.view
-        , ResourceList.view model.resourceTypes
-        
+        , case model.errorMessage of
+            Just message ->
+                text message
+
+            Nothing ->
+                ResourceList.view model.resourceTypes
         ]
 
 
 
--- good ol spikin
+-- order of fields have to match the order of ResourceType type
 
-
-apiUrl : String
-apiUrl =
-    "http://localhost:5019/resourceTypes"
-
-
-
-type alias Model =
-    { resourceTypes : List ResourceType
-    , errorMessage : Maybe String
-    }
 
 resourceTypeDecoder : Decoder ResourceType
-resourceTypeDecoder = map3 ResourceType 
-  (field "name" string)
-  (field "description" string)
-  (field "url" string)
-
-httpCommand : Cmd Msg
-httpCommand =
-    Http.get
-        { url = apiUrl
-        , expect = Http.expectJson DataReceived (list resourceTypeDecoder)
-        }
+resourceTypeDecoder =
+    map3 ResourceType
+        (field "name" string)
+        (field "url" string)
+        (field "description" string)

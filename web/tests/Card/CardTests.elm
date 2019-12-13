@@ -79,6 +79,10 @@ suite =
                     \_ ->
                         cardResourceType.description.maxHeight
                             |> Expect.equal Styles.descriptionMaxHeight
+                , test "has a min height" <|
+                    \_ ->
+                        cardResourceType.description.minHeight
+                            |> Expect.equal Styles.descriptionMinHeight
                 , test "has a max width" <|
                     \_ ->
                         cardResourceType.description.maxWidth

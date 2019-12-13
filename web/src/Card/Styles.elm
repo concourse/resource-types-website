@@ -10,6 +10,7 @@ module Card.Styles exposing
     , descriptionFont
     , descriptionMaxHeight
     , descriptionMaxWidth
+    , descriptionMinHeight
     , descriptionPaddingTop
     , descriptionSize
     , descriptionSpacing
@@ -146,6 +147,11 @@ descriptionSpacing =
 
 descriptionMaxHeight : Int
 descriptionMaxHeight =
+    Common.gridSize * 7
+
+
+descriptionMinHeight : Int
+descriptionMinHeight =
     Common.gridSize * 7
 
 

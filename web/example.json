@@ -8,7 +8,13 @@
 ,
 {
 "name":"James' Special Resource Type",
-"description":"Something describing this",
+"description":"Something describing this, but with much more text than we actually need. This is a VERY unique resource type.",
+"url":"http://www.jomsie.com"
+}
+,
+{
+"name":"Bishoy's House Huntin' Resource Type",
+"description":"THIS IS A RESOURCE TYPE TO FIND BISHOY A HOUSE",
 "url":"http://www.jomsie.com"
 }
 ]
