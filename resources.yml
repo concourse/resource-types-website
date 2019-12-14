@@ -191,6 +191,11 @@
   desc: Implements a resource that passes key values between jobs without using any external resource such as git/s3 etc.
   get: yes
   put: yes
+- name: Key Value resource
+  repository: https://github.com/moredhel/keyval-resource
+  desc:  An alternate implementation the Key Value resource, but conforms to the Kubernetes configmap pattern
+  get: yes
+  put: yes
 - name: Flowdock notifications
   repository: https://github.com/starkandwayne/flowdock-concourse-notification-resource
   desc: Concourse CI resource for sending notifications to Flowdock
