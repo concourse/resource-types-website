@@ -3,7 +3,7 @@ module ResourceList.View exposing (view)
 import Card.View as CardView exposing (view)
 import Common.Common exposing (ResourceType)
 import Common.Overrides as Overrides exposing (grid)
-import Element exposing (Element, fill, maximum, paddingXY, width, wrappedRow)
+import Element exposing (Element, fill, height, maximum, paddingXY, width, wrappedRow)
 import ResourceList.ResourceList exposing (container)
 
 
@@ -11,6 +11,7 @@ view : List ResourceType -> String -> Element msg
 view resourceList githubIconImg =
     wrappedRow
         ([ width (fill |> maximum container.maxWidth)
+         , height fill
          , paddingXY container.outsideMargin 0
          ]
             ++ Overrides.grid

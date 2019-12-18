@@ -3,7 +3,8 @@ module Main exposing (Msg(..), buildErrorMessage, layout, main, resourceTypeDeco
 import Banner.View as Banner exposing (view)
 import Browser
 import Common.Common exposing (Flags, Model, ResourceType, gridSize)
-import Element exposing (Element, centerX, column, el, fill, html, padding, text, width)
+import Element exposing (Element, centerX, column, el, fill, height, html, padding, text, width)
+import Footer.View as Footer exposing (view)
 import Html exposing (Html)
 import Html.Attributes exposing (class)
 import Http
@@ -80,7 +81,9 @@ fetchResourceTypes =
 layout : Model -> Element msg
 layout model =
     column
-        [ width fill ]
+        [ width fill
+        , height fill
+        ]
         (viewResourceTypes model)
 
 
@@ -99,6 +102,7 @@ viewResourceTypes model =
 
         RemoteData.Failure httpError ->
             el textStyles (text <| buildErrorMessage httpError)
+    , Footer.view
     ]
 
 
