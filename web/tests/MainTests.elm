@@ -4,7 +4,8 @@ import Common.Common as Common exposing (ResourceType)
 import Expect exposing (equal)
 import Http
 import Json.Decode exposing (decodeString)
-import Main exposing (Model, Msg, buildErrorMessage, layout, resourceTypeDecoder, update, view)
+import Main exposing (Model, Msg(..), buildErrorMessage, layout, resourceTypeDecoder, update, view)
+import RemoteData exposing (RemoteData, WebData)
 import Test exposing (Test, describe, test)
 
 
@@ -25,11 +26,31 @@ suite =
                             , url = "http://www.example.com"
                             }
                         )
-            , test "errors with missing fields in json" <|
+            , test "properly decodes a resource type when description is missing in json" <|
                 \_ ->
                     let
                         decodedOutput =
-                            Json.Decode.decodeString resourceTypeDecoder missingJson
+                            Json.Decode.decodeString resourceTypeDecoder missingDescriptionJson
+                    in
+                    Expect.equal decodedOutput
+                        (Ok
+                            { name = "some name"
+                            , description = ""
+                            , url = "http://www.example.com"
+                            }
+                        )
+            , test "errors when name is missing in json" <|
+                \_ ->
+                    let
+                        decodedOutput =
+                            Json.Decode.decodeString resourceTypeDecoder missingNameJson
+                    in
+                    Expect.err decodedOutput
+            , test "errors when url is missing in json" <|
+                \_ ->
+                    let
+                        decodedOutput =
+                            Json.Decode.decodeString resourceTypeDecoder missingUrlJson
                     in
                     Expect.err decodedOutput
             , test "errors with invalid json" <|
@@ -75,17 +96,40 @@ suite =
                         )
                         "oh no"
             ]
-        , describe "update function"
-            [ test "updates model with resource types with successful api request" <|
+        , describe "model"
+            [ test "updates with resource types when data received successfully" <|
                 \_ ->
                     let
-                        resourceType =
-                            { name = "hi", url = "http", description = "asdf" }
-
                         model =
-                            { resourceTypes = [ resourceType ], errorMessage = Nothing }
+                            { resourceTypes = RemoteData.NotAsked }
+
+                        resourceTypes =
+                            [ { name = "some name"
+                              , description = "some description"
+                              , url = "http://www.example.com"
+                              }
+                            ]
+
+                        msg =
+                            Main.ResourceTypesReceived (RemoteData.Success resourceTypes)
                     in
-                    Expect.equal (update DataReceived model) ( { resourceTypes = [], errorMessage = Nothing }, Cmd.none )
+                    Expect.equal (Main.update msg model)
+                        ( { resourceTypes = RemoteData.Success resourceTypes }
+                        , Cmd.none
+                        )
+            , test "updates with error when something goes wrong" <|
+                \_ ->
+                    let
+                        model =
+                            { resourceTypes = RemoteData.NotAsked }
+
+                        msg =
+                            Main.ResourceTypesReceived <| RemoteData.Failure Http.Timeout
+                    in
+                    Expect.equal (Main.update msg model)
+                        ( { resourceTypes = RemoteData.Failure <| Http.Timeout }
+                        , Cmd.none
+                        )
             ]
         ]
 
@@ -98,9 +142,24 @@ goodJson =
 """
 
 
-missingJson =
+missingNameJson =
     """
-    { "name" : "some name"}
+    { "description" : "some description",
+    "url" : "http://www.example.com"}
+"""
+
+
+missingDescriptionJson =
+    """
+    { "name" : "some name",
+    "url" : "http://www.example.com"}
+"""
+
+
+missingUrlJson =
+    """
+    { "name" : "some name",
+    "description": "some description"}
 """
 
 
@@ -108,12 +167,3 @@ invalidJson =
     """
     {blah}
 """
-
-
-
--- to test:
--- sets error message when getting a bad http status code?
--- differentiate between different errors?
--- parses json properly and throws it in ye old model?
--- displays cards if proper data?
--- displays error if bad response?

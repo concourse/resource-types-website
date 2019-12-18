@@ -28,8 +28,7 @@ type alias RGB =
 
 
 type alias Shadow =
-    { offsetX : Float
-    , offsetY : Float
+    { offset : ( Float, Float )
     , blur : Float
     , size : Float
     , color : RGB

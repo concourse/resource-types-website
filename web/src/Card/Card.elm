@@ -1,4 +1,4 @@
-module Card.Card exposing (Card, Container, ResourceType, card, container, resourceType)
+module Card.Card exposing (Card, Container, Description, Github, Name, ResourceType, card, container, resourceType)
 
 import Card.Styles as Styles
 import Common.Common exposing (RGB, Shadow)

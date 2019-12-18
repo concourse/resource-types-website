@@ -1,28 +1,34 @@
-module Main exposing (Model, Msg, buildErrorMessage, layout, main, resourceTypeDecoder, update, view)
+module Main exposing (Model, Msg(..), buildErrorMessage, layout, main, resourceTypeDecoder, update, view)
 
 import Banner.View as Banner exposing (view)
 import Browser
-import Common.Common exposing (ResourceType)
-import Element exposing (Element, column, fill, text, width)
+import Common.Common exposing (ResourceType, gridSize)
+import Element exposing (Element, centerX, column, el, fill, html, padding, text, width)
 import Html exposing (Html)
+import Html.Attributes exposing (class)
 import Http
-import Json.Decode exposing (Decoder, Error(..), field, list, map3, string)
+import Json.Decode as Decode exposing (Decoder, list, string)
+import Json.Decode.Pipeline exposing (optional, required)
+import RemoteData exposing (WebData)
 import ResourceList.View as ResourceList exposing (view)
 
 
 type Msg
-    = DataReceived (Result Http.Error (List ResourceType))
+    = ResourceTypesReceived (WebData (List ResourceType))
+    | FetchResourceTypes
 
 
 type alias Model =
-    { resourceTypes : List ResourceType
-    , errorMessage : Maybe String
-    }
+    { resourceTypes : WebData (List ResourceType) }
 
 
 apiUrl : String
 apiUrl =
     "http://localhost:5019/resourceTypes"
+
+
+
+--
 
 
 main : Program () Model Msg
@@ -37,10 +43,8 @@ main =
 
 init : () -> ( Model, Cmd Msg )
 init _ =
-    ( { resourceTypes = []
-      , errorMessage = Nothing
-      }
-    , httpCommand
+    ( { resourceTypes = RemoteData.Loading }
+    , fetchResourceTypes
     )
 
 
@@ -52,28 +56,52 @@ view model =
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        DataReceived (Ok resourceTypes) ->
-            ( { model
-                | resourceTypes = resourceTypes
-                , errorMessage = Nothing
-              }
-            , Cmd.none
-            )
+        FetchResourceTypes ->
+            ( { model | resourceTypes = RemoteData.Loading }, fetchResourceTypes )
 
-        DataReceived (Err httpError) ->
-            ( { model
-                | errorMessage = Just (buildErrorMessage httpError)
-              }
+        ResourceTypesReceived response ->
+            ( { model | resourceTypes = response }
             , Cmd.none
             )
 
 
-httpCommand : Cmd Msg
-httpCommand =
+
+--
+
+
+fetchResourceTypes : Cmd Msg
+fetchResourceTypes =
     Http.get
         { url = apiUrl
-        , expect = Http.expectJson DataReceived (list resourceTypeDecoder)
+        , expect =
+            list resourceTypeDecoder
+                |> Http.expectJson (RemoteData.fromResult >> ResourceTypesReceived)
         }
+
+
+layout : Model -> Element msg
+layout model =
+    column
+        [ width fill ]
+        (viewResourceTypes model)
+
+
+viewResourceTypes : Model -> List (Element msg)
+viewResourceTypes model =
+    [ Banner.view
+    , case model.resourceTypes of
+        RemoteData.NotAsked ->
+            el textStyles (text "")
+
+        RemoteData.Loading ->
+            el textStyles spinner
+
+        RemoteData.Success resourceTypes ->
+            ResourceList.view resourceTypes
+
+        RemoteData.Failure httpError ->
+            el textStyles (text <| buildErrorMessage httpError)
+    ]
 
 
 buildErrorMessage : Http.Error -> String
@@ -95,18 +123,27 @@ buildErrorMessage httpError =
             message
 
 
-layout : Model -> Element msg
-layout model =
-    column
-        [ width fill ]
-        [ Banner.view
-        , case model.errorMessage of
-            Just message ->
-                text message
+textStyles : List (Element.Attribute msg)
+textStyles =
+    [ centerX
+    , padding (gridSize * 10)
+    ]
 
-            Nothing ->
-                ResourceList.view model.resourceTypes
-        ]
+
+spinner : Element msg
+spinner =
+    html
+        (Html.div [ Html.Attributes.class "la-line-spin-clockwise-fade-rotating la-dark la-2x" ]
+            [ Html.div [] []
+            , Html.div [] []
+            , Html.div [] []
+            , Html.div [] []
+            , Html.div [] []
+            , Html.div [] []
+            , Html.div [] []
+            , Html.div [] []
+            ]
+        )
 
 
 
@@ -115,7 +152,7 @@ layout model =
 
 resourceTypeDecoder : Decoder ResourceType
 resourceTypeDecoder =
-    map3 ResourceType
-        (field "name" string)
-        (field "url" string)
-        (field "description" string)
+    Decode.succeed ResourceType
+        |> required "name" string
+        |> required "url" string
+        |> optional "description" string ""

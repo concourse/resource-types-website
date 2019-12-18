@@ -59,8 +59,7 @@ containerPaddingLeft =
 
 containerShadow : Shadow
 containerShadow =
-    { offsetX = 0
-    , offsetY = 2
+    { offset = ( 0, 2 )
     , blur = 3
     , size = 1
     , color = Common.shadowColor
@@ -69,8 +68,7 @@ containerShadow =
 
 containerHoverShadow : Shadow
 containerHoverShadow =
-    { offsetX = 1
-    , offsetY = 3
+    { offset = ( 1, 3 )
     , blur = 8
     , size = 1
     , color = Common.shadowColor

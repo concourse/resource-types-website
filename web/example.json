@@ -17,5 +17,9 @@
 "description":"THIS IS A RESOURCE TYPE TO FIND BISHOY A HOUSE",
 "url":"http://www.jomsie.com"
 }
-]
+,
+{
+"name":"resource no description",
+"url":"http://www.example.com"
+}]
 }
