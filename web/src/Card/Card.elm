@@ -50,8 +50,7 @@ type alias Description =
 
 
 type alias Github =
-    { imageName : String
-    , imageHeight : Int
+    { imageHeight : Int
     , imageWidth : Int
     , paddingTop : Int
     }
@@ -109,8 +108,7 @@ description =
 
 github : Github
 github =
-    { imageName = Styles.githubImageName
-    , imageHeight = Styles.githubImageHeight
+    { imageHeight = Styles.githubImageHeight
     , imageWidth = Styles.githubImageWidth
     , paddingTop = Styles.githubImagePaddingTop
     }

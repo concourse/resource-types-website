@@ -15,7 +15,6 @@ module Card.Styles exposing
     , descriptionSize
     , descriptionSpacing
     , githubImageHeight
-    , githubImageName
     , githubImagePaddingTop
     , githubImageWidth
     , nameColor
@@ -155,11 +154,6 @@ descriptionMinHeight =
 
 
 -- github
-
-
-githubImageName : String
-githubImageName =
-    "github-logo.png"
 
 
 githubImageWidth : Int

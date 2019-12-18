@@ -1,10 +1,10 @@
 module MainTests exposing (suite)
 
-import Common.Common as Common exposing (ResourceType)
+import Common.Common as Common exposing (Model, ResourceType)
 import Expect exposing (equal)
 import Http
 import Json.Decode exposing (decodeString)
-import Main exposing (Model, Msg(..), buildErrorMessage, layout, resourceTypeDecoder, update, view)
+import Main exposing (Msg(..), buildErrorMessage, layout, resourceTypeDecoder, update, view)
 import RemoteData exposing (RemoteData, WebData)
 import Test exposing (Test, describe, test)
 
@@ -72,28 +72,27 @@ suite =
             [ test "handles bad url by returning the message" <|
                 \_ ->
                     Expect.equal
-                        (buildErrorMessage <|
-                            Http.BadUrl "oh no"
-                        )
+                        (buildErrorMessage <| Http.BadUrl "oh no")
                         "oh no"
             , test "handles timeouts with a relevant message" <|
                 \_ ->
                     Expect.equal True <|
-                        String.contains "Server is taking too long to respond." (buildErrorMessage <| Http.Timeout)
+                        String.contains "Server is taking too long to respond."
+                            (buildErrorMessage <| Http.Timeout)
             , test "handles network errors with a relevant message" <|
                 \_ ->
                     Expect.equal True <|
-                        String.contains "Unable to reach server." (buildErrorMessage <| Http.NetworkError)
+                        String.contains "Unable to reach server."
+                            (buildErrorMessage <| Http.NetworkError)
             , test "handles bad status errors by returning the status" <|
                 \_ ->
                     Expect.equal True <|
-                        String.contains "500" (buildErrorMessage <| Http.BadStatus 500)
+                        String.contains "500"
+                            (buildErrorMessage <| Http.BadStatus 500)
             , test "handles bad body errors by returning the message" <|
                 \_ ->
                     Expect.equal
-                        (buildErrorMessage <|
-                            Http.BadBody "oh no"
-                        )
+                        (buildErrorMessage <| Http.BadBody "oh no")
                         "oh no"
             ]
         , describe "model"
@@ -101,7 +100,10 @@ suite =
                 \_ ->
                     let
                         model =
-                            { resourceTypes = RemoteData.NotAsked }
+                            { resourceTypes = RemoteData.NotAsked, flags = flags }
+
+                        flags =
+                            { githubIconImg = "test.png", bannerImg = "test.png" }
 
                         resourceTypes =
                             [ { name = "some name"
@@ -114,20 +116,23 @@ suite =
                             Main.ResourceTypesReceived (RemoteData.Success resourceTypes)
                     in
                     Expect.equal (Main.update msg model)
-                        ( { resourceTypes = RemoteData.Success resourceTypes }
+                        ( { resourceTypes = RemoteData.Success resourceTypes, flags = flags }
                         , Cmd.none
                         )
             , test "updates with error when something goes wrong" <|
                 \_ ->
                     let
                         model =
-                            { resourceTypes = RemoteData.NotAsked }
+                            { resourceTypes = RemoteData.NotAsked, flags = flags }
+
+                        flags =
+                            { githubIconImg = "test.png", bannerImg = "test.png" }
 
                         msg =
                             Main.ResourceTypesReceived <| RemoteData.Failure Http.Timeout
                     in
                     Expect.equal (Main.update msg model)
-                        ( { resourceTypes = RemoteData.Failure <| Http.Timeout }
+                        ( { resourceTypes = RemoteData.Failure <| Http.Timeout, flags = flags }
                         , Cmd.none
                         )
             ]

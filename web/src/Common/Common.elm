@@ -1,5 +1,7 @@
 module Common.Common exposing
-    ( RGB
+    ( Flags
+    , Model
+    , RGB
     , ResourceType
     , Shadow
     , bannerBackgroundColor
@@ -13,10 +15,23 @@ module Common.Common exposing
 
 import Element exposing (Attribute, htmlAttribute)
 import Html.Attributes exposing (style)
+import RemoteData exposing (WebData)
 
 
 
 -- TYPES
+
+
+type alias Model =
+    { resourceTypes : WebData (List ResourceType)
+    , flags : Flags
+    }
+
+
+type alias Flags =
+    { githubIconImg : String
+    , bannerImg : String
+    }
 
 
 type alias RGB =

@@ -41,8 +41,8 @@ edges =
     }
 
 
-view : ResourceType -> Element msg
-view resourceType =
+view : ResourceType -> String -> Element msg
+view resourceType githubIcon =
     let
         container =
             card.container
@@ -63,7 +63,7 @@ view resourceType =
                     []
                     [ name resourceType card.resourceType.name
                     , description resourceType card.resourceType.description
-                    , github card.resourceType.github
+                    , github card.resourceType.github githubIcon
                     ]
                 )
         }
@@ -108,14 +108,14 @@ description resourceType styles =
         ]
 
 
-github : Github -> Element msg
-github styles =
+github : Github -> String -> Element msg
+github styles githubIconImg =
     paragraph [ paddingEach { edges | top = styles.paddingTop } ]
         [ image
             [ height <| px styles.imageHeight
             , width <| px styles.imageWidth
             ]
-            { src = styles.imageName
+            { src = githubIconImg
             , description = ""
             }
         ]

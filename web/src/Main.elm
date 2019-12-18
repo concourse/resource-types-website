@@ -1,8 +1,8 @@
-module Main exposing (Model, Msg(..), buildErrorMessage, layout, main, resourceTypeDecoder, update, view)
+module Main exposing (Msg(..), buildErrorMessage, layout, main, resourceTypeDecoder, update, view)
 
 import Banner.View as Banner exposing (view)
 import Browser
-import Common.Common exposing (ResourceType, gridSize)
+import Common.Common exposing (Flags, Model, ResourceType, gridSize)
 import Element exposing (Element, centerX, column, el, fill, html, padding, text, width)
 import Html exposing (Html)
 import Html.Attributes exposing (class)
@@ -18,10 +18,6 @@ type Msg
     | FetchResourceTypes
 
 
-type alias Model =
-    { resourceTypes : WebData (List ResourceType) }
-
-
 apiUrl : String
 apiUrl =
     "http://localhost:5019/resourceTypes"
@@ -31,7 +27,7 @@ apiUrl =
 --
 
 
-main : Program () Model Msg
+main : Program Flags Model Msg
 main =
     Browser.element
         { init = init
@@ -41,9 +37,11 @@ main =
         }
 
 
-init : () -> ( Model, Cmd Msg )
-init _ =
-    ( { resourceTypes = RemoteData.Loading }
+init : Flags -> ( Model, Cmd Msg )
+init flags =
+    ( { resourceTypes = RemoteData.Loading
+      , flags = flags
+      }
     , fetchResourceTypes
     )
 
@@ -88,7 +86,7 @@ layout model =
 
 viewResourceTypes : Model -> List (Element msg)
 viewResourceTypes model =
-    [ Banner.view
+    [ Banner.view model.flags.bannerImg
     , case model.resourceTypes of
         RemoteData.NotAsked ->
             el textStyles (text "")
@@ -97,7 +95,7 @@ viewResourceTypes model =
             el textStyles spinner
 
         RemoteData.Success resourceTypes ->
-            ResourceList.view resourceTypes
+            ResourceList.view resourceTypes model.flags.githubIconImg
 
         RemoteData.Failure httpError ->
             el textStyles (text <| buildErrorMessage httpError)
