@@ -1,4 +1,4 @@
-module Footer.Footer exposing (..)
+module Footer.Footer exposing (container, footer, link)
 
 import Common.Common as Common
 import Footer.Styles as Styles
@@ -6,13 +6,19 @@ import Footer.Styles as Styles
 
 type alias Footer =
     { container : Container
+    , link : Link
     }
 
 
 type alias Container =
     { height : Int
     , backgroundColor : Common.RGB
-    , font : String
+    , spacing : Int
+    }
+
+
+type alias Link =
+    { font : String
     , size : Int
     , color : Common.RGB
     }
@@ -20,14 +26,20 @@ type alias Container =
 
 footer : Footer
 footer =
-    { container = container }
+    { container = container, link = link }
 
 
 container : Container
 container =
     { height = Styles.footerHeight
     , backgroundColor = Styles.footerBackgroundColor
-    , font = Styles.footerFont
-    , size = Styles.footerSize
-    , color = Styles.footerColor
+    , spacing = Styles.footerContentSpacing
+    }
+
+
+link : Link
+link =
+    { font = Styles.linkFont
+    , size = Styles.linkSize
+    , color = Styles.linkColor
     }

@@ -1,4 +1,11 @@
-module Footer.Styles exposing (footerBackgroundColor, footerColor, footerFont, footerHeight, footerSize)
+module Footer.Styles exposing
+    ( footerBackgroundColor
+    , footerContentSpacing
+    , footerHeight
+    , linkColor
+    , linkFont
+    , linkSize
+    )
 
 import Common.Common as Common
 
@@ -13,16 +20,21 @@ footerBackgroundColor =
     Common.footerBackgroundColor
 
 
-footerFont : String
-footerFont =
+footerContentSpacing : Int
+footerContentSpacing =
+    12
+
+
+linkFont : String
+linkFont =
     "Barlow"
 
 
-footerSize : Int
-footerSize =
+linkSize : Int
+linkSize =
     14
 
 
-footerColor : Common.RGB
-footerColor =
+linkColor : Common.RGB
+linkColor =
     Common.white
