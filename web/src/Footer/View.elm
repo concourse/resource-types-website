@@ -20,6 +20,7 @@ import Element.Background as Background exposing (color)
 import Element.Font as Font exposing (center, color, family, size, typeface)
 import Footer.Footer exposing (footer)
 import Html.Attributes exposing (class)
+import Url.Builder as Url exposing (relative)
 
 
 type alias Link =
@@ -71,7 +72,7 @@ showLink linkValue =
 terms : Link
 terms =
     { text = "Terms of Use"
-    , url = "http://example.com"
+    , url = Url.absolute [ "terms" ] []
     }
 
 

@@ -1,8 +1,9 @@
-module Main exposing (Msg(..), buildErrorMessage, layout, main, resourceTypeDecoder, update, view)
+module Main exposing (Model, Msg(..), Page(..), buildErrorMessage, main, resourceTypeDecoder, update, view)
 
 import Banner.View as Banner exposing (view)
-import Browser
-import Common.Common exposing (Flags, Model, ResourceType, gridSize)
+import Browser exposing (UrlRequest(..))
+import Browser.Navigation as Nav
+import Common.Common exposing (ResourceType, gridSize)
 import Element exposing (Element, centerX, column, el, fill, height, html, padding, text, width)
 import Footer.View as Footer exposing (view)
 import Html exposing (Html)
@@ -12,11 +13,35 @@ import Json.Decode as Decode exposing (Decoder, list, string)
 import Json.Decode.Pipeline exposing (optional, required)
 import RemoteData exposing (WebData)
 import ResourceList.View as ResourceList exposing (view)
+import Terms.View as Terms exposing (view)
+import Url
+import Url.Parser as Url exposing (Parser)
 
 
 type Msg
     = ResourceTypesReceived (WebData (List ResourceType))
     | FetchResourceTypes
+    | UrlChange Url.Url
+    | LinkClicked UrlRequest
+
+
+type Page
+    = Index
+    | Terms
+
+
+type alias Model =
+    { resourceTypes : WebData (List ResourceType)
+    , flags : Flags
+    , navKey : Nav.Key
+    , page : Page
+    }
+
+
+type alias Flags =
+    { githubIconImg : String
+    , bannerImg : String
+    }
 
 
 apiUrl : String
@@ -30,26 +55,46 @@ apiUrl =
 
 main : Program Flags Model Msg
 main =
-    Browser.element
+    Browser.application
         { init = init
         , view = view
         , update = update
         , subscriptions = \_ -> Sub.none
+        , onUrlRequest = LinkClicked
+        , onUrlChange = UrlChange
         }
 
 
-init : Flags -> ( Model, Cmd Msg )
-init flags =
+init : Flags -> Url.Url -> Nav.Key -> ( Model, Cmd Msg )
+init flags url key =
     ( { resourceTypes = RemoteData.Loading
       , flags = flags
+      , navKey = key
+      , page = urlToPage url
       }
     , fetchResourceTypes
     )
 
 
-view : Model -> Html Msg
+view : Model -> Browser.Document Msg
 view model =
-    Element.layout [] (layout model)
+    { title = "Concourse Resources"
+    , body =
+        [ Element.layout []
+            (column
+                [ width fill
+                , height fill
+                ]
+                (case model.page of
+                    Index ->
+                        viewResourceTypes model
+
+                    Terms ->
+                        viewTerms
+                )
+            )
+        ]
+    }
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -62,6 +107,34 @@ update msg model =
             ( { model | resourceTypes = response }
             , Cmd.none
             )
+
+        LinkClicked urlRequest ->
+            case urlRequest of
+                Internal url ->
+                    ( model, Nav.pushUrl model.navKey (Url.toString url) )
+
+                External url ->
+                    ( model, Nav.load url )
+
+        UrlChange url ->
+            ( { model | page = urlToPage url }
+            , Cmd.none
+            )
+
+
+urlToPage : Url.Url -> Page
+urlToPage url =
+    url
+        |> Url.parse urlParser
+        |> Maybe.withDefault Index
+
+
+urlParser : Parser (Page -> a) a
+urlParser =
+    Url.oneOf
+        [ Url.map Index Url.top
+        , Url.map Terms (Url.s "terms")
+        ]
 
 
 
@@ -76,15 +149,6 @@ fetchResourceTypes =
             list resourceTypeDecoder
                 |> Http.expectJson (RemoteData.fromResult >> ResourceTypesReceived)
         }
-
-
-layout : Model -> Element msg
-layout model =
-    column
-        [ width fill
-        , height fill
-        ]
-        (viewResourceTypes model)
 
 
 viewResourceTypes : Model -> List (Element msg)
@@ -104,6 +168,10 @@ viewResourceTypes model =
             el textStyles (text <| buildErrorMessage httpError)
     , Footer.view
     ]
+
+
+viewTerms =
+    [ Terms.view ]
 
 
 buildErrorMessage : Http.Error -> String

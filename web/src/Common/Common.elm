@@ -1,7 +1,5 @@
 module Common.Common exposing
-    ( Flags
-    , Model
-    , RGB
+    ( RGB
     , ResourceType
     , Shadow
     , bannerBackgroundColor
@@ -21,18 +19,6 @@ import RemoteData exposing (WebData)
 
 
 -- TYPES
-
-
-type alias Model =
-    { resourceTypes : WebData (List ResourceType)
-    , flags : Flags
-    }
-
-
-type alias Flags =
-    { githubIconImg : String
-    , bannerImg : String
-    }
 
 
 type alias RGB =
