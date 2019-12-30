@@ -15,7 +15,7 @@ var _ = Describe("Resource model", func() {
 
 			jsonResource := `{
 				"name": "test",
-				"repo_link": "https://github.com/concourse/test",
+				"repo": "https://github.com/concourse/test",
 				"description": "test description"
 			}`
 			err := json.Unmarshal([]byte(jsonResource), &resource)

@@ -1,5 +1,5 @@
 name: test
-repo_link: https://github.com/concourse/test
+repo: https://github.com/concourse/test
 description: |
   line1
   line2

@@ -1,9 +1,11 @@
 package persistence
 
 import (
+	"io/ioutil"
+	"strings"
+
 	"github.com/concourse/dutyfree/resource"
 	"gopkg.in/yaml.v2"
-	"io/ioutil"
 )
 
 type Filesystem struct {
@@ -22,12 +24,13 @@ func (fs *Filesystem) LoadResources() error {
 	}
 
 	for _, file := range files {
-		if !file.IsDir() {
+		if !file.IsDir() && strings.Contains(file.Name(), ".yml") {
 			fileBytes, err := ioutil.ReadFile(fs.Location + "/" + file.Name())
 			if err != nil {
 				return err
 			}
 			var currResource resource.Resource
+			//fmt.Println("parsing: " + file.Name())
 			err = yaml.UnmarshalStrict(fileBytes, &currResource)
 			if err != nil {
 				return err

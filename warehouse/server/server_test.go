@@ -1,6 +1,9 @@
 package server_test
 
 import (
+	"encoding/json"
+	"github.com/concourse/dutyfree/resource"
+	"io/ioutil"
 	"net"
 	"net/http"
 	"strconv"
@@ -22,10 +25,18 @@ var _ = Describe("Server Test", func() {
 	BeforeEach(func() {
 		port = 9000
 		srv = server.Server{
-			Port: port,
+			Port:              port,
+			PublicPath:        "../testdata/public",
+			ResourceTypesPath: "./testdata/resource-types",
 		}
-		serverAddr = net.JoinHostPort("localhost", strconv.Itoa(port))
 		srv.Start()
+
+		serverAddr = net.JoinHostPort("localhost", strconv.Itoa(port))
+	})
+
+	AfterEach(func() {
+		err := srv.Close()
+		Expect(err).NotTo(HaveOccurred())
 	})
 
 	Context("server initialization", func() {
@@ -33,16 +44,39 @@ var _ = Describe("Server Test", func() {
 			conn, err := net.DialTimeout("tcp", serverAddr, time.Second)
 			Expect(err).NotTo(HaveOccurred())
 			Expect(conn).NotTo(Equal(nil))
-			conn.Close()
+			err = conn.Close()
+			Expect(err).NotTo(HaveOccurred())
 		})
 	})
 
+	Context("API", func() {
+		It("returns the resources on calls to /api/v1/resources", func() {
+			resp, err := http.Get("http://" + serverAddr + "/api/v1/resources")
+			Expect(err).NotTo(HaveOccurred())
+			Expect(resp.StatusCode).To(Equal(http.StatusOK))
+			body, err := ioutil.ReadAll(resp.Body)
+			Expect(err).NotTo(HaveOccurred())
+			var reses []resource.Resource
+			err = json.Unmarshal(body, &reses)
+			Expect(err).NotTo(HaveOccurred())
+			Expect(len(reses)).To(Equal(1))
+			Expect(reses[0].Name).To(Equal("git"))
+		})
+		It("returns 404 on calls to unknown api /api/v1/res", func() {
+			resp, err := http.Get("http://" + serverAddr + "/api/v1/res")
+			Expect(err).NotTo(HaveOccurred())
+			Expect(resp.StatusCode).To(Equal(http.StatusNotFound))
+		})
+	})
 	Context("serving public files", func() {
-		//It("returns index file on calls to /", func() {
-		//	resp, err := http.Get("http://" + serverAddr + "/")
-		//	Expect(err).NotTo(HaveOccurred())
-		//	Expect(resp.Status).To(Equal(http.StatusOK))
-		//})
+		It("returns index file on calls to /", func() {
+			resp, err := http.Get("http://" + serverAddr + "/")
+			Expect(err).NotTo(HaveOccurred())
+			Expect(resp.StatusCode).To(Equal(http.StatusOK))
+			body, err := ioutil.ReadAll(resp.Body)
+			Expect(err).NotTo(HaveOccurred())
+			Expect(string(body)).To(ContainSubstring("<html>"))
+		})
 
 		It("returns index file on calls to /public", func() {
 			resp, err := http.Get("http://" + serverAddr + "/public/elm.js")

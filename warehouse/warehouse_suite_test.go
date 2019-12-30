@@ -3,6 +3,7 @@ package main_test
 import (
 	"os/exec"
 	"testing"
+	"time"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -31,7 +32,8 @@ var _ = SynchronizedBeforeSuite(func() []byte {
 
 	Eventually(func() *gbytes.Buffer {
 		return session.Out
-	}).Should(gbytes.Say("Dutyfree server started"))
+	}, 2*time.Second).Should(gbytes.Say("Dutyfree server started"))
+	time.Sleep(1 * time.Second)
 
 })
 
@@ -39,6 +41,7 @@ var _ = SynchronizedAfterSuite(func() {
 }, func() {
 	gexec.CleanupBuildArtifacts()
 	session.Kill()
+	<-session.Exited
 })
 
 func TestWarehouse(t *testing.T) {
