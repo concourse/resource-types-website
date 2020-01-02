@@ -46,7 +46,7 @@ type alias Flags =
 
 apiUrl : String
 apiUrl =
-    "http://localhost:5019/resourceTypes"
+    "http://localhost:9090/api/v1/resources"
 
 
 
@@ -224,5 +224,5 @@ resourceTypeDecoder : Decoder ResourceType
 resourceTypeDecoder =
     Decode.succeed ResourceType
         |> required "name" string
-        |> required "url" string
+        |> required "repo" string
         |> optional "description" string ""
