@@ -1,4 +1,4 @@
-module Card.Card exposing (Card, Container, ResourceType, card, container, resourceType)
+module Card.Card exposing (Card, Container, Description, Github, Name, ResourceType, card, container, resourceType)
 
 import Card.Styles as Styles
 import Common.Common exposing (RGB, Shadow)
@@ -43,14 +43,14 @@ type alias Description =
     , paddingTop : Int
     , color : RGB
     , maxHeight : Int
+    , minHeight : Int
     , maxWidth : Int
     , spacing : Int
     }
 
 
 type alias Github =
-    { imageName : String
-    , imageHeight : Int
+    { imageHeight : Int
     , imageWidth : Int
     , paddingTop : Int
     }
@@ -100,6 +100,7 @@ description =
     , paddingTop = Styles.descriptionPaddingTop
     , color = Styles.descriptionColor
     , maxHeight = Styles.descriptionMaxHeight
+    , minHeight = Styles.descriptionMinHeight
     , maxWidth = Styles.descriptionMaxWidth
     , spacing = Styles.descriptionSpacing
     }
@@ -107,8 +108,7 @@ description =
 
 github : Github
 github =
-    { imageName = Styles.githubImageName
-    , imageHeight = Styles.githubImageHeight
+    { imageHeight = Styles.githubImageHeight
     , imageWidth = Styles.githubImageWidth
     , paddingTop = Styles.githubImagePaddingTop
     }

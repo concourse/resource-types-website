@@ -3,7 +3,6 @@ module Banner.Banner exposing (Banner, Body, Container, Title, banner, body, con
 import Banner.Styles as Styles
     exposing
         ( backgroundColor
-        , backgroundImage
         , bannerHeight
         , bodyColor
         , bodyFont
@@ -27,7 +26,6 @@ type alias Banner =
 type alias Container =
     { height : Int
     , backgroundColor : RGB
-    , backgroundImage : String
     }
 
 
@@ -61,7 +59,6 @@ container : Container
 container =
     { height = Styles.bannerHeight
     , backgroundColor = Styles.backgroundColor
-    , backgroundImage = Styles.backgroundImage
     }
 
 
