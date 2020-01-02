@@ -10,7 +10,7 @@ func main() {
 	s := server.Server{
 		Port:              9090,
 		PublicPath:        "../../../web/public",
-		ResourceTypesPath: "../resource-types",
+		ResourceTypesPath: "../../resource-types",
 	}
 
 	s.Start()
