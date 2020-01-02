@@ -4,19 +4,19 @@
     <title>Concourse Resources</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto+Slab&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Barlow&display=swap" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="spinner.css">
-    <link rel="stylesheet" type="text/css" href="overrides.css">
+    <link rel="stylesheet" type="text/css" href="{{asset "spinner.css"}}">
+    <link rel="stylesheet" type="text/css" href="{{asset "overrides.css"}}">
   </head>
 
   <body>
     <div id="concourse-resources"></div>
-    <script src="elm.js"></script>
+    <script src="{{asset "elm.js"}}"></script>
     <script>
       var app = Elm.Main.init({
         node: document.getElementById("concourse-resources"),
         flags: {
-          githubIconImg: "github-logo.png",
-          bannerImg: "banner-background.png"
+          githubIconImg: "{{asset "github-logo.png"}}",
+          bannerImg: "{{asset "banner-background.png"}}"
         }
       });
     </script>

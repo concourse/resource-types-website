@@ -1,25 +1,31 @@
 package persistence_test
 
 import (
-	"github.com/concourse/dutyfree/persistence"
-
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
+
+	"github.com/concourse/dutyfree/fetcher"
+	"github.com/concourse/dutyfree/persistence"
+	"github.com/gobuffalo/packr/v2"
 )
 
 var _ = Describe("filesystem persistence", func() {
 	Context("fetching", func() {
 		It("is able to load resources from filesystem", func() {
+			//TODO: counterfeiter
+			box := packr.New("test", "./sample_resource_types")
 			fs := persistence.Filesystem{
-				Location: "./sample_resource_types",
+				Fetcher: fetcher.Fetcher{*box},
 			}
 			err := fs.LoadResources()
 			Expect(err).NotTo(HaveOccurred())
 		})
 
 		It("returns all the resources", func() {
+			//TODO: counterfeiter
+			box := packr.New("test", "./sample_resource_types")
 			fs := persistence.Filesystem{
-				Location: "./sample_resource_types",
+				Fetcher: fetcher.Fetcher{*box},
 			}
 
 			err := fs.LoadResources()

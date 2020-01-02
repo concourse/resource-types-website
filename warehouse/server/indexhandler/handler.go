@@ -4,20 +4,18 @@ import (
 	"html/template"
 	"net/http"
 
-	"github.com/gobuffalo/packr"
+	"github.com/concourse/dutyfree/fetcher"
 )
 
 type Handler struct {
 	template *template.Template
 }
 
-func NewHandler(path string) (Handler, error) {
+func NewHandler(fetchr fetcher.Fetcher) (Handler, error) {
 
-	fns := TemplateFunctions(path)
+	fns := TemplateFunctions(fetchr)
 
-	box := packr.NewBox(path)
-
-	src, err := box.Find("index.html")
+	src, err := fetchr.GetFile("index.html")
 	if err != nil {
 		return Handler{}, err
 	}
