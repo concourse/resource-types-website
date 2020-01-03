@@ -18,7 +18,5 @@ func NewIndexHandler(path string) (http.Handler, error) {
 }
 
 func NewApiHandler(p persistence.Persistence) http.Handler {
-	mux := http.NewServeMux()
-	mux.Handle("/api/v1/resources", apihandler.NewApiHandler(p))
-	return mux
+	return apihandler.NewApiHandler(p)
 }
