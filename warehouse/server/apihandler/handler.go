@@ -1,8 +1,9 @@
 package apihandler
 
 import (
-	"github.com/concourse/dutyfree/persistence"
 	"net/http"
+
+	"github.com/concourse/dutyfree/persistence"
 )
 
 type Handler struct {

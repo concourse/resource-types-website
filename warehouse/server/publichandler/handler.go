@@ -3,14 +3,13 @@ package publichandler
 import (
 	"net/http"
 
-	"github.com/gobuffalo/packr"
+	"github.com/concourse/dutyfree/fetcher"
 )
 
 type Handler struct {
-	Path string
+	Fetcher fetcher.Fetcher
 }
 
 func (s Handler) ServeHTTP(r http.ResponseWriter, w *http.Request) {
-	box := packr.NewBox(s.Path)
-	CacheNearlyForever(http.StripPrefix("/public/", http.FileServer(box))).ServeHTTP(r, w)
+	CacheNearlyForever(http.StripPrefix("/public/", http.FileServer(s.Fetcher))).ServeHTTP(r, w)
 }

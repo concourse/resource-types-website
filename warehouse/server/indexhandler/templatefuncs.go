@@ -6,19 +6,19 @@ import (
 	"html/template"
 	"sync"
 
-	"github.com/gobuffalo/packr"
+	"github.com/concourse/dutyfree/fetcher"
 )
 
 type templateFs struct {
 	assetIDs map[string]string
 	assetsL  sync.Mutex
-	box      packr.Box
+	fetcher  fetcher.Fetcher
 }
 
-func TemplateFunctions(path string) template.FuncMap {
+func TemplateFunctions(fetchr fetcher.Fetcher) template.FuncMap {
 	tfs := &templateFs{
 		assetIDs: map[string]string{},
-		box:      packr.NewBox(path),
+		fetcher:  fetchr,
 	}
 	return template.FuncMap{
 		"asset": tfs.asset,
@@ -33,7 +33,7 @@ func (fs *templateFs) asset(asset string) (string, error) {
 	if !found {
 		hash := md5.New()
 
-		contents, err := fs.box.Find(asset)
+		contents, err := fs.fetcher.GetFile(asset)
 		if err != nil {
 			return "", err
 		}

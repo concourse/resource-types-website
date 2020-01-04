@@ -3,20 +3,22 @@ package server
 import (
 	"context"
 	"fmt"
-	"github.com/concourse/dutyfree/persistence"
 	"net"
 	"net/http"
 	"strconv"
 	"time"
+
+	"github.com/concourse/dutyfree/fetcher"
+	"github.com/concourse/dutyfree/persistence"
 )
 
 type Server struct {
-	Port              int
-	Exited            chan bool
-	PublicPath        string
-	ResourceTypesPath string
-	Kill              chan bool
-	srv               *http.Server
+	Port                     int
+	Exited                   chan bool
+	PublicFilesFetcher       fetcher.Fetcher
+	ResourceTypesFileFetcher fetcher.Fetcher
+	Kill                     chan bool
+	srv                      *http.Server
 }
 
 func (s *Server) Close() error {
@@ -24,14 +26,14 @@ func (s *Server) Close() error {
 }
 func (s *Server) Start() {
 
-	indexHndlr, err := NewIndexHandler(s.PublicPath)
+	indexHndlr, err := NewIndexHandler(s.PublicFilesFetcher)
 	if err != nil {
 		//TODO: don't panic
 		panic("server error: " + err.Error())
 	}
 
 	fs := &persistence.Filesystem{
-		Location: s.ResourceTypesPath,
+		Fetcher: s.ResourceTypesFileFetcher,
 	}
 	err = fs.LoadResources()
 	if err != nil {
@@ -41,7 +43,7 @@ func (s *Server) Start() {
 	warehouseMux := http.NewServeMux()
 	warehouseMux.Handle("/api/v1/", NewApiHandler(fs))
 
-	warehouseMux.Handle("/public/", NewPublicHandler(s.PublicPath))
+	warehouseMux.Handle("/public/", NewPublicHandler(s.PublicFilesFetcher))
 	warehouseMux.Handle("/", indexHndlr)
 
 	go func() {

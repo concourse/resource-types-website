@@ -1,21 +1,26 @@
 package publichandler_test
 
 import (
-	. "github.com/onsi/ginkgo"
-	. "github.com/onsi/gomega"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 
+	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/gomega"
+
+	"github.com/concourse/dutyfree/fetcher"
 	"github.com/concourse/dutyfree/server/publichandler"
+	"github.com/gobuffalo/packr/v2"
 )
 
 var _ = Describe("public server", func() {
 	Context("handler", func() {
 		var server *httptest.Server
 		BeforeEach(func() {
-			path := "./test_public"
-			sHandler := publichandler.Handler{Path: path}
+			//TODO: use counterfeiter
+			fetchr := fetcher.Fetcher{*packr.New("testBox", "./test_public")}
+
+			sHandler := publichandler.Handler{fetchr}
 
 			server = httptest.NewServer(sHandler)
 		})

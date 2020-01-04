@@ -2,7 +2,9 @@ package server_test
 
 import (
 	"encoding/json"
+	"github.com/concourse/dutyfree/fetcher"
 	"github.com/concourse/dutyfree/resource"
+	"github.com/gobuffalo/packr/v2"
 	"io/ioutil"
 	"net"
 	"net/http"
@@ -24,10 +26,11 @@ var _ = Describe("Server Test", func() {
 
 	BeforeEach(func() {
 		port = 9000
+		//TODO: counterfeiter
 		srv = server.Server{
-			Port:              port,
-			PublicPath:        "../testdata/public",
-			ResourceTypesPath: "./testdata/resource-types",
+			Port:                     port,
+			PublicFilesFetcher:       fetcher.Fetcher{Box: *packr.New("publicTestBox", "./testdata/public")},
+			ResourceTypesFileFetcher: fetcher.Fetcher{Box: *packr.New("resourcesTestBox", "./testdata/resource-types")},
 		}
 		srv.Start()
 
@@ -68,6 +71,7 @@ var _ = Describe("Server Test", func() {
 			Expect(resp.StatusCode).To(Equal(http.StatusNotFound))
 		})
 	})
+
 	Context("serving public files", func() {
 		It("returns index file on calls to /", func() {
 			resp, err := http.Get("http://" + serverAddr + "/")

@@ -1,17 +1,15 @@
 package persistence
 
 import (
-	"github.com/gobuffalo/packd"
-	"github.com/gobuffalo/packr"
-	"io/ioutil"
+	"gopkg.in/yaml.v2"
 	"strings"
 
+	"github.com/concourse/dutyfree/fetcher"
 	"github.com/concourse/dutyfree/resource"
-	"gopkg.in/yaml.v2"
 )
 
 type Filesystem struct {
-	Location  string
+	Fetcher   fetcher.Fetcher
 	resources []resource.Resource
 }
 
@@ -20,51 +18,20 @@ func (fs *Filesystem) GetAllResources() []resource.Resource {
 }
 
 func (fs *Filesystem) LoadResources() error {
-	//_, err := ioutil.ReadDir(fs.Location)
-	//
-	//if err != nil {
-	//	return err
-	//}
-
-	filesNew := packr.NewBox(fs.Location)
-
-	err := filesNew.Walk(func(s string, f packd.File) error {
-		inf, err := f.FileInfo()
-		if err != nil {
-			return err
-		}
-		if !inf.IsDir() && strings.Contains(inf.Name(), ".yml") {
-			fileBytes, err := ioutil.ReadAll(f)
-			if err != nil {
-				return err
-			}
+	files, err := fs.Fetcher.GetAll()
+	if err != nil {
+		return err
+	}
+	for _, fileBytes := range files {
+		if strings.Contains(fileBytes.Name, ".yml") {
 			var currResource resource.Resource
-			err = yaml.UnmarshalStrict(fileBytes, &currResource)
+			err = yaml.UnmarshalStrict(fileBytes.Contents, &currResource)
+			//TODO: do we exit if one file is corrupt of just skip it??
 			if err != nil {
 				return err
 			}
 			fs.resources = append(fs.resources, currResource)
 		}
-		return nil
-
-	})
-	//if err != nil {
-	//	return err
-	//}
-	//for _, currFile := range filesNew. {
-	//	if !file.IsDir() && strings.Contains(file.Name(), ".yml") {
-	//		fileBytes, err := ioutil.ReadFile(fs.Location + "/" + file.Name())
-	//		if err != nil {
-	//			return err
-	//		}
-	//		var currResource resource.Resource
-	//		//fmt.Println("parsing: " + file.Name())
-	//		err = yaml.UnmarshalStrict(fileBytes, &currResource)
-	//		if err != nil {
-	//			return err
-	//		}
-	//		fs.resources = append(fs.resources, currResource)
-	//	}
-	//}
-	return err
+	}
+	return nil
 }

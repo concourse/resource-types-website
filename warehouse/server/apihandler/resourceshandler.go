@@ -2,8 +2,9 @@ package apihandler
 
 import (
 	"encoding/json"
-	"github.com/concourse/dutyfree/persistence"
 	"net/http"
+
+	"github.com/concourse/dutyfree/persistence"
 )
 
 type resourcesHandler struct {
