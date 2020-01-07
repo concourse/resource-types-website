@@ -1,6 +1,6 @@
 module Terms.View exposing (view)
 
-import Element exposing (Element, centerX, column, el, paragraph, px, text, width, wrappedRow)
+import Element exposing (Element, centerX, column, el, paragraph, px, text, width)
 import Element.Font as Font
 import Terms.Terms exposing (terms)
 

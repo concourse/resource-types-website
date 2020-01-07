@@ -6,7 +6,7 @@ import Browser.Navigation as Nav
 import Common.Common exposing (ResourceType, gridSize)
 import Element exposing (Element, centerX, column, el, fill, height, html, padding, text, width)
 import Footer.View as Footer exposing (view)
-import Html exposing (Html)
+import Html
 import Html.Attributes exposing (class)
 import Http
 import Json.Decode as Decode exposing (Decoder, list, string)
@@ -170,6 +170,7 @@ viewResourceTypes model =
     ]
 
 
+viewTerms : List (Element msg)
 viewTerms =
     [ Terms.view ]
 

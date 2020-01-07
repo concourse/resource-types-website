@@ -4,19 +4,28 @@ import Terms.Styles as Styles
 
 
 type alias Terms =
-    { container : Container, title : Title, body : Body }
+    { container : Container
+    , title : Title
+    , body : Body
+    }
 
 
 type alias Container =
-    { width : Int, spacing : Int }
+    { width : Int
+    , spacing : Int
+    }
 
 
 type alias Title =
-    { font : String, size : Int }
+    { font : String
+    , size : Int
+    }
 
 
 type alias Body =
-    { font : String, size : Int }
+    { font : String
+    , size : Int
+    }
 
 
 terms : Terms
