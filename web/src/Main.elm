@@ -46,7 +46,7 @@ type alias Flags =
 
 apiUrl : String
 apiUrl =
-    "http://localhost:9090/api/v1/resources"
+    "/api/v1/resources"
 
 
 
