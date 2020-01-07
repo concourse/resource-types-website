@@ -17,8 +17,9 @@ type Server struct {
 	Exited                   chan bool
 	PublicFilesFetcher       fetcher.Fetcher
 	ResourceTypesFileFetcher fetcher.Fetcher
-	Kill                     chan bool
-	srv                      *http.Server
+	//TODO: remove Kill?
+	Kill chan bool
+	srv  *http.Server
 }
 
 func (s *Server) Close() error {
