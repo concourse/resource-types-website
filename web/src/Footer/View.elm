@@ -20,7 +20,7 @@ import Element.Background as Background exposing (color)
 import Element.Font as Font exposing (center, color, family, size, typeface)
 import Footer.Footer exposing (footer)
 import Html.Attributes exposing (class)
-import Url.Builder as Url exposing (relative)
+import Url.Builder as Url
 
 
 type alias Link =

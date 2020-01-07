@@ -14,7 +14,6 @@ module Common.Common exposing
 
 import Element exposing (Attribute, htmlAttribute)
 import Html.Attributes exposing (style)
-import RemoteData exposing (WebData)
 
 
 
