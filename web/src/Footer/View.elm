@@ -3,13 +3,15 @@ module Footer.View exposing (view)
 import Common.Common as Common exposing (center)
 import Element
     exposing
-        ( Element
+        ( Attribute
+        , Element
         , centerX
         , fill
         , fromRgb255
         , height
         , htmlAttribute
         , link
+        , newTabLink
         , px
         , row
         , spacing
@@ -53,9 +55,9 @@ view =
             ]
             [ showLink terms
             , text "|"
-            , showLink contribute
+            , showLinkExternal contribute
             , text "|"
-            , showLink feedback
+            , showLinkExternal feedback
             ]
         ]
 
@@ -63,10 +65,27 @@ view =
 showLink : Link -> Element msg
 showLink linkValue =
     link
-        [ htmlAttribute (Html.Attributes.class "footer-link") ]
-        { url = linkValue.url
-        , label = text linkValue.text
-        }
+        linkAttributes
+        (linkDetails linkValue)
+
+
+showLinkExternal : Link -> Element msg
+showLinkExternal linkValue =
+    newTabLink
+        linkAttributes
+        (linkDetails linkValue)
+
+
+linkAttributes : List (Attribute msg)
+linkAttributes =
+    [ htmlAttribute (Html.Attributes.class "footer-link") ]
+
+
+linkDetails : Link -> { url : String, label : Element msg }
+linkDetails linkValue =
+    { url = linkValue.url
+    , label = text linkValue.text
+    }
 
 
 terms : Link
@@ -79,12 +98,12 @@ terms =
 contribute : Link
 contribute =
     { text = "Contribute"
-    , url = "http://example.com"
+    , url = "https://github.com/concourse/resource-types/blob/master/README.md"
     }
 
 
 feedback : Link
 feedback =
     { text = "Feedback"
-    , url = "http://example.com"
+    , url = "https://github.com/concourse/resource-types-website/issues/new"
     }

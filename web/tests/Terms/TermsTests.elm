@@ -13,9 +13,14 @@ suite =
             [ test "has a width" <|
                 \_ ->
                     termsContainer.width |> Expect.equal Styles.containerWidth
-            , test "has spacing" <|
-                \_ ->
-                    termsContainer.spacing |> Expect.equal Styles.containerSpacing
+            ]
+        , describe "back link"
+            [ test "has a font size" <|
+                \_ -> termsBackLink.size |> Expect.equal Styles.backLinkSize
+            , test "has top padding" <|
+                \_ -> termsBackLink.paddingTop |> Expect.equal Styles.backLinkPaddingTop
+            , test "has font color" <|
+                \_ -> termsBackLink.color |> Expect.equal Styles.backLinkColor
             ]
         , describe "title"
             [ test "has a font size" <|
@@ -24,6 +29,9 @@ suite =
             , test "has a font" <|
                 \_ ->
                     termsTitle.font |> Expect.equal Styles.titleFont
+            , test "has padding" <|
+                \_ ->
+                    termsTitle.padding |> Expect.equal Styles.titlePadding
             ]
         , describe "body"
             [ test "has a font size" <|
@@ -38,6 +46,10 @@ suite =
 
 termsContainer =
     Terms.container
+
+
+termsBackLink =
+    Terms.backLink
 
 
 termsTitle =

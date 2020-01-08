@@ -1,10 +1,12 @@
-module Terms.Terms exposing (Terms, body, container, terms, title)
+module Terms.Terms exposing (Terms, backLink, body, container, terms, title)
 
+import Common.Common as Common
 import Terms.Styles as Styles
 
 
 type alias Terms =
     { container : Container
+    , backLink : BackLink
     , title : Title
     , body : Body
     }
@@ -12,13 +14,20 @@ type alias Terms =
 
 type alias Container =
     { width : Int
-    , spacing : Int
+    }
+
+
+type alias BackLink =
+    { size : Int
+    , paddingTop : Int
+    , color : Common.RGB
     }
 
 
 type alias Title =
     { font : String
     , size : Int
+    , padding : Int
     }
 
 
@@ -30,17 +39,29 @@ type alias Body =
 
 terms : Terms
 terms =
-    { container = container, title = title, body = body }
+    { container = container
+    , backLink = backLink
+    , title = title
+    , body = body
+    }
 
 
 container : Container
 container =
-    { width = Styles.containerWidth, spacing = Styles.containerSpacing }
+    { width = Styles.containerWidth }
+
+
+backLink : BackLink
+backLink =
+    { size = Styles.backLinkSize
+    , paddingTop = Styles.backLinkPaddingTop
+    , color = Styles.backLinkColor
+    }
 
 
 title : Title
 title =
-    { size = Styles.titleSize, font = Styles.titleFont }
+    { size = Styles.titleSize, font = Styles.titleFont, padding = Styles.titlePadding }
 
 
 body : Body
