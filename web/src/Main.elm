@@ -172,7 +172,7 @@ viewResourceTypes model =
 
 viewTerms : List (Element msg)
 viewTerms =
-    [ Terms.view ]
+    [ Terms.view, Footer.view ]
 
 
 buildErrorMessage : Http.Error -> String
