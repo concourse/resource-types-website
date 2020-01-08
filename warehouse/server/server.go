@@ -17,9 +17,7 @@ type Server struct {
 	Exited                   chan bool
 	PublicFilesFetcher       fetcher.Fetcher
 	ResourceTypesFileFetcher fetcher.Fetcher
-	//TODO: remove Kill?
-	Kill chan bool
-	srv  *http.Server
+	srv                      *http.Server
 }
 
 func (s *Server) Close() error {
@@ -50,7 +48,7 @@ func (s *Server) Start() {
 	go func() {
 		s.srv = &http.Server{
 			Handler:      warehouseMux,
-			Addr:         net.JoinHostPort("localhost", strconv.Itoa(s.Port)),
+			Addr:         net.JoinHostPort("0.0.0.0", strconv.Itoa(s.Port)),
 			WriteTimeout: 15 * time.Second,
 			ReadTimeout:  15 * time.Second,
 		}
