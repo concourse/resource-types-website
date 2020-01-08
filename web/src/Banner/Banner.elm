@@ -76,7 +76,7 @@ body : Body
 body =
     { size = Styles.bodySize
     , color = Styles.bodyColor
-    , text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt"
+    , text = "Find more things for your thing do-er to do"
     , font = Styles.bodyFont
     , width = Styles.bodyWidth
     }
