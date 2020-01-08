@@ -48,7 +48,7 @@ func (s *Server) Start() {
 	go func() {
 		s.srv = &http.Server{
 			Handler:      warehouseMux,
-			Addr:         net.JoinHostPort("localhost", strconv.Itoa(s.Port)),
+			Addr:         net.JoinHostPort("0.0.0.0", strconv.Itoa(s.Port)),
 			WriteTimeout: 15 * time.Second,
 			ReadTimeout:  15 * time.Second,
 		}
