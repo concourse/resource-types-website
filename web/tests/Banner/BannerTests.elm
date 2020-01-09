@@ -53,7 +53,7 @@ suite =
             , test "has text" <|
                 \_ ->
                     bannerBody.text
-                        |> Expect.equal "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt"
+                        |> Expect.equal "Find more things for your thing do-er to do"
             , test "has a font" <|
                 \_ ->
                     bannerBody.font
