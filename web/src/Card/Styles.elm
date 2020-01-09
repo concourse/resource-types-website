@@ -144,12 +144,12 @@ descriptionSpacing =
 
 descriptionMaxHeight : Int
 descriptionMaxHeight =
-    Common.gridSize * 7
+    Common.gridSize * 4 + descriptionSize * 2 + descriptionSpacing
 
 
 descriptionMinHeight : Int
 descriptionMinHeight =
-    Common.gridSize * 7
+    descriptionMaxHeight
 
 
 
