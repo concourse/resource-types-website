@@ -1,0 +1,8 @@
+version: '3'
+
+services:
+  dutyfree:
+    build: .
+    image: concourse/dutyfree:local
+    ports:
+      - 9090:9090
