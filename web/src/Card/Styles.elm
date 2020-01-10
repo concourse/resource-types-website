@@ -138,13 +138,9 @@ descriptionSpacing =
     descriptionSize - Common.gridSize
 
 
-
--- the height of the two lines of text and the spacing above, between, and below each line
-
-
 descriptionMaxHeight : Int
 descriptionMaxHeight =
-    Common.gridSize * 4 + descriptionSize * 2 + descriptionSpacing
+    Common.gridSize * 4 + descriptionSize * 2
 
 
 descriptionMinHeight : Int
