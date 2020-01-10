@@ -120,7 +120,7 @@ descriptionFont =
 
 descriptionPaddingTop : Int
 descriptionPaddingTop =
-    Common.gridSize * 3
+    Common.gridSize * 2
 
 
 descriptionColor : RGB
@@ -135,7 +135,7 @@ descriptionMaxWidth =
 
 descriptionSpacing : Int
 descriptionSpacing =
-    descriptionSize - Common.gridSize
+    Common.gridSize // 4
 
 
 descriptionMaxHeight : Int

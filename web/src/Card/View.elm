@@ -32,8 +32,8 @@ import Element.Font as Font exposing (color, family, size, typeface)
 import Html
 
 
-edges : { top : Int, right : Int, bottom : Int, left : Int }
-edges =
+padding : { top : Int, right : Int, bottom : Int, left : Int }
+padding =
     { top = 0
     , right = 0
     , bottom = 0
@@ -54,7 +54,7 @@ view resourceType githubIcon =
                 [ width <| px container.width
                 , height <| px container.height
                 , rounded container.borderRadius
-                , paddingEach { edges | left = container.paddingLeft }
+                , paddingEach { padding | left = container.paddingLeft }
                 , mouseOver
                     [ shadow cardHoverShadow ]
                 , shadow cardShadow
@@ -77,7 +77,7 @@ name resourceType styles =
         , Font.color <| fromRgb255 styles.color
         , height fill
         , width (fill |> maximum styles.maxWidth)
-        , paddingEach { edges | top = styles.paddingTop }
+        , paddingEach { padding | top = styles.paddingTop }
         , clip
         ]
         [ html
@@ -97,7 +97,7 @@ description resourceType styles =
         , width (fill |> maximum styles.maxWidth)
         , height (fill |> minimum styles.minHeight)
         , spacing styles.spacing
-        , paddingEach { edges | top = styles.paddingTop }
+        , paddingEach { padding | top = styles.paddingTop }
         , clipY
         ]
         [ html
@@ -110,7 +110,7 @@ description resourceType styles =
 
 github : Github -> String -> Element msg
 github styles githubIconImg =
-    paragraph [ paddingEach { edges | top = styles.paddingTop } ]
+    paragraph [ paddingEach { padding | top = styles.paddingTop } ]
         [ image
             [ height <| px styles.imageHeight
             , width <| px styles.imageWidth

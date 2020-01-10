@@ -49,6 +49,10 @@ suite =
                     \_ ->
                         cardResourceType.name.font
                             |> Expect.equal Styles.nameFont
+                , test "has a font color" <|
+                    \_ ->
+                        cardResourceType.name.color
+                            |> Expect.equal Styles.nameColor
                 , test "has vertical padding" <|
                     \_ ->
                         cardResourceType.name.paddingTop
