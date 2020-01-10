@@ -1,4 +1,8 @@
-module Common.Overrides exposing (ellipsis, grid)
+module Common.Overrides exposing
+    ( ellipsis
+    , grid
+    , multiLineEllipsis
+    )
 
 import Element as Element exposing (htmlAttribute)
 import Html
@@ -21,4 +25,13 @@ ellipsis =
     , Html.Attributes.style "white-space" "nowrap"
     , Html.Attributes.style "overflow" "hidden"
     , Html.Attributes.style "height" "26px"
+    ]
+
+
+multiLineEllipsis : Int -> List (Html.Attribute msg)
+multiLineEllipsis numLines =
+    [ Html.Attributes.style "overflow" "hidden"
+    , Html.Attributes.style "display" "-webkit-box"
+    , Html.Attributes.style "-webkit-line-clamp" (String.fromInt numLines)
+    , Html.Attributes.style "-webkit-box-orient" "vertical"
     ]

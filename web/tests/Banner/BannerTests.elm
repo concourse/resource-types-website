@@ -18,10 +18,6 @@ suite =
                 \_ ->
                     bannerContainer.backgroundColor
                         |> Expect.equal Styles.backgroundColor
-            , test "has background image" <|
-                \_ ->
-                    bannerContainer.backgroundImage
-                        |> Expect.equal Styles.backgroundImage
             ]
         , describe "title"
             [ test "has font size" <|

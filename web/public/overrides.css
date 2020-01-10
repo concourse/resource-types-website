@@ -1,0 +1,6 @@
+body {
+  margin: 0;
+}
+.footer-link:hover {
+  text-decoration: underline;
+}

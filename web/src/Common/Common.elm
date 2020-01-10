@@ -6,6 +6,7 @@ module Common.Common exposing
     , cardDescriptionColor
     , cardTitleColor
     , center
+    , footerBackgroundColor
     , gridSize
     , shadowColor
     , white
@@ -28,8 +29,7 @@ type alias RGB =
 
 
 type alias Shadow =
-    { offsetX : Float
-    , offsetY : Float
+    { offset : ( Float, Float )
     , blur : Float
     , size : Float
     , color : RGB
@@ -87,4 +87,9 @@ cardDescriptionColor =
 
 cardTitleColor : RGB
 cardTitleColor =
-    { red = 42, blue = 41, green = 41, alpha = 2 }
+    { red = 42, blue = 41, green = 41, alpha = 1 }
+
+
+footerBackgroundColor : RGB
+footerBackgroundColor =
+    { red = 127, blue = 127, green = 127, alpha = 1 }

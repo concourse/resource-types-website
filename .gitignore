@@ -14,3 +14,6 @@ web/public/elm.js
 # yarn
 yarn.lock
 node_modules/
+
+## GoLang
+*-packr.go

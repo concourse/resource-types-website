@@ -1,30 +1,24 @@
 module ResourceList.View exposing (view)
 
 import Card.View as CardView exposing (view)
+import Common.Common exposing (ResourceType)
 import Common.Overrides as Overrides exposing (grid)
-import Element exposing (Element, fill, maximum, paddingXY, width, wrappedRow)
+import Element exposing (Element, fill, height, maximum, paddingXY, width, wrappedRow)
 import ResourceList.ResourceList exposing (container)
 
 
-view : Element msg
-view =
+view : List ResourceType -> String -> Element msg
+view resourceList githubIconImg =
     wrappedRow
         ([ width (fill |> maximum container.maxWidth)
+         , height fill
          , paddingXY container.outsideMargin 0
          ]
             ++ Overrides.grid
         )
-        [ CardView.view
-        , CardView.view
-        , CardView.view
-        , CardView.view
-        , CardView.view
-        , CardView.view
-        , CardView.view
-        , CardView.view
-        , CardView.view
-        , CardView.view
-        , CardView.view
-        , CardView.view
-        , CardView.view
-        ]
+        (List.map (viewCard githubIconImg) resourceList)
+
+
+viewCard : String -> ResourceType -> Element msg
+viewCard flags resourceType =
+    CardView.view resourceType flags

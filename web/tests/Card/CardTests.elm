@@ -79,6 +79,10 @@ suite =
                     \_ ->
                         cardResourceType.description.maxHeight
                             |> Expect.equal Styles.descriptionMaxHeight
+                , test "has a min height" <|
+                    \_ ->
+                        cardResourceType.description.minHeight
+                            |> Expect.equal Styles.descriptionMinHeight
                 , test "has a max width" <|
                     \_ ->
                         cardResourceType.description.maxWidth
@@ -89,11 +93,7 @@ suite =
                             |> Expect.equal Styles.descriptionSpacing
                 ]
             , describe "github"
-                [ test "has an image name" <|
-                    \_ ->
-                        cardResourceType.github.imageName
-                            |> Expect.equal Styles.githubImageName
-                , test "has a width" <|
+                [ test "has a width" <|
                     \_ ->
                         cardResourceType.github.imageWidth
                             |> Expect.equal Styles.githubImageWidth

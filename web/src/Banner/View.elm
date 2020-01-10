@@ -7,8 +7,8 @@ import Element.Background as Background exposing (color, image)
 import Element.Font as Font exposing (center, color, family, size, typeface)
 
 
-view : Element msg
-view =
+view : String -> Element msg
+view bannerImg =
     let
         container =
             banner.container
@@ -23,7 +23,7 @@ view =
         [ height <| px container.height
         , width fill
         , Background.color <| fromRgb255 container.backgroundColor
-        , Background.image container.backgroundImage
+        , Background.image bannerImg
         ]
         [ paragraph
             [ padding title.lineHeight
