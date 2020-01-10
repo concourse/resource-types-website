@@ -2,7 +2,7 @@ module Banner.View exposing (view)
 
 import Banner.Banner exposing (banner)
 import Common.Common as Common exposing (center)
-import Element exposing (Element, column, fill, fromRgb255, height, padding, paragraph, px, text, width)
+import Element exposing (Element, column, fill, fromRgb255, height, paddingEach, paragraph, px, text, width)
 import Element.Background as Background exposing (color, image)
 import Element.Font as Font exposing (center, color, family, size, typeface)
 
@@ -26,7 +26,7 @@ view bannerImg =
         , Background.image bannerImg
         ]
         [ paragraph
-            [ padding title.lineHeight
+            [ paddingEach { top = title.paddingTop, left = 0, right = 0, bottom = title.paddingBottom }
             , Font.family [ Font.typeface title.font ]
             , Font.color <| fromRgb255 title.color
             , Font.size title.size
