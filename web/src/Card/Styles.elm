@@ -81,7 +81,7 @@ containerHoverShadow =
 
 nameSize : Int
 nameSize =
-    20
+    16
 
 
 nameFont : String
@@ -110,7 +110,7 @@ nameMaxWidth =
 
 descriptionSize : Int
 descriptionSize =
-    12
+    14
 
 
 descriptionFont : String
