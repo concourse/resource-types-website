@@ -9,6 +9,7 @@ module Common.Common exposing
     , footerBackgroundColor
     , gridSize
     , shadowColor
+    , termsLinkColor
     , white
     )
 
@@ -77,19 +78,24 @@ white =
 
 shadowColor : RGB
 shadowColor =
-    { red = 98, blue = 85, green = 85, alpha = 0.2 }
+    { red = 98, green = 85, blue = 85, alpha = 0.2 }
 
 
 cardDescriptionColor : RGB
 cardDescriptionColor =
-    { red = 90, blue = 85, green = 85, alpha = 1 }
+    { red = 90, green = 85, blue = 85, alpha = 1 }
 
 
 cardTitleColor : RGB
 cardTitleColor =
-    { red = 42, blue = 41, green = 41, alpha = 1 }
+    { red = 42, green = 41, blue = 41, alpha = 1 }
 
 
 footerBackgroundColor : RGB
 footerBackgroundColor =
-    { red = 127, blue = 127, green = 127, alpha = 1 }
+    { red = 127, green = 127, blue = 127, alpha = 1 }
+
+
+termsLinkColor : RGB
+termsLinkColor =
+    { red = 12, green = 106, blue = 246, alpha = 1 }

@@ -1,9 +1,12 @@
 module Terms.Styles exposing
-    ( bodyFont
+    ( backLinkColor
+    , backLinkPaddingTop
+    , backLinkSize
+    , bodyFont
     , bodySize
-    , containerSpacing
     , containerWidth
     , titleFont
+    , titlePadding
     , titleSize
     )
 
@@ -19,9 +22,23 @@ containerWidth =
     Common.gridSize * 65
 
 
-containerSpacing : Int
-containerSpacing =
-    Common.gridSize * 9
+
+-- Back Link
+
+
+backLinkSize : Int
+backLinkSize =
+    14
+
+
+backLinkPaddingTop : Int
+backLinkPaddingTop =
+    Common.gridSize * 6
+
+
+backLinkColor : Common.RGB
+backLinkColor =
+    Common.termsLinkColor
 
 
 
@@ -36,6 +53,11 @@ titleSize =
 titleFont : String
 titleFont =
     "Roboto Slab"
+
+
+titlePadding : Int
+titlePadding =
+    Common.gridSize * 3
 
 
 
