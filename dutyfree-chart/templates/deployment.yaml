@@ -13,6 +13,10 @@ spec:
     metadata:
       labels:
         {{- include "dutyfree.selectorLabels" . | nindent 8 }}
+      {{- if .Values.annotations }}
+      annotations:
+{{- toYaml .Values.annotations | nindent 8 -}}
+      {{- end }}
     spec:
     {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
