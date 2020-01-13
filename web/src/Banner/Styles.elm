@@ -1,6 +1,5 @@
 module Banner.Styles exposing
     ( backgroundColor
-    , backgroundImage
     , bannerHeight
     , bodyColor
     , bodyFont
@@ -24,11 +23,6 @@ import Common.Common as Common
 bannerHeight : Int
 bannerHeight =
     Common.gridSize * 22
-
-
-backgroundImage : String
-backgroundImage =
-    "banner-background.png"
 
 
 backgroundColor : Common.RGB

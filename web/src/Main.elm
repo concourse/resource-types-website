@@ -11,6 +11,7 @@ import Html.Attributes exposing (class)
 import Http
 import Json.Decode as Decode exposing (Decoder, list, string)
 import Json.Decode.Pipeline exposing (optional, required)
+import List exposing (repeat)
 import RemoteData exposing (WebData)
 import ResourceList.View as ResourceList exposing (view)
 import Terms.View as Terms exposing (view)
@@ -205,15 +206,7 @@ spinner : Element msg
 spinner =
     html
         (Html.div [ Html.Attributes.class "la-line-spin-clockwise-fade-rotating la-dark la-2x" ]
-            [ Html.div [] []
-            , Html.div [] []
-            , Html.div [] []
-            , Html.div [] []
-            , Html.div [] []
-            , Html.div [] []
-            , Html.div [] []
-            , Html.div [] []
-            ]
+            (repeat 8 (Html.div [] []))
         )
 
 
