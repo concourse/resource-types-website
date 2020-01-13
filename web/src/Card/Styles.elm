@@ -81,7 +81,7 @@ containerHoverShadow =
 
 nameSize : Int
 nameSize =
-    20
+    16
 
 
 nameFont : String
@@ -110,7 +110,7 @@ nameMaxWidth =
 
 descriptionSize : Int
 descriptionSize =
-    12
+    14
 
 
 descriptionFont : String
@@ -120,7 +120,7 @@ descriptionFont =
 
 descriptionPaddingTop : Int
 descriptionPaddingTop =
-    Common.gridSize * 3
+    Common.gridSize * 2
 
 
 descriptionColor : RGB
@@ -135,21 +135,17 @@ descriptionMaxWidth =
 
 descriptionSpacing : Int
 descriptionSpacing =
-    descriptionSize - Common.gridSize
-
-
-
--- the height of the two lines of text and the spacing above, between, and below each line
+    Common.gridSize // 4
 
 
 descriptionMaxHeight : Int
 descriptionMaxHeight =
-    Common.gridSize * 7
+    Common.gridSize * 4 + descriptionSize * 2
 
 
 descriptionMinHeight : Int
 descriptionMinHeight =
-    Common.gridSize * 7
+    descriptionMaxHeight
 
 
 

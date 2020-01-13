@@ -40,6 +40,14 @@ suite =
                 \_ ->
                     bannerTitle.lineHeight
                         |> Expect.equal Styles.titleLineHeight
+            , test "has top padding" <|
+                \_ ->
+                    bannerTitle.paddingTop
+                        |> Expect.equal Styles.titlePaddingTop
+            , test "has bottom padding" <|
+                \_ ->
+                    bannerTitle.paddingBottom
+                        |> Expect.equal Styles.titlePaddingBottom
             ]
         , describe "body"
             [ test "has font size" <|
@@ -53,7 +61,7 @@ suite =
             , test "has text" <|
                 \_ ->
                     bannerBody.text
-                        |> Expect.equal "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt"
+                        |> Expect.equal "Find more things for your thing do-er to do"
             , test "has a font" <|
                 \_ ->
                     bannerBody.font

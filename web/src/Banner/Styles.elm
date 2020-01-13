@@ -9,6 +9,8 @@ module Banner.Styles exposing
     , titleColor
     , titleFont
     , titleLineHeight
+    , titlePaddingBottom
+    , titlePaddingTop
     , titleSize
     )
 
@@ -56,6 +58,16 @@ titleSize =
 titleLineHeight : Int
 titleLineHeight =
     32
+
+
+titlePaddingTop : Int
+titlePaddingTop =
+    Common.gridSize * 7
+
+
+titlePaddingBottom : Int
+titlePaddingBottom =
+    Common.gridSize * 2
 
 
 

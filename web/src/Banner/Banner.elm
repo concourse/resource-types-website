@@ -11,6 +11,8 @@ import Banner.Styles as Styles
         , titleColor
         , titleFont
         , titleLineHeight
+        , titlePaddingBottom
+        , titlePaddingTop
         , titleSize
         )
 import Common.Common exposing (RGB)
@@ -35,6 +37,8 @@ type alias Title =
     , text : String
     , font : String
     , lineHeight : Int
+    , paddingTop : Int
+    , paddingBottom : Int
     }
 
 
@@ -69,6 +73,8 @@ title =
     , text = "Concourse Resources"
     , font = Styles.titleFont
     , lineHeight = Styles.titleLineHeight
+    , paddingTop = Styles.titlePaddingTop
+    , paddingBottom = Styles.titlePaddingBottom
     }
 
 
@@ -76,7 +82,7 @@ body : Body
 body =
     { size = Styles.bodySize
     , color = Styles.bodyColor
-    , text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt"
+    , text = "Find more things for your thing do-er to do"
     , font = Styles.bodyFont
     , width = Styles.bodyWidth
     }
