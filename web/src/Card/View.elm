@@ -99,7 +99,7 @@ author resourceType styles =
         , paddingEach { padding | top = styles.paddingTop }
         ]
         -- it'll be resourceType.author or whatever here
-        [ text "@jomsie" ]
+        [ text resourceType.username ]
 
 
 description : ResourceType -> Description -> Element msg
