@@ -5,4 +5,5 @@ type Resource struct {
 	Description string `json:"description"`
 	URL         string `yaml:"repo" json:"repo"`
 	Image       string `yaml:"container_image"`
+	Owner       string `json:"username"`
 }

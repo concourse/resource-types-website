@@ -24,6 +24,7 @@ suite =
                             { name = "some name"
                             , description = "some description"
                             , url = "http://www.example.com"
+                            , username = "@someone"
                             }
                         )
             , test "properly decodes a resource type when description is missing in json" <|
@@ -37,6 +38,7 @@ suite =
                             { name = "some name"
                             , description = ""
                             , url = "http://www.example.com"
+                            , username = "@someone"
                             }
                         )
             , test "errors when name is missing in json" <|
@@ -51,6 +53,13 @@ suite =
                     let
                         decodedOutput =
                             Json.Decode.decodeString resourceTypeDecoder missingUrlJson
+                    in
+                    Expect.err decodedOutput
+            , test "errors when username is missing in json" <|
+                \_ ->
+                    let
+                        decodedOutput =
+                            Json.Decode.decodeString resourceTypeDecoder missingUsernameJson
                     in
                     Expect.err decodedOutput
             , test "errors with invalid json" <|
@@ -102,28 +111,40 @@ goodJson =
     """
     { "name" : "some name",
     "description" : "some description",
-    "repo" : "http://www.example.com" }
+    "repo" : "http://www.example.com",
+    "username" : "@someone"}
 """
 
 
 missingNameJson =
     """
     { "description" : "some description",
-    "repo" : "http://www.example.com"}
+    "repo" : "http://www.example.com",
+    "username" : "@someone"}
 """
 
 
 missingDescriptionJson =
     """
     { "name" : "some name",
-    "repo" : "http://www.example.com"}
+    "repo" : "http://www.example.com",
+    "username" : "@someone"}
 """
 
 
 missingUrlJson =
     """
     { "name" : "some name",
-    "description": "some description"}
+    "description": "some description",
+    "username" : "@someone"}
+"""
+
+
+missingUsernameJson =
+    """
+    { "name" : "some name",
+    "description" : "some description",
+    "repo" : "http://example.com" }
 """
 
 

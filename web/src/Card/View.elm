@@ -1,6 +1,6 @@
 module Card.View exposing (view)
 
-import Card.Card exposing (Description, Github, Name, card)
+import Card.Card exposing (Author, Description, Github, Name, card)
 import Common.Common exposing (ResourceType)
 import Common.Overrides as Overrides exposing (ellipsis, multiLineEllipsis)
 import Element
@@ -62,6 +62,7 @@ view resourceType githubIcon =
                 (column
                     []
                     [ name resourceType card.resourceType.name
+                    , author resourceType card.resourceType.author
                     , description resourceType card.resourceType.description
                     , github card.resourceType.github githubIcon
                     ]
@@ -86,6 +87,19 @@ name resourceType styles =
                 [ Html.text resourceType.name ]
             )
         ]
+
+
+author : ResourceType -> Author -> Element msg
+author resourceType styles =
+    paragraph
+        [ Font.family
+            [ Font.typeface styles.font ]
+        , Font.size styles.size
+        , Font.color <| fromRgb255 styles.color
+        , paddingEach { padding | top = styles.paddingTop }
+        ]
+        -- it'll be resourceType.author or whatever here
+        [ text resourceType.username ]
 
 
 description : ResourceType -> Description -> Element msg

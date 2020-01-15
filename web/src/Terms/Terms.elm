@@ -1,19 +1,14 @@
-module Terms.Terms exposing (Terms, backLink, body, container, terms, title)
+module Terms.Terms exposing (Terms, backLink, body, containerWidth, terms, title)
 
 import Common.Common as Common
 import Terms.Styles as Styles
 
 
 type alias Terms =
-    { container : Container
+    { containerWidth : Int
     , backLink : BackLink
     , title : Title
     , body : Body
-    }
-
-
-type alias Container =
-    { width : Int
     }
 
 
@@ -39,16 +34,16 @@ type alias Body =
 
 terms : Terms
 terms =
-    { container = container
+    { containerWidth = containerWidth
     , backLink = backLink
     , title = title
     , body = body
     }
 
 
-container : Container
-container =
-    { width = Styles.containerWidth }
+containerWidth : Int
+containerWidth =
+    Styles.containerWidth
 
 
 backLink : BackLink

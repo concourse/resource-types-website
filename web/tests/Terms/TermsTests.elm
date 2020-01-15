@@ -12,7 +12,7 @@ suite =
         [ describe "container"
             [ test "has a width" <|
                 \_ ->
-                    termsContainer.width |> Expect.equal Styles.containerWidth
+                    Terms.containerWidth |> Expect.equal Styles.containerWidth
             ]
         , describe "back link"
             [ test "has a font size" <|
@@ -42,10 +42,6 @@ suite =
                     termsBody.font |> Expect.equal Styles.bodyFont
             ]
         ]
-
-
-termsContainer =
-    Terms.container
 
 
 termsBackLink =
