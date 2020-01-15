@@ -119,7 +119,7 @@ authorFont =
 
 authorSize : Int
 authorSize =
-    10
+    12
 
 
 authorColor : RGB
