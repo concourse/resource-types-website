@@ -39,5 +39,5 @@ func (fs *Filesystem) LoadResources() error {
 
 func extractOwner(url string) string {
 	parts := strings.Split(url, "/")
-	return parts[len(parts)-2]
+	return "@" + parts[len(parts)-2]
 }
