@@ -33,22 +33,24 @@ securityContext: {}
   # runAsUser: 1000
 
 service:
-  type: LoadBalancer
-  loadBalancerIP: 34.69.234.22
+  type: NodePort
+  # loadBalancerIP: 34.69.234.22
   port: 80
+certificate:
+  name: dutyfree-certificate
+
+externalIp: 34.107.223.37
+domain: resource-types.concourse-ci.org
 
 ingress:
   enabled: true
-  annotations: {}
-    # kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
   hosts:
     - host: resource-types.concourse-ci.org
       paths: ["/"]
-  tls:
-   - secretName: chart-dutyfree-tls
-     hosts:
-       - resource-types.concourse-ci.org
+  # tls:
+  #  - secretName: chart-dutyfree-tls
+  #    hosts:
+  #      - resource-types.concourse-ci.org
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious

@@ -11,11 +11,16 @@ metadata:
   name: {{ $fullName }}
   labels:
     {{- include "dutyfree.labels" . | nindent 4 }}
-  {{- with .Values.ingress.annotations }}
   annotations:
+    kubernetes.io/ingress.global-static-ip-name: {{ .Values.externalIp }}
+    networking.gke.io/managed-certificates: {{ .Values.certificate.name }}
+  {{- with .Values.ingress.annotations }}
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
+  backend:
+    serviceName: {{ $fullName }}
+    servicePort: {{ $svcPort }}
 {{- if .Values.ingress.tls }}
   tls:
   {{- range .Values.ingress.tls }}
@@ -26,16 +31,16 @@ spec:
       secretName: {{ .secretName }}
   {{- end }}
 {{- end }}
-  rules:
-  {{- range .Values.ingress.hosts }}
-    - host: {{ .host | quote }}
-      http:
-        paths:
-        {{- range .paths }}
-          - path: {{ . }}
-            backend:
-              serviceName: {{ $fullName }}
-              servicePort: {{ $svcPort }}
-        {{- end }}
-  {{- end }}
+  # rules:
+  # {{- range .Values.ingress.hosts }}
+  #   - host: {{ .host | quote }}
+  #     http:
+  #       paths:
+  #       {{- range .paths }}
+  #         - path: {{ . }}
+  #           backend:
+  #             serviceName: {{ $fullName }}
+  #             servicePort: {{ $svcPort }}
+  #       {{- end }}
+  # {{- end }}
 {{- end }}
