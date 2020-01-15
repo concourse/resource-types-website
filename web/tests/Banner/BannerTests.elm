@@ -31,7 +31,7 @@ suite =
             , test "has text" <|
                 \_ ->
                     bannerTitle.text
-                        |> Expect.equal "Concourse Resources"
+                        |> Expect.equal "Concourse Resource Types"
             , test "has a font" <|
                 \_ ->
                     bannerTitle.font
