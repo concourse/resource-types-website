@@ -79,7 +79,7 @@ init flags url key =
 
 view : Model -> Browser.Document Msg
 view model =
-    { title = "Concourse Resources"
+    { title = "Concourse Resource Types"
     , body =
         [ Element.layout []
             (column
