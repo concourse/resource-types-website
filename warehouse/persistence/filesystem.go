@@ -30,8 +30,14 @@ func (fs *Filesystem) LoadResources() error {
 			if err != nil {
 				return err
 			}
+			currResource.Owner = extractOwner(currResource.URL)
 			fs.resources = append(fs.resources, currResource)
 		}
 	}
 	return nil
+}
+
+func extractOwner(url string) string {
+	parts := strings.Split(url, "/")
+	return parts[len(parts)-2]
 }

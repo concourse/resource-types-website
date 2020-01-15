@@ -38,6 +38,7 @@ var _ = Describe("filesystem persistence", func() {
 			Expect(resources[0].URL).To(Equal("https://github.com/concourse/test"))
 			Expect(resources[0].Description).To(ContainSubstring("line1"))
 			Expect(resources[0].Description).To(ContainSubstring("line2"))
+			Expect(resources[0].Owner).To(Equal("concourse"))
 		})
 	})
 
