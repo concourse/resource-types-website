@@ -12,8 +12,9 @@ metadata:
   labels:
     {{- include "dutyfree.labels" . | nindent 4 }}
   annotations:
-    kubernetes.io/ingress.global-static-ip-name: dutyfree-global
+    kubernetes.io/ingress.global-static-ip-name: "dutyfree-global"
     networking.gke.io/managed-certificates: {{ .Values.certificate.name }}
+    kubernetes.io/ingress.allow-http: "false"
   {{- with .Values.ingress.annotations }}
     {{- toYaml . | nindent 4 }}
   {{- end }}
