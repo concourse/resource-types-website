@@ -62,6 +62,24 @@ suite =
                         cardResourceType.name.maxWidth
                             |> Expect.equal Styles.nameMaxWidth
                 ]
+            , describe "author"
+                [ test "has a font" <|
+                    \_ ->
+                        cardResourceType.author.font
+                            |> Expect.equal Styles.authorFont
+                , test "has a font size" <|
+                    \_ ->
+                        cardResourceType.author.size
+                            |> Expect.equal Styles.authorSize
+                , test "has a font color" <|
+                    \_ ->
+                        cardResourceType.author.color
+                            |> Expect.equal Styles.authorColor
+                , test "has top padding" <|
+                    \_ ->
+                        cardResourceType.author.paddingTop
+                            |> Expect.equal Styles.authorPaddingTop
+                ]
             , describe "description"
                 [ test "has a font size" <|
                     \_ ->

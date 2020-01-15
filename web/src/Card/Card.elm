@@ -1,4 +1,4 @@
-module Card.Card exposing (Card, Container, Description, Github, Name, ResourceType, card, container, resourceType)
+module Card.Card exposing (Author, Card, Container, Description, Github, Name, ResourceType, card, container, resourceType)
 
 import Card.Styles as Styles
 import Common.Common exposing (RGB, Shadow)
@@ -23,6 +23,7 @@ type alias Container =
 
 type alias ResourceType =
     { name : Name
+    , author : Author
     , description : Description
     , github : Github
     }
@@ -34,6 +35,14 @@ type alias Name =
     , paddingTop : Int
     , maxWidth : Int
     , color : RGB
+    }
+
+
+type alias Author =
+    { font : String
+    , size : Int
+    , color : RGB
+    , paddingTop : Int
     }
 
 
@@ -78,6 +87,7 @@ container =
 resourceType : ResourceType
 resourceType =
     { name = name
+    , author = author
     , description = description
     , github = github
     }
@@ -90,6 +100,15 @@ name =
     , paddingTop = Styles.namePaddingTop
     , maxWidth = Styles.nameMaxWidth
     , color = Styles.nameColor
+    }
+
+
+author : Author
+author =
+    { font = Styles.authorFont
+    , size = Styles.authorSize
+    , color = Styles.authorColor
+    , paddingTop = Styles.authorPaddingTop
     }
 
 

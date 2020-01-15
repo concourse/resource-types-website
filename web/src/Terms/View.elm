@@ -25,7 +25,7 @@ view =
     column
         [ height fill
         , centerX
-        , width <| px terms.container.width
+        , width <| px terms.containerWidth
         ]
         [ backLink, title, body ]
 

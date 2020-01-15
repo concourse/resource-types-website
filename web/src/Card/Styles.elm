@@ -1,5 +1,9 @@
 module Card.Styles exposing
-    ( containerBorderRadius
+    ( authorColor
+    , authorFont
+    , authorPaddingTop
+    , authorSize
+    , containerBorderRadius
     , containerHeight
     , containerHoverShadow
     , containerPaddingLeft
@@ -105,6 +109,30 @@ nameMaxWidth =
 
 
 
+-- author
+
+
+authorFont : String
+authorFont =
+    "Roboto Slab"
+
+
+authorSize : Int
+authorSize =
+    10
+
+
+authorColor : RGB
+authorColor =
+    Common.cardTitleColor
+
+
+authorPaddingTop : Int
+authorPaddingTop =
+    Common.gridSize // 4
+
+
+
 -- description
 
 
@@ -164,4 +192,4 @@ githubImageHeight =
 
 githubImagePaddingTop : Int
 githubImagePaddingTop =
-    Common.gridSize * 3
+    (Common.gridSize * 3) // 2
