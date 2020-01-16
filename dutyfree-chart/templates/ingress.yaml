@@ -9,12 +9,15 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: {{ $fullName }}
+
   labels:
     {{- include "dutyfree.labels" . | nindent 4 }}
+
   annotations:
-    kubernetes.io/ingress.global-static-ip-name: "dutyfree-global"
-    networking.gke.io/managed-certificates: {{ .Values.certificate.name }}
-    kubernetes.io/ingress.allow-http: "false"
+    kubernetes.io/ingress.allow-http: {{ .Values.ingress.http.enabled | quote }}
+  {{- if .Values.certificate.enabled }}
+    networking.gke.io/managed-certificates: {{ .Values.certificate.name | quote }}
+  {{- end }}
   {{- with .Values.ingress.annotations }}
     {{- toYaml . | nindent 4 }}
   {{- end }}

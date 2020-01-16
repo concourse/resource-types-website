@@ -10,9 +10,13 @@ spec:
   loadBalancerIP: {{ .Values.service.loadBalancerIP }}
   {{ end }}
   ports:
-    - port: {{ .Values.service.port }}
+    - name: dutyfree-port
+      port: {{ .Values.service.port }}
+      {{- if .Values.dutyfree.port }}
+      targetPort: {{ .Values.dutyfree.port }}
+      {{- else }}
       targetPort: 9090
+      {{- end }}
       protocol: TCP
-      # name: http
   selector:
     {{- include "dutyfree.selectorLabels" . | nindent 4 }}

@@ -1,3 +1,4 @@
+{{- if .Values.certificate.enabled }}
 apiVersion: networking.gke.io/v1beta1
 kind: ManagedCertificate
 
@@ -8,3 +9,4 @@ metadata:
 spec:
   domains:
     - {{ .Values.domain }}
+{{- end }}

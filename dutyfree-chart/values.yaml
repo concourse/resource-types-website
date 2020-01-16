@@ -4,7 +4,7 @@
 
 replicaCount: 1
 annotations:
-  rollingUpdate: "3"
+  rollingUpdate: "4"
 
 image:
   repository: youssb/dutyfree
@@ -13,6 +13,9 @@ image:
 imagePullSecrets: []
 nameOverride: "dutyfree"
 fullnameOverride: "dutyfree"
+
+dutyfree:
+  port: 9090
 
 serviceAccount:
   # Specifies whether a service account should be created
@@ -34,9 +37,9 @@ securityContext: {}
 
 service:
   type: NodePort
-  # loadBalancerIP: 34.69.234.22
   port: 80
 certificate:
+  enabled: true
   name: dutyfree-certificate
 
 externalIp: 34.107.223.37
@@ -44,6 +47,10 @@ domain: resource-types.concourse-ci.org
 
 ingress:
   enabled: true
+  http:
+    enabled: false
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: "dutyfree-global"
   hosts:
     - host: resource-types.concourse-ci.org
       paths: ["/"]
