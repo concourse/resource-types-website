@@ -8,5 +8,5 @@ metadata:
     {{- include "dutyfree.labels" . | nindent 4 }}
 spec:
   domains:
-    - {{ .Values.domain }}
+    - {{ .Values.certificate.domain }}
 {{- end }}
