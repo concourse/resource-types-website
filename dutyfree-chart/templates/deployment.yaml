@@ -34,7 +34,7 @@ spec:
           env:
             {{- if .Values.dutyfree.port }}
             - name: PORT
-              value: {{ .Values.dutyfree.port }}
+              value: {{ .Values.dutyfree.port | quote }}
             {{- end }}
           ports:
             - name: http
