@@ -1,5 +1,8 @@
 blank_issues_enabled: true
 contact_links:
-  - name: submit a resource type
+  - name: Submit a resource type
     url: https://github.com/concourse/resource-types
-    about: if you want to submit or request a resource.
+    about: if you want to submit or request a resource type.
+  - name: Visit the resource types website
+    url: https://resource-types.concourse-ci.org
+    about: Click open to visit the live website.
