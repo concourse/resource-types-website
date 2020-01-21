@@ -11,14 +11,14 @@ There are multiple ways to run the code locally:
 
 - to run directly from the code, you can run the following commands:
   - if you want to use a different port, the app uses the environment variable `PORT` to select its port or else it will use port `9090`
-  ```
+  ```bash
   cd web
   yarn build && yarn install
   cd ../warhouse
   go run ./main.go
   ```
 - To run using docker:
-  ```
+  ```bash
   docker build -t dutyfree
   docker run dutyfree -p 9090:9090
   ```
@@ -31,7 +31,7 @@ There are multiple ways to run the code locally:
 ## Tests:
 
 - To test the backend server:
-```
+```bash
 cd warehouse
 
 go get -u github.com/onsi/ginkgo/ginkgo
