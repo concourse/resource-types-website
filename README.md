@@ -23,7 +23,8 @@ There are multiple ways to run the code locally:
   docker run dutyfree -p 9090:9090
   ```
 - To run using docker compose: `docker-compose up --build` that will build the image locally and run the website on port `9090`
-*P.S.*
+
+### Notes:
 - We are also working on a helm chart to deploy the website which is currently very opinionated towards objects that exist in the k8s version of GKE.
 - If you use any of the previous commands you will be able to access the application through: `http://localhost:9090`
 - If you want to use a different set of resource types, you can change the resource types under the directory `resource-types`, this would allow running different versions of the website.
@@ -31,12 +32,12 @@ There are multiple ways to run the code locally:
 ## Tests:
 
 - To test the backend server:
-```bash
-cd warehouse
+  ```bash
+  cd warehouse
 
-go get -u github.com/onsi/ginkgo/ginkgo
+  go get -u github.com/onsi/ginkgo/ginkgo
 
-ginkgo -r -keepGoing .
-```
+  ginkgo -r -keepGoing .
+  ```
 
 - To test the fronend code: `yarn install && yarn build`
