@@ -105,5 +105,5 @@ contribute =
 feedback : Link
 feedback =
     { text = "Feedback"
-    , url = "https://github.com/concourse/resource-types-website/issues/new"
+    , url = "https://github.com/concourse/resource-types-website/issues/new/choose"
     }
