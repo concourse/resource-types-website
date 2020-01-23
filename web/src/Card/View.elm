@@ -98,7 +98,6 @@ author resourceType styles =
         , Font.color <| fromRgb255 styles.color
         , paddingEach { padding | top = styles.paddingTop }
         ]
-        -- it'll be resourceType.author or whatever here
         [ text resourceType.username ]
 
 
@@ -116,7 +115,7 @@ description resourceType styles =
         ]
         [ html
             (Html.div
-                (Overrides.multiLineEllipsis 2)
+                (Overrides.multiLineEllipsis 3)
                 [ Html.text resourceType.description ]
             )
         ]
