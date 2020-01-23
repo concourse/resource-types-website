@@ -15,8 +15,7 @@ assignees: ''
 >
 > If this is to report a problem (or request a feature) with one of the Concourse maintained resources (like the git resource). Please open it under that specific resource's repository.
 >
-> If you're not sure and just need help with something,
-> please ask in our support forum instead:
+> If you're not sure and just need help with something, please ask in our support forum instead:
 >     https://discuss.concourse-ci.org/c/support
 
 ## Summary
