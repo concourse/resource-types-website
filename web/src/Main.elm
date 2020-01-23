@@ -6,8 +6,8 @@ import Browser.Navigation as Nav
 import Common.Common exposing (ResourceType, gridSize)
 import Element exposing (Element, centerX, column, el, fill, height, html, padding, text, width)
 import Footer.View as Footer exposing (view)
-import Html
-import Html.Attributes exposing (class)
+import Html exposing (a, div, img, nav)
+import Html.Attributes exposing (class, href, src)
 import Http
 import Json.Decode as Decode exposing (Decoder, list, string)
 import Json.Decode.Pipeline exposing (optional, required)
@@ -86,12 +86,14 @@ view model =
                 [ width fill
                 , height fill
                 ]
-                (case model.page of
-                    Index ->
-                        viewResourceTypes model
+                (html navigation
+                    :: (case model.page of
+                            Index ->
+                                viewResourceTypes model
 
-                    Terms ->
-                        viewTerms
+                            Terms ->
+                                viewTerms
+                       )
                 )
             )
         ]
@@ -221,3 +223,43 @@ resourceTypeDecoder =
         |> required "repo" string
         |> optional "description" string ""
         |> required "username" string
+
+
+
+-- top navigation from the concourse docs site
+
+
+navigation : Html.Html msg
+navigation =
+    let
+        baseUrl =
+            "https://concourse-ci.org/"
+
+        blogUrl =
+            "https://blog.concourse-ci.org"
+
+        discussUrl =
+            "https://discuss.concourse-ci.org"
+    in
+    div [ class "navigation" ]
+        [ div [ class "top-logo" ]
+            [ a [ href baseUrl ]
+                [ img
+                    [ src <| baseUrl ++ "images/logo-white.svg" ]
+                    []
+                , Html.text "Concourse"
+                ]
+            ]
+        , nav
+            [ class "top-nav" ]
+            [ a [ href <| baseUrl ++ "docs", class "top-link" ] [ Html.text "docs" ]
+            , a [ href <| baseUrl ++ "examples", class "top-link" ] [ Html.text "examples" ]
+            , a [ href <| baseUrl ++ "project", class "top-link" ] [ Html.text "project" ]
+            , a [ href <| blogUrl, class "top-link" ] [ Html.text "blog" ]
+            , a [ href <| discussUrl, class "top-link" ] [ Html.text "discuss" ]
+            , a [ href "/", class "top-link active" ] [ Html.text "resource types" ]
+            ]
+        , div
+            [ class "top-search" ]
+            [ Html.text "" ]
+        ]
