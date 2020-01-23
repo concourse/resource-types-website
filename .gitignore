@@ -10,9 +10,11 @@ web/elm.js
 web/index.html
 # elm make
 web/public/elm.js
+web/public/elm.min.js
 
 # yarn
 yarn.lock
+yarn-error.log
 node_modules/
 
 ## GoLang
