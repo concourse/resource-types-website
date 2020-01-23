@@ -41,7 +41,7 @@ type alias ResourceType =
     { name : String
     , url : String
     , description : String
-    , username: String
+    , username : String
     }
 
 
