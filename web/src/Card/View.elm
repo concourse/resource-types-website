@@ -1,6 +1,7 @@
 module Card.View exposing (view)
 
 import Card.Card exposing (Author, Description, Github, Name, card)
+import String.Extra exposing (toSentenceCase)
 import Common.Common exposing (ResourceType)
 import Common.Overrides as Overrides exposing (ellipsis, multiLineEllipsis)
 import Element
@@ -117,7 +118,7 @@ description resourceType styles =
         [ html
             (Html.div
                 (Overrides.multiLineEllipsis 2)
-                [ Html.text resourceType.description ]
+                [ Html.text (toSentenceCase resourceType.description) ]
             )
         ]
 
