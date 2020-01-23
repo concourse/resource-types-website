@@ -200,6 +200,7 @@ buildErrorMessage httpError =
 textStyles : List (Element.Attribute msg)
 textStyles =
     [ centerX
+    , height fill
     , padding (gridSize * 10)
     ]
 
