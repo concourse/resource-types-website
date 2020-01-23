@@ -1,0 +1,93 @@
+# Default values for dutyfree.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+annotations:
+  rollingUpdate: "1"
+
+image:
+  repository: concourse/dutyfree
+  pullPolicy: Always
+
+imagePullSecrets: []
+
+nameOverride: "dutyfree"
+fullnameOverride: "dutyfree"
+
+## dutyfree related configurations
+dutyfree:
+  ## currently only supports changing the port
+  ## on which the internal pod listens.
+  ## p.s. this port is not the same port as the service.
+  port: 9090
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name:
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+## configuration for the service that runs on top of the main deployment in
+## the current config we have it as a NodePort since we have an ingress on top
+## of it that routes the connections to it. it can also be created as a type:
+## LoadBalancer with an ip to be directly accessible from outside.
+service:
+  ## currently either NodePort or LoadBalancer
+  type: NodePort
+  port: 80
+  ##uncomment the below in case of using a LoadBalancer
+  # LoadBalancerIp: 1.2.3.4
+
+## in case of relaying the tls termination to GKE this should be set to
+## enabled. This allows the manifest to create a signed certificate to be used
+## by the ingress.
+certificate:
+  enabled: true
+  name: dutyfree-certificate
+  ## domain to sign the certificate with.
+  domain: resource-types.concourse-ci.org
+
+## Enable this in case you want to route connections to the service through an ingress.
+## currently, this is more opinionated towards the GCP Ingress and not the
+## nginx. GCP doesn't currently support http to https redirection, so we added
+## an option to just disable http until this feature becomes available.
+ingress:
+  enabled: true
+  http:
+    enabled: false
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: "dutyfree-global"
+  hosts:
+    - host: resource-types.concourse-ci.org
+      paths: ["/"]
+  # tls:
+  #  - secretName: chart-dutyfree-tls
+  #    hosts:
+  #      - resource-types.concourse-ci.org
+
+resources: {}
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
