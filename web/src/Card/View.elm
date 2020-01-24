@@ -1,7 +1,6 @@
 module Card.View exposing (view)
 
 import Card.Card exposing (Author, Description, Github, Name, card)
-import String.Extra exposing (toSentenceCase)
 import Common.Common exposing (ResourceType)
 import Common.Overrides as Overrides exposing (ellipsis, multiLineEllipsis)
 import Element
@@ -31,6 +30,7 @@ import Element
 import Element.Border exposing (rounded, shadow)
 import Element.Font as Font exposing (color, family, size, typeface)
 import Html
+import String.Extra exposing (toSentenceCase)
 
 
 padding : { top : Int, right : Int, bottom : Int, left : Int }
@@ -99,7 +99,6 @@ author resourceType styles =
         , Font.color <| fromRgb255 styles.color
         , paddingEach { padding | top = styles.paddingTop }
         ]
-        -- it'll be resourceType.author or whatever here
         [ text resourceType.username ]
 
 
@@ -117,7 +116,7 @@ description resourceType styles =
         ]
         [ html
             (Html.div
-                (Overrides.multiLineEllipsis 2)
+                (Overrides.multiLineEllipsis 3)
                 [ Html.text (toSentenceCase resourceType.description) ]
             )
         ]
