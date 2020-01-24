@@ -34,4 +34,5 @@ multiLineEllipsis numLines =
     , Html.Attributes.style "display" "-webkit-box"
     , Html.Attributes.style "-webkit-line-clamp" (String.fromInt numLines)
     , Html.Attributes.style "-webkit-box-orient" "vertical"
+    , Html.Attributes.style "word-break" "break-word"
     ]
