@@ -82,7 +82,7 @@ body : Body
 body =
     { size = Styles.bodySize
     , color = Styles.bodyColor
-    , text = "Find more things for your thing do-er to do"
+    , text = "Find more things for your thing-doer to do"
     , font = Styles.bodyFont
     , width = Styles.bodyWidth
     }

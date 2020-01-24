@@ -3,8 +3,8 @@ module Main exposing (Model, Msg(..), Page(..), buildErrorMessage, main, resourc
 import Banner.View as Banner exposing (view)
 import Browser exposing (UrlRequest(..))
 import Browser.Navigation as Nav
-import Common.Common exposing (ResourceType, gridSize)
-import Element exposing (Element, centerX, column, el, fill, height, html, padding, text, width)
+import Common.Common exposing (ResourceType)
+import Element exposing (Element, centerX, centerY, column, el, fill, height, html, text, width)
 import Footer.View as Footer exposing (view)
 import Html exposing (a, div, img, nav)
 import Html.Attributes exposing (class, href, src)
@@ -199,10 +199,7 @@ buildErrorMessage httpError =
 
 textStyles : List (Element.Attribute msg)
 textStyles =
-    [ centerX
-    , height fill
-    , padding (gridSize * 10)
-    ]
+    [ centerX, centerY ]
 
 
 spinner : Element msg
