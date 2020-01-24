@@ -30,6 +30,7 @@ import Element
 import Element.Border exposing (rounded, shadow)
 import Element.Font as Font exposing (color, family, size, typeface)
 import Html
+import String.Extra exposing (toSentenceCase)
 
 
 padding : { top : Int, right : Int, bottom : Int, left : Int }
@@ -116,7 +117,7 @@ description resourceType styles =
         [ html
             (Html.div
                 (Overrides.multiLineEllipsis 3)
-                [ Html.text resourceType.description ]
+                [ Html.text (toSentenceCase resourceType.description) ]
             )
         ]
 
