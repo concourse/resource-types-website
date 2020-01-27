@@ -1,7 +1,7 @@
 module Card.View exposing (view)
 
 import Card.Card exposing (Author, Description, Github, Name, card)
-import Common.Common exposing (ResourceType)
+import Common.Common exposing (ResourceType, capitalize)
 import Common.Overrides as Overrides exposing (ellipsis, multiLineEllipsis)
 import Element
     exposing
@@ -30,7 +30,6 @@ import Element
 import Element.Border exposing (rounded, shadow)
 import Element.Font as Font exposing (color, family, size, typeface)
 import Html
-import String.Extra exposing (toSentenceCase)
 
 
 padding : { top : Int, right : Int, bottom : Int, left : Int }
@@ -117,7 +116,7 @@ description resourceType styles =
         [ html
             (Html.div
                 (Overrides.multiLineEllipsis 3)
-                [ Html.text (toSentenceCase resourceType.description) ]
+                [ Html.text (capitalize resourceType.description) ]
             )
         ]
 

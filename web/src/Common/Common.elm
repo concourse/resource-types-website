@@ -3,6 +3,7 @@ module Common.Common exposing
     , ResourceType
     , Shadow
     , bannerBackgroundColor
+    , capitalize
     , cardDescriptionColor
     , cardTitleColor
     , center
@@ -100,3 +101,12 @@ footerBackgroundColor =
 termsLinkColor : RGB
 termsLinkColor =
     { red = 12, green = 106, blue = 246, alpha = 1 }
+
+
+
+-- HELPERS
+
+
+capitalize : String -> String
+capitalize s =
+    (String.left 1 s |> String.toUpper) ++ String.dropLeft 1 s
