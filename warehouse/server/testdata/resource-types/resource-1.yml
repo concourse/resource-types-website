@@ -1,0 +1,6 @@
+name: git
+repo: https://github.com/concourse/git-resource
+description: |
+  line 1
+  line 2
+container_image: concourse/git-resource

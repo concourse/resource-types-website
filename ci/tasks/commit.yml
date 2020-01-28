@@ -1,0 +1,49 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: pcfkubo/dind-kubo-ci
+    tag: stable
+
+inputs:
+  - name: generated-html
+  - name: git-dutyfree-gh-pages
+  - name: elmsite
+
+outputs:
+  - name: git-dutyfree-gh-pages-output
+
+run:
+  path: bash
+  args:
+    - -cex
+    - |
+
+      cp -r git-dutyfree-gh-pages/. git-dutyfree-gh-pages-output
+      cp -r generated-html/.        git-dutyfree-gh-pages-output
+      cp -r elmsite/.               git-dutyfree-gh-pages-output/elmsite
+
+      cd git-dutyfree-gh-pages-output
+
+      git config --global user.email "duty-free-dublin@pivotal.io"
+      git config --global user.name "Dutyfree CI Bot"
+      git add .
+
+      if [[ -n $(git status -s) ]]; then
+        git commit -m "duty free html"
+
+        curl -X POST -H 'Content-type: application/json' --data '{
+          "blocks": [
+            {
+              "type": "section",
+              "text": {
+                "type": "mrkdwn",
+                "text": "New version available at https://concourse.github.io/dutyfree"
+              }
+            }
+          ]}' "${SLACK_HOOK}"
+      else
+        echo "No change to commit"
+      fi

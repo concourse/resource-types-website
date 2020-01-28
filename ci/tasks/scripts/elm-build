@@ -1,0 +1,10 @@
+#!/bin/bash
+
+set -e
+
+pushd dutyfree
+  yarn install
+  yarn build
+popd
+
+cp -r dutyfree/web/public/* elmsite/

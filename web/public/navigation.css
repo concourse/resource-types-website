@@ -1,0 +1,79 @@
+.top-logo, .top-nav, .top-search {
+  background: #3398dc;
+  color: white;
+  font-family: 'Roboto Slab', serif;
+}
+.top-nav {
+  position: relative;
+  white-space: nowrap;
+}
+.top-logo a {
+  color: white;
+  margin: 0;
+  font-size: 22px;
+  padding: 0 50px 0 80px;
+  line-height: 80px;
+  display: inline-block;
+  vertical-align: top;
+  text-decoration: none;
+  position: relative;
+}
+.top-logo img {
+  width: 40px;
+  height: 40px;
+  vertical-align: middle;
+  position: absolute;
+  top: 18px;
+  left: 17px;
+}
+.top-logo a:visited {
+  color: white;
+}
+.top-link {
+  color: white;
+  font-size: 16px;
+  text-transform: lowercase;
+  line-height: 80px;
+  display: inline-block;
+  padding: 0 25px;
+  margin-right: 4px;
+}
+.top-link, .top-link:visited {
+  color: white;
+  text-decoration: none;
+}
+.top-link:hover {
+  color: white;
+  text-decoration: underline;
+}
+.top-link.active {
+  background: white;
+  color: #2a2929;
+  text-decoration: underline;
+}
+.top-logo {
+  grid-area: logo;
+}
+.top-nav {
+  grid-area: primary-nav;
+}
+.top-search {
+  grid-area: search;
+}
+.navigation {
+  display: grid;
+  grid-template-columns: 2fr 5fr 3fr;
+  grid-template-areas: "logo primary-nav search";
+  width: 100%;
+}
+@media (max-width: 1200px) {
+  .navigation {
+    grid-template-columns: 5fr 2fr;
+    grid-template-areas: "logo search" "primary-nav primary-nav";
+  }
+  .top-nav a {
+    line-height: 60px;
+    vertical-align: top;
+  }
+}
+

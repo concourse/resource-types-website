@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-60508041-3"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-60508041-3');
+    </script>
+    <meta name="description" content="A repository for Concourse resource types">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Barlow&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{asset "spinner.css"}}">
+    <link rel="stylesheet" type="text/css" href="{{asset "overrides.css"}}">
+    <link rel="stylesheet" type="text/css" href="{{asset "navigation.css"}}">
+    <link rel="shortcut icon" type="image/x-icon" href="{{asset "favicon.ico"}}" />
+  </head>
+
+  <body>
+    <div id="concourse-resources"></div>
+    <script src="{{asset "elm.min.js"}}"></script>
+    <script>
+      var app = Elm.Main.init({
+        node: document.getElementById("concourse-resources"),
+        flags: {
+          githubIconImg: "{{asset "github-logo.png"}}",
+          bannerImg: "{{asset "banner-background.svg"}}"
+        }
+      });
+    </script>
+  </body>
+</html>

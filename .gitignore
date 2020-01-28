@@ -1,2 +1,21 @@
 .DS_Store
 .idea/
+
+### Elm ###
+# elm-package generated files
+web/elm-stuff/
+# elm-repl generated files
+web/repl-temp-*
+web/elm.js
+web/index.html
+# elm make
+web/public/elm.js
+web/public/elm.min.js
+
+# yarn
+yarn.lock
+yarn-error.log
+node_modules/
+
+## GoLang
+*-packr.go
