@@ -16,8 +16,10 @@ update-resources:
 	  git pull
 	git add resource-types && \
 	git ci -m "update resource-types"
-	echo "resource types are now at latest, \
-	  Please remember to push to a branch"
+	@echo "\n\n\n\n\n"
+	@echo "*****************************************"
+	@echo "* Resource Types are now at latest,\t*\n* Please remember to push to a branch.\t*"
+	@echo "*****************************************"
 
 
 build-docker:
