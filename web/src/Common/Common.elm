@@ -8,6 +8,8 @@ module Common.Common exposing
     , cardTitleColor
     , center
     , footerBackgroundColor
+    , githubPillDarkBackgroundColor
+    , githubPillLightBackgroundColor
     , gridSize
     , shadowColor
     , termsLinkColor
@@ -101,6 +103,16 @@ footerBackgroundColor =
 termsLinkColor : RGB
 termsLinkColor =
     { red = 12, green = 106, blue = 246, alpha = 1 }
+
+
+githubPillLightBackgroundColor : RGB
+githubPillLightBackgroundColor =
+    { red = 242, green = 242, blue = 242, alpha = 0.56 }
+
+
+githubPillDarkBackgroundColor : RGB
+githubPillDarkBackgroundColor =
+    { red = 235, green = 235, blue = 235, alpha = 1 }
 
 
 

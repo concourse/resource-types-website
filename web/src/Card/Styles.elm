@@ -21,6 +21,18 @@ module Card.Styles exposing
     , githubImageHeight
     , githubImagePaddingTop
     , githubImageWidth
+    , githubPillBorderRadius
+    , githubPillDarkBackgroundColor
+    , githubPillFont
+    , githubPillFontSize
+    , githubPillHeight
+    , githubPillImageHeight
+    , githubPillImageWidth
+    , githubPillLightBackgroundColor
+    , githubPillPaddingLeft
+    , githubPillPaddingRight
+    , githubPillSpacing
+    , githubSpacing
     , nameColor
     , nameFont
     , nameMaxWidth
@@ -180,6 +192,15 @@ descriptionMinHeight =
 -- github
 
 
+githubSpacing : Int
+githubSpacing =
+    3
+
+
+
+--image
+
+
 githubImageWidth : Int
 githubImageWidth =
     Common.gridSize * 2
@@ -192,4 +213,63 @@ githubImageHeight =
 
 githubImagePaddingTop : Int
 githubImagePaddingTop =
-    (Common.gridSize * 3) // 2
+    Common.gridSize
+
+
+
+-- pill
+
+
+githubPillLightBackgroundColor : RGB
+githubPillLightBackgroundColor =
+    Common.githubPillLightBackgroundColor
+
+
+githubPillDarkBackgroundColor : RGB
+githubPillDarkBackgroundColor =
+    Common.githubPillDarkBackgroundColor
+
+
+githubPillHeight : Int
+githubPillHeight =
+    Common.gridSize * 2
+
+
+githubPillFontSize : Int
+githubPillFontSize =
+    10
+
+
+githubPillFont : String
+githubPillFont =
+    "iosevka"
+
+
+githubPillPaddingLeft : Int
+githubPillPaddingLeft =
+    Common.gridSize // 2
+
+
+githubPillPaddingRight : Int
+githubPillPaddingRight =
+    (Common.gridSize // 2) + 2
+
+
+githubPillSpacing : Int
+githubPillSpacing =
+    3
+
+
+githubPillBorderRadius : Int
+githubPillBorderRadius =
+    5
+
+
+githubPillImageHeight : Int
+githubPillImageHeight =
+    10
+
+
+githubPillImageWidth : Int
+githubPillImageWidth =
+    10

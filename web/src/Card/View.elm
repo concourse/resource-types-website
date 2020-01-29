@@ -7,6 +7,7 @@ import Element
     exposing
         ( Color
         , Element
+        , centerX
         , clip
         , clipY
         , column
@@ -21,15 +22,19 @@ import Element
         , minimum
         , mouseOver
         , newTabLink
+        , padding
         , paddingEach
+        , paddingXY
         , paragraph
         , px
+        , row
         , spacing
         , text
         , width
         )
+import Element.Background as Background exposing (gradient)
 import Element.Border exposing (rounded, shadow)
-import Element.Font as Font exposing (color, family, size, typeface)
+import Element.Font as Font exposing (bold, color, family, size, typeface)
 import Html
 import Html.Attributes exposing (class)
 
@@ -43,8 +48,8 @@ padding =
     }
 
 
-view : ResourceType -> String -> Element msg
-view resourceType githubIcon =
+view : ResourceType -> String -> String -> Element msg
+view resourceType githubIcon githubStar =
     let
         container =
             card.container
@@ -66,7 +71,7 @@ view resourceType githubIcon =
                     [ name resourceType card.resourceType.name
                     , author resourceType card.resourceType.author
                     , description resourceType card.resourceType.description
-                    , github card.resourceType.github githubIcon
+                    , github card.resourceType.github githubIcon githubStar
                     ]
                 )
         }
@@ -123,16 +128,48 @@ description resourceType styles =
         ]
 
 
-github : Github -> String -> Element msg
-github styles githubIconImg =
-    paragraph [ paddingEach { padding | top = styles.paddingTop } ]
+github : Github -> String -> String -> Element msg
+github styles githubIconImg githubStarImg =
+    row [ paddingEach { padding | top = styles.image.paddingTop }, spacing styles.spacing ]
         [ image
-            [ height <| px styles.imageHeight
-            , width <| px styles.imageWidth
+            [ height <| px styles.image.height
+            , width <| px styles.image.width
             ]
             { src = githubIconImg
             , description = ""
             }
+        , pill styles githubStarImg
+        ]
+
+
+pill : Github -> String -> Element msg
+pill styles githubStarImg =
+    row
+        [ Background.gradient
+            { angle = pi
+            , steps =
+                [ fromRgb255 styles.pill.lightBackgroundColor
+                , fromRgb255 styles.pill.darkBackgroundColor
+                ]
+            }
+        , height <| px styles.pill.height
+        , Font.size styles.pill.size
+        , Font.family [ Font.typeface styles.pill.font ]
+        , rounded styles.pill.borderRadius
+        , centerX
+        , paddingEach
+            { padding
+                | left = styles.pill.paddingLeft
+                , right = styles.pill.paddingRight
+            }
+        , spacing styles.pill.spacing
+        ]
+        [ image
+            [ height <| px styles.pill.imageHeight ]
+            { src = githubStarImg
+            , description = ""
+            }
+        , text "24"
         ]
 
 
