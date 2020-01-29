@@ -1,5 +1,14 @@
 DEPLOY_DATE = $(shell date +%s)
 
+Default:
+	@echo "Usage: make [TASK]";
+	@echo "Available tasks:";
+	@echo "update-resources: \tto update the local version of the resource-types (i.e. clone the latest https://github.com/concourse/resource-types)"
+	@echo "build-docker: \t\tbuild the Dockerfile locally and tag it concourse/dutyfree"
+	@echo "publish-docker: \tbuilds concourse/dutyfree and then publishes it, needs appropriate permissions to be able to push"
+	@echo "helm diff: \t\truns a helm diff between the deployment and the local files"
+	@echo "helm deploy: \t\truns a helm diff, then attempts to deploy the local chart"
+
 update-resources:
 	git submodule update
 	  cd resource-types && \
