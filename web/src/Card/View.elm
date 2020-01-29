@@ -24,7 +24,6 @@ import Element
         , newTabLink
         , padding
         , paddingEach
-        , paddingXY
         , paragraph
         , px
         , row
@@ -34,7 +33,7 @@ import Element
         )
 import Element.Background as Background exposing (gradient)
 import Element.Border exposing (rounded, shadow)
-import Element.Font as Font exposing (bold, color, family, size, typeface)
+import Element.Font as Font exposing (color, family, size, typeface)
 import Html
 import Html.Attributes exposing (class)
 
