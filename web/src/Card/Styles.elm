@@ -160,7 +160,7 @@ descriptionFont =
 
 descriptionPaddingTop : Int
 descriptionPaddingTop =
-    Common.gridSize + Common.gridSize // 2
+    Common.gridSize
 
 
 descriptionColor : RGB
