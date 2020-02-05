@@ -222,6 +222,7 @@ resourceTypeDecoder =
         |> required "repo" string
         |> optional "description" string ""
         |> required "username" string
+        |> required "stars" string
 
 
 

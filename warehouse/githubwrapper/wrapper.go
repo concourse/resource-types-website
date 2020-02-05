@@ -10,18 +10,18 @@ import (
 	"golang.org/x/oauth2"
 )
 
-//go:generate counterfeiter . WrapperInterface
+//go:generate counterfeiter . Wrapper
 
-type WrapperInterface interface {
-	GetStars([]RepoStars) error
+type Wrapper interface {
+	GetStars(map[string]int) (map[string]int, error)
 }
 
-type Wrapper struct {
+type wrapper struct {
 	ServerUrl string
 	Token     string
 }
 
-func (w *Wrapper) GetStars(repoStarsMap map[string]int) error {
+func (w wrapper) GetStars(repoStarsMap map[string]int) (map[string]int, error) {
 	src := oauth2.StaticTokenSource(
 		&oauth2.Token{AccessToken: w.Token},
 	)
@@ -54,7 +54,7 @@ func (w *Wrapper) GetStars(repoStarsMap map[string]int) error {
 	err := ghClient.Query(context.TODO(), gqlQuery.Addr().Interface(), nil)
 
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	i = 0
@@ -64,5 +64,5 @@ func (w *Wrapper) GetStars(repoStarsMap map[string]int) error {
 		repoStarsMap[owner] = stars
 		i++
 	}
-	return nil
+	return repoStarsMap, nil
 }

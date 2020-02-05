@@ -3,6 +3,7 @@ package server
 import (
 	"context"
 	"fmt"
+	"github.com/concourse/dutyfree/githubwrapper"
 	"net"
 	"net/http"
 	"strconv"
@@ -17,6 +18,7 @@ type Server struct {
 	Exited                   chan bool
 	PublicFilesFetcher       fetcher.Fetcher
 	ResourceTypesFileFetcher fetcher.Fetcher
+	GithubGraphqlWrapper     githubwrapper.Wrapper
 	srv                      *http.Server
 }
 
@@ -31,8 +33,14 @@ func (s *Server) Start() {
 		panic("server error: " + err.Error())
 	}
 
+	wrpr := githubwrapper.Wrapper{
+		Token:     "",
+		ServerUrl: "https://api.github.com/graphql",
+	}
+
 	fs := &persistence.Filesystem{
-		Fetcher: s.ResourceTypesFileFetcher,
+		Fetcher:      s.ResourceTypesFileFetcher,
+		GhGqlWrapper: wrpr,
 	}
 	err = fs.LoadResources()
 	if err != nil {

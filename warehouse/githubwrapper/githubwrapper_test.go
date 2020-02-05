@@ -1,10 +1,11 @@
 package githubwrapper_test
 
 import (
+	"net/http"
+
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	"github.com/onsi/gomega/ghttp"
-	"net/http"
 
 	"github.com/concourse/dutyfree/githubwrapper"
 )
@@ -26,6 +27,7 @@ var _ = Describe("github wrapper", func() {
 			testStars = make(map[string]int)
 			testStars["concourse/concourse"] = 0
 		})
+
 		It("the underlying module does the appropriate call to the graphql api", func() {
 			testServer.AppendHandlers(
 				ghttp.CombineHandlers(
@@ -38,7 +40,7 @@ var _ = Describe("github wrapper", func() {
 				),
 			)
 
-			err := wrapper.GetStars(testStars)
+			testStars, err := wrapper.GetStars(testStars)
 
 			Expect(err).ToNot(HaveOccurred())
 			Expect(testStars["concourse/concourse"]).To(Equal(9))
@@ -56,7 +58,7 @@ var _ = Describe("github wrapper", func() {
 				),
 			)
 
-			err := wrapper.GetStars(testStars)
+			_, err := wrapper.GetStars(testStars)
 
 			Expect(err).To(HaveOccurred())
 			Expect(err.Error()).To(ContainSubstring("500"))

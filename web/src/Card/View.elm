@@ -70,7 +70,7 @@ view resourceType githubIcon githubStar =
                     [ name resourceType card.resourceType.name
                     , author resourceType card.resourceType.author
                     , description resourceType card.resourceType.description
-                    , github card.resourceType.github githubIcon githubStar
+                    , github resourceType card.resourceType.github githubIcon githubStar
                     ]
                 )
         }
@@ -127,8 +127,8 @@ description resourceType styles =
         ]
 
 
-github : Github -> String -> String -> Element msg
-github styles githubIconImg githubStarImg =
+github : ResourceType -> Github -> String -> String -> Element msg
+github resourceType styles githubIconImg githubStarImg =
     row [ paddingEach { padding | top = styles.image.paddingTop }, spacing styles.spacing ]
         [ image
             [ height <| px styles.image.height
@@ -137,12 +137,12 @@ github styles githubIconImg githubStarImg =
             { src = githubIconImg
             , description = ""
             }
-        , pill styles githubStarImg
+        , pill resourceType styles githubStarImg
         ]
 
 
-pill : Github -> String -> Element msg
-pill styles githubStarImg =
+pill : ResourceType -> Github -> String -> Element msg
+pill resourceType styles githubStarImg =
     row
         [ Background.gradient
             { angle = pi
@@ -168,7 +168,7 @@ pill styles githubStarImg =
             { src = githubStarImg
             , description = ""
             }
-        , text "24"
+        , text resourceType.stars
         ]
 
 
