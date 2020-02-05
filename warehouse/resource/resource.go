@@ -6,4 +6,5 @@ type Resource struct {
 	URL         string `yaml:"repo" json:"repo"`
 	Image       string `yaml:"container_image"`
 	Owner       string `json:"username"`
+	Stars       int    `json:"stars"`
 }
