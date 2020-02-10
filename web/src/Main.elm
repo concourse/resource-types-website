@@ -241,7 +241,7 @@ navigation =
     in
     div [ class "navigation" ]
         [ div [ class "top-logo" ]
-            [ a [ href baseUrl ]
+            [ a [ href baseUrl, class "top-link" ]
                 [ img
                     [ src <| baseUrl ++ "images/logo-white.svg" ]
                     []

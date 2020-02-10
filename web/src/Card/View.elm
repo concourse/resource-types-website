@@ -15,6 +15,7 @@ import Element
         , fromRgb255
         , height
         , html
+        , htmlAttribute
         , image
         , maximum
         , minimum
@@ -30,6 +31,7 @@ import Element
 import Element.Border exposing (rounded, shadow)
 import Element.Font as Font exposing (color, family, size, typeface)
 import Html
+import Html.Attributes exposing (class)
 
 
 padding : { top : Int, right : Int, bottom : Int, left : Int }
@@ -47,7 +49,7 @@ view resourceType githubIcon =
         container =
             card.container
     in
-    newTabLink []
+    newTabLink [ htmlAttribute <| class "card-link" ]
         { url = resourceType.url
         , label =
             el
