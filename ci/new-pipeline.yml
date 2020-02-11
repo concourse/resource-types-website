@@ -1,0 +1,75 @@
+resources:
+- name: resource-types
+  type: git
+  icon: playlist-add-check
+  source:
+    uri: https://github.com/concourse/resource-types.git
+    branch: master
+
+- name: resource-types-website
+  type: git
+  icon: code
+  source:
+    uri: git@github.com:concourse/resource-types-website.git
+    branch: new-pipeline
+    private_key: ((concourse_bot_access_token))
+    submodules: all
+
+- name: oci-build-task
+  type: registry-image
+  icon: docker
+  source: {repository: vito/oci-build-task}
+
+- name: resource-types-website-image
+  type: registry-image
+  source:
+    repository: concourse/dutyfree
+    username: ((docker.username))
+    password: ((docker.password))
+
+- name: unit-image
+  type: registry-image
+  source:
+    repository: concourse/unit
+
+
+jobs:
+- name: update-resource-types
+  plan:
+  - get: resource-types
+    trigger: true
+  - get: resource-types-website
+  - task: update-resource-types
+    image: unit-image
+    file: resource-types-website/ci/tasks/update-resource-types.yml
+  - put: resource-types-website
+    params: {repository: resource-types-website}
+
+- name: unit-test
+  plan:
+  - get: resource-types-website
+    trigger: true
+  - in_parallel:
+    - task: elm-tests
+      file: resource-types-website/ci/tasks/elm-test.yml
+    - task: go-tests
+      file: resource-types-website/ci/tasks/go-test.yml
+
+- name: build-docker
+  plan:
+  - get: resource-types-website
+    passed: [unit-test]
+    trigger: true
+  - get: oci-build-task
+  - task: build
+    image: oci-build-task
+    privileged: true
+    config:
+      platform: linux
+      params: {CONTEXT: resource-types-website/}
+      inputs: [{name: resource-types-website}]
+      outputs: [{name: image}]
+      caches: [{path: cache}]
+      run: {path: build}
+  - put: resource-types-website-image
+    params: {image: image/image.tar}

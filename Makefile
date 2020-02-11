@@ -14,8 +14,9 @@ update-resources:
 	  cd resource-types && \
 	  git checkout master && \
 	  git pull
+	$
 	git add resource-types && \
-	git ci -m "update resource-types"
+	git commit -m "update resource-types @"$(shell git --git-dir ./resource-types/.git log --format=format:%H -1 --pretty=format:%h)
 	@echo "\n\n\n\n\n"
 	@echo "*****************************************"
 	@echo "* Resource Types are now at latest,\t*\n* Please remember to push to a branch.\t*"
