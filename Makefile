@@ -34,12 +34,17 @@ publish-docker: | build-docker
 helm-deploy: | helm-diff
 	cd dutyfree-chart && \
 	  helm upgrade \
+	    --wait \
 	    --install \
 	    --namespace=dutyfree \
 	    --set=annotations.rollingUpdate=\"$(DEPLOY_DATE)\" \
 	    dutyfree \
 	    .
-	kubectl get --namespace dutyfree pods -w
+
+	kubectl \
+	  --namespace "dutyfree" \
+	  rollout status deployment \
+	  "dutyfree"
 
 
 helm-diff:

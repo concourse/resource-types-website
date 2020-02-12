@@ -2,14 +2,15 @@ package server_test
 
 import (
 	"encoding/json"
-	"github.com/concourse/dutyfree/fetcher"
-	"github.com/concourse/dutyfree/resource"
-	"github.com/gobuffalo/packr/v2"
 	"io/ioutil"
 	"net"
 	"net/http"
 	"strconv"
 	"time"
+
+	"github.com/concourse/dutyfree/fetcher"
+	"github.com/concourse/dutyfree/resource"
+	"github.com/gobuffalo/packr/v2"
 
 	"github.com/concourse/dutyfree/server"
 
@@ -25,7 +26,16 @@ var _ = Describe("Server Test", func() {
 	)
 
 	BeforeEach(func() {
-		port = 9000
+		addr, err := net.ResolveTCPAddr("tcp", "localhost:0")
+		Expect(err).NotTo(HaveOccurred())
+
+		l, err := net.ListenTCP("tcp", addr)
+		Expect(err).NotTo(HaveOccurred())
+
+		port = l.Addr().(*net.TCPAddr).Port
+		l.Close()
+		time.Sleep(1 * time.Second)
+
 		//TODO: counterfeiter
 		srv = server.Server{
 			Port:                     port,
@@ -33,6 +43,7 @@ var _ = Describe("Server Test", func() {
 			ResourceTypesFileFetcher: fetcher.Fetcher{Box: *packr.New("resourcesTestBox", "./testdata/resource-types")},
 		}
 		srv.Start()
+		time.Sleep(1 * time.Second)
 
 		serverAddr = net.JoinHostPort("localhost", strconv.Itoa(port))
 	})

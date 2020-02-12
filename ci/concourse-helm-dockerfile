@@ -1,0 +1,11 @@
+FROM alpine/helm as alpine
+
+RUN apk update \
+    && apk upgrade \
+    && apk add --no-cache bash git openssh make curl
+
+RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
+
+RUN install ./kubectl /bin/kubectl
+
+RUN helm plugin install https://github.com/databus23/helm-diff --version master

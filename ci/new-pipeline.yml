@@ -32,6 +32,10 @@ resources:
   source:
     repository: concourse/unit
 
+- name: helm-image
+  type: registry-image
+  source:
+    repository: concourse/helm
 
 jobs:
 - name: update-resource-types
@@ -39,20 +43,25 @@ jobs:
   - get: resource-types
     trigger: true
   - get: resource-types-website
+  - get: unit-image
   - task: update-resource-types
     image: unit-image
     file: resource-types-website/ci/tasks/update-resource-types.yml
   - put: resource-types-website
+    image: unit-image
     params: {repository: resource-types-website}
 
 - name: unit-test
   plan:
   - get: resource-types-website
     trigger: true
+  - get: unit-image
   - in_parallel:
     - task: elm-tests
+      image: unit-image
       file: resource-types-website/ci/tasks/elm-test.yml
     - task: go-tests
+      image: unit-image
       file: resource-types-website/ci/tasks/go-test.yml
 
 - name: build-docker
@@ -73,3 +82,15 @@ jobs:
       run: {path: build}
   - put: resource-types-website-image
     params: {image: image/image.tar}
+
+- name: deploy
+  plan:
+  - get: resource-types-website
+    passed: [build-docker]
+    trigger: true
+  - get: helm-image
+  - task: helm-deploy
+    image: helm-image
+    file: resource-types-website/ci/tasks/helm-deploy.yml
+    params:
+      KUBE_CONFIG: ((kube_config))

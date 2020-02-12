@@ -1,0 +1,12 @@
+---
+platform: linux
+
+image_resource:
+  type: registry-image
+  source: {repository: concourse/helm}
+
+inputs:
+  - name: resource-types-website
+
+run:
+  path: resource-types-website/ci/tasks/scripts/helm-deploy
