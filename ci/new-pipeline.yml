@@ -1,14 +1,14 @@
 resources:
 - name: resource-types
   type: git
-  icon: playlist-add-check
+  icon: playlist-check
   source:
     uri: https://github.com/concourse/resource-types.git
     branch: master
 
 - name: resource-types-website
   type: git
-  icon: code
+  icon: code-tags
   source:
     uri: git@github.com:concourse/resource-types-website.git
     branch: new-pipeline
@@ -17,10 +17,11 @@ resources:
 
 - name: oci-build-task
   type: registry-image
-  icon: docker
+  icon: calendar-check
   source: {repository: vito/oci-build-task}
 
 - name: resource-types-website-image
+  icon: docker
   type: registry-image
   source:
     repository: concourse/dutyfree
@@ -28,14 +29,18 @@ resources:
     password: ((docker.password))
 
 - name: unit-image
+  icon: docker
   type: registry-image
   source:
     repository: concourse/unit
 
 - name: helm-image
+  icon: docker
   type: registry-image
   source:
     repository: concourse/helm
+    username: ((docker.username))
+    password: ((docker.password))
 
 jobs:
 - name: update-resource-types
@@ -70,18 +75,35 @@ jobs:
     passed: [unit-test]
     trigger: true
   - get: oci-build-task
-  - task: build
-    image: oci-build-task
-    privileged: true
-    config:
-      platform: linux
-      params: {CONTEXT: resource-types-website/}
-      inputs: [{name: resource-types-website}]
-      outputs: [{name: image}]
-      caches: [{path: cache}]
-      run: {path: build}
-  - put: resource-types-website-image
-    params: {image: image/image.tar}
+  - in_parallel:
+    - task: build-dutyfree
+      image: oci-build-task
+      privileged: true
+      output_mapping: {image: image-df}
+      config:
+        platform: linux
+        params: {CONTEXT: resource-types-website/}
+        inputs: [{name: resource-types-website}]
+        outputs: [{name: image}]
+        caches: [{path: cache-df}]
+        run: {path: build}
+    - task: build-helm
+      image: oci-build-task
+      privileged: true
+      output_mapping: {image: image-helm}
+      config:
+        platform: linux
+        params:
+          DOCKERFILE: resource-types-website/ci/concourse-helm-dockerfile
+        inputs: [{name: resource-types-website}]
+        outputs: [{name: image}]
+        caches: [{path: cache-h}]
+        run: {path: build}
+  - in_parallel:
+    - put: resource-types-website-image
+      params: {image: image-df/image.tar}
+    - put: helm-image
+      params: {image: image-helm/image.tar}
 
 - name: deploy
   plan:
@@ -89,6 +111,7 @@ jobs:
     passed: [build-docker]
     trigger: true
   - get: helm-image
+    passed: [build-docker]
   - task: helm-deploy
     image: helm-image
     file: resource-types-website/ci/tasks/helm-deploy.yml
