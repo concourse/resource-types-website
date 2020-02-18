@@ -1,0 +1,8 @@
+#!/bin/bash
+
+set -e
+
+pushd resource-types-website/web
+  yarn install
+  yarn analyse
+popd
