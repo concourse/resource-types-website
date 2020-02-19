@@ -13,7 +13,7 @@ suite =
             [ test "has height" <|
                 \_ ->
                     bannerContainer.height
-                        |> Expect.equal 176
+                        |> Expect.equal 192
             , test "has background color" <|
                 \_ ->
                     bannerContainer.backgroundColor

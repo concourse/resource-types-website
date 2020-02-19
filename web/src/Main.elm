@@ -231,7 +231,7 @@ navigation : Html.Html msg
 navigation =
     let
         baseUrl =
-            "https://concourse-ci.org/"
+            "https://concourse-ci.org"
 
         blogUrl =
             "https://blog.concourse-ci.org"
@@ -239,25 +239,20 @@ navigation =
         discussUrl =
             "https://discuss.concourse-ci.org"
     in
-    div [ class "navigation" ]
-        [ div [ class "top-logo" ]
-            [ a [ href baseUrl ]
+    div [ class "page-top" ]
+        [ nav
+            [ class "top-nav" ]
+            [ a [ href <| baseUrl, class "top-link logo-link" ]
                 [ img
-                    [ src <| baseUrl ++ "images/logo-white.svg" ]
+                    [ src <| baseUrl ++ "/images/logo-white.svg" ]
                     []
                 , Html.text "Concourse"
                 ]
-            ]
-        , nav
-            [ class "top-nav" ]
-            [ a [ href <| baseUrl ++ "docs", class "top-link" ] [ Html.text "docs" ]
-            , a [ href <| baseUrl ++ "examples", class "top-link" ] [ Html.text "examples" ]
-            , a [ href <| baseUrl ++ "project", class "top-link" ] [ Html.text "project" ]
+            , a [ href <| baseUrl ++ "/docs.html", class "top-link" ] [ Html.text "docs" ]
+            , a [ href <| baseUrl ++ "/examples.html", class "top-link" ] [ Html.text "examples" ]
+            , a [ href <| baseUrl ++ "/project.html", class "top-link" ] [ Html.text "project" ]
             , a [ href <| blogUrl, class "top-link" ] [ Html.text "blog" ]
             , a [ href <| discussUrl, class "top-link" ] [ Html.text "discuss" ]
             , a [ href "/", class "top-link active" ] [ Html.text "resource types" ]
             ]
-        , div
-            [ class "top-search" ]
-            [ Html.text "" ]
         ]

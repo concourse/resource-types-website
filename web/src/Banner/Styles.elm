@@ -22,7 +22,7 @@ import Common.Common as Common
 
 bannerHeight : Int
 bannerHeight =
-    Common.gridSize * 22
+    Common.gridSize * 24
 
 
 backgroundColor : Common.RGB
@@ -46,17 +46,17 @@ titleColor =
 
 titleSize : Int
 titleSize =
-    24
+    26
 
 
 titleLineHeight : Int
 titleLineHeight =
-    32
+    42
 
 
 titlePaddingTop : Int
 titlePaddingTop =
-    Common.gridSize * 7
+    Common.gridSize * 8
 
 
 titlePaddingBottom : Int
@@ -80,7 +80,7 @@ bodyColor =
 
 bodySize : Int
 bodySize =
-    16
+    18
 
 
 bodyWidth : Int
