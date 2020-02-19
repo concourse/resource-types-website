@@ -10,13 +10,14 @@ Default:
 	@echo "helm-deploy: \t\truns a helm diff, then attempts to deploy the local chart"
 
 update-resources:
-	git submodule update
+	git submodule update && \
 	  cd resource-types && \
 	  git checkout master && \
 	  git pull
-	$
+
 	git add resource-types && \
 	git commit -m "update resource-types @"$(shell git --git-dir ./resource-types/.git log --format=format:%H -1 --pretty=format:%h)
+
 	@echo "\n\n\n\n\n"
 	@echo "*****************************************"
 	@echo "* Resource Types are now at latest,\t*\n* Please remember to push to a branch.\t*"
