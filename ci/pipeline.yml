@@ -1,87 +1,127 @@
 resources:
-- name: ci
+- name: resource-types
   type: git
-  icon: store-24-hour
+  icon: playlist-check
   source:
-    uri: git@github.com:concourse/dutyfree.git
-    branch: develop
-    paths:
-    - ci/
-    private_key: ((dutyfreerepo.private_key))
-
-- name: git-dutyfree
-  type: git
-  icon: store-24-hour
-  source:
-    uri: git@github.com:concourse/dutyfree.git
+    uri: https://github.com/concourse/resource-types.git
     branch: master
-    ignore_paths:
-    - ci/
-    private_key: ((dutyfreerepo.private_key))
 
-- name: git-dutyfree-new
+- name: resource-types-website
   type: git
-  icon: store-24-hour
+  icon: code-tags
   source:
-    uri: git@github.com:concourse/dutyfree.git
-    branch: develop
-    ignore_paths:
-    - ci/
-    private_key: ((dutyfreerepo.private_key))
+    uri: git@github.com:concourse/resource-types-website.git
+    branch: master
+    private_key: ((concourse_bot_access_token))
+    submodules: all
 
-- name: git-dutyfree-gh-pages
-  type: git
-  icon: shopping
+- name: oci-build-task
+  type: registry-image
+  icon: calendar-check
+  source: {repository: vito/oci-build-task}
+
+- name: resource-types-website-image
+  icon: docker
+  type: registry-image
   source:
-    uri: git@github.com:concourse/dutyfree.git
-    branch: gh-pages
-    private_key: ((dutyfreerepo.private_key))
+    repository: concourse/dutyfree
+    username: ((docker.username))
+    password: ((docker.password))
+
+- name: unit-image
+  icon: docker
+  type: registry-image
+  source:
+    repository: concourse/unit
+
+- name: helm-image
+  icon: docker
+  type: registry-image
+  source:
+    repository: concourse/helm
+    username: ((docker.username))
+    password: ((docker.password))
 
 jobs:
-- name: run-tests
+- name: update-resource-types
   plan:
-  - get: ci
-  - get: git-dutyfree
+  - get: resource-types
     trigger: true
-  - task: run-tests
-    file: ci/ci/tasks/test.yml
+  - get: resource-types-website
+  - get: unit-image
+  - task: update-resource-types
+    image: unit-image
+    file: resource-types-website/ci/tasks/update-resource-types.yml
+  - put: resource-types-website
+    image: unit-image
+    params: {repository: resource-types-website}
 
-- name: run-elm-tests
+- name: test
   plan:
-  - get: ci
-  - get: git-dutyfree-new
+  - get: resource-types-website
     trigger: true
-  - task: run-elm-tests
-    input_mapping: {dutyfree: git-dutyfree-new}
-    file: ci/ci/tasks/elm-test.yml
+  - get: unit-image
+  - in_parallel:
+    - task: elm-analyse
+      image: unit-image
+      file: resource-types-website/ci/tasks/elm-analyse.yml
+    - try:
+        task: go-lint
+        image: unit-image
+        file: resource-types-website/ci/tasks/go-lint.yml
+  - in_parallel:
+    - task: elm-tests
+      image: unit-image
+      file: resource-types-website/ci/tasks/elm-test.yml
+    - task: go-tests
+      image: unit-image
+      file: resource-types-website/ci/tasks/go-test.yml
 
-- name: build
+- name: build-docker
   plan:
-    - get: ci
-    - get: git-dutyfree
-      trigger: true
-      passed:
-      - run-tests
-    - get: git-dutyfree-new
-      trigger: true
-      passed:
-      - run-elm-tests
-    # - get: every-day
-    #   trigger: true
-    - get: git-dutyfree-gh-pages
-    - task: build-elm
-      input_mapping: {dutyfree: git-dutyfree-new}
-      file: ci/ci/tasks/elm-build.yml
+  - get: resource-types-website
+    passed: [test]
+    trigger: true
+  - get: oci-build-task
+  - in_parallel:
+    - task: build-dutyfree
+      image: oci-build-task
+      privileged: true
+      output_mapping: {image: image-df}
+      config:
+        platform: linux
+        params: {CONTEXT: resource-types-website/}
+        inputs: [{name: resource-types-website}]
+        outputs: [{name: image}]
+        caches: [{path: cache-df}]
+        run: {path: build}
+    - task: build-helm
+      image: oci-build-task
+      privileged: true
+      output_mapping: {image: image-helm}
+      config:
+        platform: linux
+        params:
+          DOCKERFILE: resource-types-website/ci/concourse-helm-dockerfile
+        inputs: [{name: resource-types-website}]
+        outputs: [{name: image}]
+        caches: [{path: cache-h}]
+        run: {path: build}
+  - in_parallel:
+    - put: resource-types-website-image
+      params: {image: image-df/image.tar}
+    - put: helm-image
+      params: {image: image-helm/image.tar}
 
-    - task: generate-html
-      file: ci/ci/tasks/generate-html.yml
-      params:
-        GITHUB_TOKEN: ((dutyfreerepo.github_token))
-    - task: commit
-      file: ci/ci/tasks/commit.yml
-      params:
-        SLACK_HOOK: ((slack_hook.value))
-    - put: git-dutyfree-gh-pages
-      params:
-        repository: git-dutyfree-gh-pages-output
-
+- name: deploy
+  plan:
+  - get: resource-types-website
+    passed: [build-docker]
+    trigger: true
+  - get: helm-image
+    passed: [build-docker]
+  - task: helm-deploy
+    image: helm-image
+    file: resource-types-website/ci/tasks/helm-deploy.yml
+    params:
+      KUBE_CONFIG: ((kube_config))

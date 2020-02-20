@@ -9,4 +9,4 @@ inputs:
   - name: resource-types-website
 
 run:
-  path: resource-types-website/ci/tasks/scripts/elm-test
+  path: resource-types-website/ci/tasks/scripts/update-resource-types

@@ -1,0 +1,31 @@
+#!/bin/sh
+
+set -e
+
+main() {
+  eventually_populate_kube_config
+  run_helm_deploy
+}
+
+eventually_populate_kube_config() {
+  mkdir -p ~/.kube
+
+  if [[ -f ~/.kube/config ]]; then
+    return 0
+  fi
+
+  if [[ -z $KUBE_CONFIG ]]; then
+    echo "Error: KUBE_CONFIG must be specified when ~/.kube/config doesnt exist"
+    exit 1
+  fi
+
+  echo "$KUBE_CONFIG" >~/.kube/config
+}
+
+run_helm_deploy() {
+  cd resource-types-website
+  make helm-deploy
+  cd ..
+}
+
+main "$@"
