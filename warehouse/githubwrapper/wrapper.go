@@ -21,6 +21,13 @@ type wrapper struct {
 	Token     string
 }
 
+func NewWrapper(serverUrl, token string) wrapper {
+	return wrapper{
+		ServerUrl: serverUrl,
+		Token:     token,
+	}
+}
+
 func (w wrapper) GetStars(repoStarsMap map[string]int) (map[string]int, error) {
 	src := oauth2.StaticTokenSource(
 		&oauth2.Token{AccessToken: w.Token},
@@ -58,6 +65,7 @@ func (w wrapper) GetStars(repoStarsMap map[string]int) (map[string]int, error) {
 	}
 
 	i = 0
+
 	for range repoStarsMap {
 		stars := reflect.ValueOf(gqlQuery.Interface()).FieldByIndex([]int{i}).FieldByName("Stargazers").FieldByIndex([]int{0}).Interface().(int)
 		owner := reflect.ValueOf(gqlQuery.Interface()).FieldByIndex([]int{i}).FieldByName("NameWithOwner").Interface().(string)

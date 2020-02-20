@@ -3,11 +3,12 @@ package server
 import (
 	"context"
 	"fmt"
-	"github.com/concourse/dutyfree/githubwrapper"
 	"net"
 	"net/http"
 	"strconv"
 	"time"
+
+	"github.com/concourse/dutyfree/githubwrapper"
 
 	"github.com/concourse/dutyfree/fetcher"
 	"github.com/concourse/dutyfree/persistence"
@@ -33,14 +34,9 @@ func (s *Server) Start() {
 		panic("server error: " + err.Error())
 	}
 
-	wrpr := githubwrapper.Wrapper{
-		Token:     "",
-		ServerUrl: "https://api.github.com/graphql",
-	}
-
 	fs := &persistence.Filesystem{
 		Fetcher:      s.ResourceTypesFileFetcher,
-		GhGqlWrapper: wrpr,
+		GhGqlWrapper: s.GithubGraphqlWrapper,
 	}
 	err = fs.LoadResources()
 	if err != nil {
@@ -50,7 +46,7 @@ func (s *Server) Start() {
 	warehouseMux := http.NewServeMux()
 	warehouseMux.Handle("/api/v1/", NewApiHandler(fs))
 
-	warehouseMux.Handle("/public/", NewPublicHandler(s.PublicFilesFetcher))
+	warehouseMux.Handle("/public/", NewPublicHandler(&s.PublicFilesFetcher))
 	warehouseMux.Handle("/", indexHndlr)
 
 	go func() {

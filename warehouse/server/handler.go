@@ -10,8 +10,8 @@ import (
 	"github.com/concourse/dutyfree/server/publichandler"
 )
 
-func NewPublicHandler(fetchr fetcher.Fetcher) http.Handler {
-	return publichandler.Handler{Fetcher: fetchr}
+func NewPublicHandler(fetchr *fetcher.Fetcher) http.Handler {
+	return publichandler.Handler{Fetcher: *fetchr}
 }
 
 func NewIndexHandler(fetchr fetcher.Fetcher) (http.Handler, error) {

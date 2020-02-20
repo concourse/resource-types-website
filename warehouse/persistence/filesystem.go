@@ -1,6 +1,8 @@
 package persistence
 
 import (
+	"fmt"
+	"strconv"
 	"strings"
 
 	"github.com/concourse/dutyfree/githubwrapper"
@@ -41,10 +43,11 @@ func (fs *Filesystem) LoadResources() error {
 			owner, repoName = extractOwnerAndRepo(currResource.URL)
 
 			currResource.Owner = "@" + owner
-			fs.resources = append(fs.resources, currResource)
 
 			currResource.NameWithOwner = owner + "/" + repoName
 			resourcesMap[currResource.NameWithOwner] = 0
+
+			fs.resources = append(fs.resources, currResource)
 		}
 	}
 
@@ -55,13 +58,30 @@ func (fs *Filesystem) LoadResources() error {
 	}
 
 	for i, curr := range fs.resources {
-		fs.resources[i].Stars = resourcesMap[curr.NameWithOwner]
+		fs.resources[i].StarsCount = resourcesMap[curr.NameWithOwner]
+		fs.resources[i].Stars = formatStars(fs.resources[i].StarsCount)
 	}
 
 	return nil
 }
 
+func formatStars(stars int) string {
+	switch {
+	case stars < 1000:
+		return strconv.Itoa(stars)
+	case stars >= 1000:
+		displayStars := float32(stars) / 1000
+		ghstars := fmt.Sprintf("%.1fk", displayStars)
+		return strings.Replace(ghstars, ".0", "", 1)
+	case stars >= 100000:
+		return strconv.Itoa(stars/1000) + "k"
+	default:
+		return ""
+	}
+}
+
 func extractOwnerAndRepo(url string) (string, string) {
-	parts := strings.Split(url, "/")
+	urlNoGit := strings.Replace(url, ".git", "", 1)
+	parts := strings.Split(urlNoGit, "/")
 	return parts[len(parts)-2], parts[len(parts)-1]
 }

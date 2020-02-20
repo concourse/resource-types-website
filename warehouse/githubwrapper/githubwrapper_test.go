@@ -20,10 +20,7 @@ var _ = Describe("github wrapper", func() {
 		BeforeEach(func() {
 			testServer = ghttp.NewServer()
 
-			wrapper = githubwrapper.Wrapper{
-				ServerUrl: testServer.URL(),
-				Token:     "token",
-			}
+			wrapper = githubwrapper.NewWrapper(testServer.URL(), "token")
 			testStars = make(map[string]int)
 			testStars["concourse/concourse"] = 0
 		})

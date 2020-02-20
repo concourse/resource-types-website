@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/concourse/dutyfree/fetcher"
+	"github.com/concourse/dutyfree/githubwrapper/githubwrapperfakes"
 	"github.com/concourse/dutyfree/resource"
 	"github.com/gobuffalo/packr/v2"
 
@@ -36,11 +37,17 @@ var _ = Describe("Server Test", func() {
 		l.Close()
 		time.Sleep(1 * time.Second)
 
+		fakeWrapper := &githubwrapperfakes.FakeWrapper{}
+		retMap := make(map[string]int)
+		retMap["concourse/git-resource"] = 10
+		fakeWrapper.GetStarsReturns(retMap, nil)
+
 		//TODO: counterfeiter
 		srv = server.Server{
 			Port:                     port,
 			PublicFilesFetcher:       fetcher.Fetcher{Box: *packr.New("publicTestBox", "./testdata/public")},
 			ResourceTypesFileFetcher: fetcher.Fetcher{Box: *packr.New("resourcesTestBox", "./testdata/resource-types")},
+			GithubGraphqlWrapper:     fakeWrapper,
 		}
 		srv.Start()
 		time.Sleep(1 * time.Second)
@@ -75,6 +82,7 @@ var _ = Describe("Server Test", func() {
 			Expect(err).NotTo(HaveOccurred())
 			Expect(len(reses)).To(Equal(1))
 			Expect(reses[0].Name).To(Equal("git"))
+			Expect(reses[0].Stars).To(Equal("10"))
 		})
 		It("returns 404 on calls to unknown api /api/v1/res", func() {
 			resp, err := http.Get("http://" + serverAddr + "/api/v1/res")
