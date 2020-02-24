@@ -18,7 +18,7 @@ var _ = Describe("public server", func() {
 		var server *httptest.Server
 		BeforeEach(func() {
 			//TODO: use counterfeiter
-			fetchr := fetcher.Fetcher{*packr.New("testBox", "./test_public")}
+			fetchr := fetcher.Fetcher{Box: *packr.New("testBox", "./test_public")}
 
 			sHandler := publichandler.Handler{fetchr}
 
