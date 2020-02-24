@@ -14,8 +14,8 @@ import (
 
 func main() {
 
-	publicFetcher := fetcher.Fetcher{Box: *packr.New("publicBox", "../web/public")}
-	resourcesFetcher := fetcher.Fetcher{Box: *packr.New("resourcesBox", "../resource-types")}
+	publicFetcher := fetcher.Fetcher{Box: packr.New("publicBox", "../web/public")}
+	resourcesFetcher := fetcher.Fetcher{Box: packr.New("resourcesBox", "../resource-types")}
 
 	port, err := strconv.Atoi(os.Getenv("PORT"))
 	if err != nil || port == 0 {

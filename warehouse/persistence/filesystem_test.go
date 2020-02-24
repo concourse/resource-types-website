@@ -27,7 +27,7 @@ var _ = Describe("filesystem persistence", func() {
 
 			box := packr.New("test", "./sample_resource_types")
 			fs := persistence.Filesystem{
-				Fetcher:      fetcher.Fetcher{Box: *box},
+				Fetcher:      fetcher.Fetcher{Box: box},
 				GhGqlWrapper: fakeWrapper,
 			}
 
