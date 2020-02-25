@@ -2,9 +2,10 @@ package main
 
 import (
 	"fmt"
-	"github.com/concourse/dutyfree/githubwrapper"
 	"os"
 	"strconv"
+
+	"github.com/concourse/dutyfree/githubwrapper"
 
 	"github.com/concourse/dutyfree/fetcher"
 	"github.com/concourse/dutyfree/server"
@@ -32,7 +33,6 @@ func main() {
 	}
 
 	s := server.Server{
-		//TODO: make the port configurable
 		Port:                     port,
 		PublicFilesFetcher:       publicFetcher,
 		ResourceTypesFileFetcher: resourcesFetcher,

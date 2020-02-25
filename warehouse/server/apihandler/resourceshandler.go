@@ -19,5 +19,4 @@ func (rh resourcesHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 	}
-	//TODO: write errors when exist
 }

@@ -13,7 +13,6 @@ import (
 var _ = Describe("filesystem persistence", func() {
 	Context("fetching", func() {
 		It("returns all the resources", func() {
-			//TODO: counterfeiter
 			fakeWrapper := &githubwrapperfakes.FakeWrapper{}
 			retMap := make(map[string]int)
 			retMap["concourse/test"] = 0
