@@ -24,6 +24,8 @@ RUN go build ./main.go
 FROM ubuntu:bionic AS dutyfree
 EXPOSE 9090
 COPY --from=builder src/warehouse/dutyfree /usr/local/bin/
+RUN apt-get update \
+      && apt-get install -y --no-install-recommends ca-certificates
 RUN chmod +x /usr/local/bin/dutyfree
 
 FROM dutyfree
