@@ -1,11 +1,9 @@
 module MainTests exposing (suite)
 
-import Common.Common as Common exposing (ResourceType)
 import Expect exposing (equal)
 import Http
 import Json.Decode exposing (decodeString)
-import Main exposing (Model, Msg(..), Page(..), buildErrorMessage, resourceTypeDecoder, update, view)
-import RemoteData exposing (RemoteData, WebData)
+import Main exposing (Msg(..), Page(..), buildErrorMessage, resourceTypeDecoder)
 import Test exposing (Test, describe, test)
 
 
@@ -25,6 +23,7 @@ suite =
                             , description = "some description"
                             , url = "http://www.example.com"
                             , username = "@someone"
+                            , stars = "100"
                             }
                         )
             , test "properly decodes a resource type when description is missing in json" <|
@@ -39,6 +38,7 @@ suite =
                             , description = ""
                             , url = "http://www.example.com"
                             , username = "@someone"
+                            , stars = "100"
                             }
                         )
             , test "errors when name is missing in json" <|
@@ -60,6 +60,13 @@ suite =
                     let
                         decodedOutput =
                             Json.Decode.decodeString resourceTypeDecoder missingUsernameJson
+                    in
+                    Expect.err decodedOutput
+            , test "errors when stars are missing in json" <|
+                \_ ->
+                    let
+                        decodedOutput =
+                            Json.Decode.decodeString resourceTypeDecoder missingStarsJson
                     in
                     Expect.err decodedOutput
             , test "errors with invalid json" <|
@@ -107,31 +114,38 @@ suite =
         ]
 
 
+goodJson : String
 goodJson =
     """
     { "name" : "some name",
     "description" : "some description",
     "repo" : "http://www.example.com",
-    "username" : "@someone"}
+    "username" : "@someone",
+    "stars" : "100"}
 """
 
 
+missingNameJson : String
 missingNameJson =
     """
     { "description" : "some description",
     "repo" : "http://www.example.com",
-    "username" : "@someone"}
+    "username" : "@someone",
+    "stars" : "100"}
 """
 
 
+missingDescriptionJson : String
 missingDescriptionJson =
     """
     { "name" : "some name",
     "repo" : "http://www.example.com",
-    "username" : "@someone"}
+    "username" : "@someone",
+    "stars" : "100"}
 """
 
 
+missingUrlJson : String
 missingUrlJson =
     """
     { "name" : "some name",
@@ -140,6 +154,7 @@ missingUrlJson =
 """
 
 
+missingUsernameJson : String
 missingUsernameJson =
     """
     { "name" : "some name",
@@ -148,6 +163,17 @@ missingUsernameJson =
 """
 
 
+missingStarsJson : String
+missingStarsJson =
+    """
+    { "name" : "some name",
+    "description" : "some description",
+    "repo" : "http://example.com",
+    "username" : "@someone"}
+"""
+
+
+invalidJson : String
 invalidJson =
     """
     {blah}
