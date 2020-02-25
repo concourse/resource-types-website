@@ -22,6 +22,11 @@ dutyfree:
   ## p.s. this port is not the same port as the service.
   port: 9090
 
+  ## The Github graphql requires a token to be set even if we are retrieving
+  ## public data, a github token is needed that has repo:public_repo scope in
+  ## order to make dutyfree run correctly
+  github_token:
+
 serviceAccount:
   # Specifies whether a service account should be created
   create: true
