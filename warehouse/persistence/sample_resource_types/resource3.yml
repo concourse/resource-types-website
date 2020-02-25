@@ -1,0 +1,5 @@
+name: test2
+repo: https://github.com/concourse/test2
+description: |
+  line1
+  line2

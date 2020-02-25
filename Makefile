@@ -1,4 +1,5 @@
 DEPLOY_DATE = $(shell date +%s)
+GH_TOKEN = $(TOKEN)
 
 Default:
 	@echo "Usage: make [TASK]";
@@ -38,6 +39,7 @@ helm-deploy: | helm-diff
 	    --wait \
 	    --install \
 	    --namespace=dutyfree \
+	    --set dutyfree.github_token=$(GH_TOKEN) \
 	    --set=annotations.rollingUpdate=\"$(DEPLOY_DATE)\" \
 	    dutyfree \
 	    .
@@ -53,5 +55,6 @@ helm-diff:
 	  helm diff \
 	    upgrade \
 	    --namespace=dutyfree \
+	    --set dutyfree.github_token=$(GH_TOKEN) \
 	    --set=annotations.rollingUpdate=\"$(DEPLOY_DATE)\" \
 	    dutyfree .

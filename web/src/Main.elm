@@ -41,6 +41,7 @@ type alias Model =
 
 type alias Flags =
     { githubIconImg : String
+    , githubStarImg : String
     , bannerImg : String
     }
 
@@ -165,7 +166,7 @@ viewResourceTypes model =
             el textStyles spinner
 
         RemoteData.Success resourceTypes ->
-            ResourceList.view resourceTypes model.flags.githubIconImg
+            ResourceList.view resourceTypes model.flags.githubIconImg model.flags.githubStarImg
 
         RemoteData.Failure httpError ->
             el textStyles (text <| buildErrorMessage httpError)
@@ -221,6 +222,7 @@ resourceTypeDecoder =
         |> required "repo" string
         |> optional "description" string ""
         |> required "username" string
+        |> required "stars" string
 
 
 

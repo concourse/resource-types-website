@@ -36,6 +36,8 @@ spec:
             - name: PORT
               value: {{ .Values.dutyfree.port | quote }}
             {{- end }}
+            - name: GH_TOKEN
+              value: {{ required "A Github token (dutyfree.github_token) must be specified in order to run the chart" .Values.dutyfree.github_token | quote }}
           ports:
             - name: http
               {{- if .Values.dutyfree.port }}

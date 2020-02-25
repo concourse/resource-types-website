@@ -2,6 +2,7 @@ package resource_test
 
 import (
 	"encoding/json"
+
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 
@@ -16,13 +17,17 @@ var _ = Describe("Resource model", func() {
 			jsonResource := `{
 				"name": "test",
 				"repo": "https://github.com/concourse/test",
-				"description": "test description"
+				"description": "test description",
+				"stars": "8K",
+				"stars_count": 8040
 			}`
 			err := json.Unmarshal([]byte(jsonResource), &resource)
 			Expect(err).NotTo(HaveOccurred())
 			Expect(resource.Name).To(Equal("test"))
 			Expect(resource.URL).To(Equal("https://github.com/concourse/test"))
 			Expect(resource.Description).To(Equal("test description"))
+			Expect(resource.Stars).To(Equal("8K"))
+			Expect(resource.StarsCount).To(Equal(8040))
 		})
 	})
 })

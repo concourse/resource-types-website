@@ -59,9 +59,31 @@ type alias Description =
 
 
 type alias Github =
-    { imageHeight : Int
-    , imageWidth : Int
+    { image : GithubImage
+    , pill : GithubPill
+    , spacing : Int
+    }
+
+
+type alias GithubImage =
+    { height : Int
+    , width : Int
     , paddingTop : Int
+    }
+
+
+type alias GithubPill =
+    { lightBackgroundColor : RGB
+    , darkBackgroundColor : RGB
+    , height : Int
+    , size : Int
+    , font : String
+    , borderRadius : Int
+    , imageHeight : Int
+    , imageWidth : Int
+    , paddingLeft : Int
+    , paddingRight : Int
+    , spacing : Int
     }
 
 
@@ -127,7 +149,31 @@ description =
 
 github : Github
 github =
-    { imageHeight = Styles.githubImageHeight
-    , imageWidth = Styles.githubImageWidth
+    { image = image
+    , pill = pill
+    , spacing = Styles.githubSpacing
+    }
+
+
+image : GithubImage
+image =
+    { height = Styles.githubImageHeight
+    , width = Styles.githubImageWidth
     , paddingTop = Styles.githubImagePaddingTop
+    }
+
+
+pill : GithubPill
+pill =
+    { lightBackgroundColor = Styles.githubPillLightBackgroundColor
+    , darkBackgroundColor = Styles.githubPillDarkBackgroundColor
+    , height = Styles.githubPillHeight
+    , font = Styles.githubPillFont
+    , size = Styles.githubPillFontSize
+    , borderRadius = Styles.githubPillBorderRadius
+    , imageHeight = Styles.githubPillImageHeight
+    , imageWidth = Styles.githubPillImageWidth
+    , paddingLeft = Styles.githubPillPaddingLeft
+    , paddingRight = Styles.githubPillPaddingRight
+    , spacing = Styles.githubPillSpacing
     }

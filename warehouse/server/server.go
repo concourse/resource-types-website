@@ -8,6 +8,8 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/concourse/dutyfree/githubwrapper"
+
 	"github.com/concourse/dutyfree/fetcher"
 	"github.com/concourse/dutyfree/persistence"
 )
@@ -17,6 +19,7 @@ type Server struct {
 	Exited                   chan bool
 	PublicFilesFetcher       fetcher.Fetcher
 	ResourceTypesFileFetcher fetcher.Fetcher
+	GithubGraphqlWrapper     githubwrapper.Wrapper
 	srv                      *http.Server
 }
 
@@ -32,7 +35,8 @@ func (s *Server) Start() {
 	}
 
 	fs := &persistence.Filesystem{
-		Fetcher: s.ResourceTypesFileFetcher,
+		Fetcher:      s.ResourceTypesFileFetcher,
+		GhGqlWrapper: s.GithubGraphqlWrapper,
 	}
 	err = fs.LoadResources()
 	if err != nil {
@@ -42,7 +46,7 @@ func (s *Server) Start() {
 	warehouseMux := http.NewServeMux()
 	warehouseMux.Handle("/api/v1/", NewApiHandler(fs))
 
-	warehouseMux.Handle("/public/", NewPublicHandler(s.PublicFilesFetcher))
+	warehouseMux.Handle("/public/", NewPublicHandler(&s.PublicFilesFetcher))
 	warehouseMux.Handle("/", indexHndlr)
 
 	go func() {

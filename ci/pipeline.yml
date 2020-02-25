@@ -76,6 +76,8 @@ jobs:
     - task: go-tests
       image: unit-image
       file: resource-types-website/ci/tasks/go-test.yml
+      params:
+        TOKEN: ((github_token))
 
 - name: build-docker
   plan:
@@ -124,4 +126,5 @@ jobs:
     image: helm-image
     file: resource-types-website/ci/tasks/helm-deploy.yml
     params:
+      TOKEN: ((github_token))
       KUBE_CONFIG: ((kube_config))

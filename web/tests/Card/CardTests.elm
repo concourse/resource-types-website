@@ -115,18 +115,70 @@ suite =
                             |> Expect.equal Styles.descriptionSpacing
                 ]
             , describe "github"
-                [ test "has a width" <|
+                [ describe "image"
+                    [ test "has a width" <|
+                        \_ ->
+                            cardResourceType.github.image.width
+                                |> Expect.equal Styles.githubImageWidth
+                    , test "has a height" <|
+                        \_ ->
+                            cardResourceType.github.image.height
+                                |> Expect.equal Styles.githubImageHeight
+                    , test "has a top padding" <|
+                        \_ ->
+                            cardResourceType.github.image.paddingTop
+                                |> Expect.equal Styles.githubImagePaddingTop
+                    ]
+                , describe "pill"
+                    [ test "has a light background color" <|
+                        \_ ->
+                            cardResourceType.github.pill.lightBackgroundColor
+                                |> Expect.equal Styles.githubPillLightBackgroundColor
+                    , test "has a dark background color" <|
+                        \_ ->
+                            cardResourceType.github.pill.darkBackgroundColor
+                                |> Expect.equal Styles.githubPillDarkBackgroundColor
+                    , test "has a height" <|
+                        \_ ->
+                            cardResourceType.github.pill.height
+                                |> Expect.equal Styles.githubPillHeight
+                    , test "has a font face" <|
+                        \_ ->
+                            cardResourceType.github.pill.font
+                                |> Expect.equal Styles.githubPillFont
+                    , test "has a font size" <|
+                        \_ ->
+                            cardResourceType.github.pill.size
+                                |> Expect.equal Styles.githubPillFontSize
+                    , test "has left padding" <|
+                        \_ ->
+                            cardResourceType.github.pill.paddingLeft
+                                |> Expect.equal Styles.githubPillPaddingLeft
+                    , test "has right padding" <|
+                        \_ ->
+                            cardResourceType.github.pill.paddingRight
+                                |> Expect.equal Styles.githubPillPaddingRight
+                    , test "has internal spacing" <|
+                        \_ ->
+                            cardResourceType.github.pill.spacing
+                                |> Expect.equal Styles.githubPillSpacing
+                    , test "has border radius" <|
+                        \_ ->
+                            cardResourceType.github.pill.borderRadius
+                                |> Expect.equal Styles.githubPillBorderRadius
+                    , test "has image height" <|
+                        \_ ->
+                            cardResourceType.github.pill.imageHeight
+                                |> Expect.equal Styles.githubPillImageHeight
+                    , test "has image width" <|
+                        \_ ->
+                            cardResourceType.github.pill.imageWidth
+                                |> Expect.equal Styles.githubPillImageWidth
+                    ]
+                , test "has spacing" <|
                     \_ ->
-                        cardResourceType.github.imageWidth
-                            |> Expect.equal Styles.githubImageWidth
-                , test "has a height" <|
-                    \_ ->
-                        cardResourceType.github.imageHeight
-                            |> Expect.equal Styles.githubImageHeight
-                , test "has a top padding" <|
-                    \_ ->
-                        cardResourceType.github.paddingTop
-                            |> Expect.equal Styles.githubImagePaddingTop
+                        cardResourceType.github.spacing
+                            |> Expect.equal Styles.githubSpacing
                 ]
             ]
         ]
