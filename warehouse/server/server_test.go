@@ -45,8 +45,8 @@ var _ = Describe("Server Test", func() {
 		//TODO: counterfeiter
 		srv = server.Server{
 			Port:                     port,
-			PublicFilesFetcher:       fetcher.Fetcher{Box: *packr.New("publicTestBox", "./testdata/public")},
-			ResourceTypesFileFetcher: fetcher.Fetcher{Box: *packr.New("resourcesTestBox", "./testdata/resource-types")},
+			PublicFilesFetcher:       fetcher.Fetcher{Box: packr.New("publicTestBox", "./testdata/public")},
+			ResourceTypesFileFetcher: fetcher.Fetcher{Box: packr.New("resourcesTestBox", "./testdata/resource-types")},
 			GithubGraphqlWrapper:     fakeWrapper,
 		}
 		srv.Start()

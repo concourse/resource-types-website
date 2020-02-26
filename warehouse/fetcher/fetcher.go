@@ -9,7 +9,7 @@ import (
 )
 
 type Fetcher struct {
-	Box packr.Box
+	Box *packr.Box
 }
 
 type File struct {
