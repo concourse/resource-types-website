@@ -1,0 +1,100 @@
+package main
+
+import (
+	"fmt"
+	"net/http"
+	"os"
+	"strings"
+
+	"github.com/concourse/dutyfree/fetcher"
+	"github.com/concourse/dutyfree/resource"
+	"github.com/fatih/color"
+	"github.com/gobuffalo/packr/v2"
+	"gopkg.in/yaml.v2"
+)
+
+func main() {
+
+	ftchr := fetcher.Fetcher{
+		Box: *packr.New("resources", "../../resource-types"),
+	}
+
+	files, err := ftchr.GetAll()
+	if err != nil {
+		panic(err)
+	}
+	red := color.New(color.FgRed, color.Bold)
+	green := color.New(color.FgGreen, color.Bold)
+	yellow := color.New(color.FgYellow, color.Bold)
+
+	errors := []string{}
+	warning := []string{}
+
+	client := &http.Client{
+		CheckRedirect: func(req *http.Request, via []*http.Request) error {
+			return http.ErrUseLastResponse
+		},
+	}
+
+	for _, fileBytes := range files {
+		if strings.Contains(fileBytes.Name, ".yml") {
+			failed := true
+			var currResource resource.Resource
+
+			err = yaml.UnmarshalStrict(fileBytes.Contents, &currResource)
+			if err != nil {
+				errors = append(errors, fileBytes.Name+red.Sprintf(" is not a valid resource type file"))
+				failed = false
+				red.Println("checked: ", fileBytes.Name)
+				continue
+			}
+
+			res, err := client.Get(currResource.URL)
+			if err != nil {
+				panic(err)
+			}
+			if res.StatusCode == http.StatusMovedPermanently {
+				movedLocation, _ := res.Location()
+				errors = append(errors, "In: "+fileBytes.Name+","+red.Sprintf(" Repo "+currResource.URL+" moved ----> "+movedLocation.String()))
+				failed = false
+			}
+			if res.StatusCode == http.StatusNotFound {
+				errors = append(errors, "In: "+fileBytes.Name+","+red.Sprintf(" Repo "+currResource.URL+" Not Found"))
+				failed = false
+			}
+
+			res, err = http.Get("https://hub.docker.com/v2/repositories/" + currResource.Image)
+			if err != nil {
+				panic(err)
+			}
+			if res.StatusCode == http.StatusNotFound {
+				if len(strings.Split(currResource.Image, "/")) > 2 {
+					warning = append(warning, "In: "+fileBytes.Name+", "+yellow.Sprintf("Skipped image check for non docker hub image "+currResource.Image))
+				} else {
+					errors = append(errors, "In: "+fileBytes.Name+","+red.Sprintf(" docker image "+currResource.Image+" deosn't exist"))
+					failed = false
+				}
+			}
+			if failed {
+				green.Println("checked: ", fileBytes.Name)
+			} else {
+				red.Println("checked: ", fileBytes.Name)
+			}
+		}
+	}
+	if len(warning) > 0 {
+		yellow.Println("Warning:")
+		for _, w := range warning {
+			fmt.Println(w)
+		}
+	}
+	if len(errors) > 0 {
+		red.Println("Error:")
+		for _, problem := range errors {
+			fmt.Println(problem)
+		}
+		os.Exit(1)
+	}
+
+	green.Println("Everything seems as clean as it could be!!, push it to the cloud")
+}
