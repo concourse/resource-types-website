@@ -13,10 +13,16 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
+func printColor(colour *color.Color, strToPrint ...string) {
+	if _, err := colour.Println(strToPrint); err != nil {
+		fmt.Println(strToPrint)
+	}
+}
+
 func main() {
 
 	ftchr := fetcher.Fetcher{
-		Box: *packr.New("resources", "../../resource-types"),
+		Box: packr.New("resources", "../../resource-types"),
 	}
 
 	files, err := ftchr.GetAll()
@@ -44,8 +50,7 @@ func main() {
 			err = yaml.UnmarshalStrict(fileBytes.Contents, &currResource)
 			if err != nil {
 				errors = append(errors, fileBytes.Name+red.Sprintf(" is not a valid resource type file"))
-				failed = false
-				red.Println("checked: ", fileBytes.Name)
+				printColor(red, "checked: ", fileBytes.Name)
 				continue
 			}
 
@@ -76,25 +81,25 @@ func main() {
 				}
 			}
 			if failed {
-				green.Println("checked: ", fileBytes.Name)
+				printColor(green, "checked: ", fileBytes.Name)
 			} else {
-				red.Println("checked: ", fileBytes.Name)
+				printColor(red, "checked: ", fileBytes.Name)
 			}
 		}
 	}
 	if len(warning) > 0 {
-		yellow.Println("Warning:")
+		printColor(yellow, "Warning:")
 		for _, w := range warning {
 			fmt.Println(w)
 		}
 	}
 	if len(errors) > 0 {
-		red.Println("Error:")
+		printColor(red, "Error:")
 		for _, problem := range errors {
 			fmt.Println(problem)
 		}
 		os.Exit(1)
 	}
 
-	green.Println("Everything seems as clean as it could be!!, push it to the cloud")
+	printColor(green, "Everything seems as clean as it could be!!, push it to the cloud")
 }
