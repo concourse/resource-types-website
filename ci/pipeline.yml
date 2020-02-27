@@ -42,6 +42,11 @@ resources:
     username: ((docker.username))
     password: ((docker.password))
 
+- name: 6h
+  icon: timeline-clock-outline
+  type: time
+  source: {interval: 6h}
+
 jobs:
 - name: update-resource-types
   plan:
@@ -115,10 +120,22 @@ jobs:
     - put: helm-image
       params: {image: image-helm/image.tar}
 
+- name: sanity-check
+  plan:
+  - get: 6h
+    trigger: true
+  - get: resource-types-website
+    passed: [build-docker]
+    trigger: true
+  - get: unit-image
+  - task: sanity-check
+    image: unit-image
+    file: resource-types-website/ci/tasks/sanity-check.yml
+
 - name: deploy
   plan:
   - get: resource-types-website
-    passed: [build-docker]
+    passed: [sanity-check]
     trigger: true
   - get: helm-image
     passed: [build-docker]
