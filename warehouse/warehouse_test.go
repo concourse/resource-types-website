@@ -52,7 +52,6 @@ var _ = Describe("Warehouse main", func() {
 		})
 
 		AfterEach(func() {
-			gexec.CleanupBuildArtifacts()
 			session.Kill()
 			<-session.Exited
 		})

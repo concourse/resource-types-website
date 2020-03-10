@@ -27,6 +27,10 @@ var _ = SynchronizedBeforeSuite(func() []byte {
 	DutyfreeServerCommand = exec.Command(dutyfreePath)
 })
 
+var _ = SynchronizedAfterSuite(func() {
+	gexec.CleanupBuildArtifacts()
+}, func() {})
+
 func TestWarehouse(t *testing.T) {
 	RegisterFailHandler(Fail)
 	RunSpecs(t, "Warehouse Suite")
