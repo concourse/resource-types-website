@@ -31,7 +31,7 @@ func (fs *Filesystem) LoadResources() error {
 	resourcesMap := make(map[string]int)
 
 	for _, fileBytes := range files {
-		if strings.Contains(fileBytes.Name, ".yml") {
+		if strings.Contains(fileBytes.Name, ".yml") || strings.Contains(fileBytes.Name, ".yaml") {
 			var currResource resource.Resource
 			err = yaml.UnmarshalStrict(fileBytes.Contents, &currResource)
 			//TODO: do we exit if one file is corrupt of just skip it??
