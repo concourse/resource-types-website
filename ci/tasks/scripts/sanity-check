@@ -1,0 +1,10 @@
+#!/bin/bash
+
+set -e
+
+pushd resource-types-website/warehouse
+  go mod download
+
+  go run sanity-check/main.go
+
+popd
