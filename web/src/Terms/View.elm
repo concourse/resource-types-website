@@ -65,7 +65,7 @@ body =
 
 termsTest : String
 termsTest =
-    "This website is provided solely for your convenience and information. Pivotal Software, Inc. (Pivotal) does not endorse or make any representations about this website, and Pivotal is not responsible for the accuracy, reliability, and suitability of any information, data, opinions, advice or statements made on this website. Pivotal shall not be held liable for any losses or damages incurred by users of this website. Please note that your access to and usage of this website, including any materials, information, services and products described or provided therein, is made solely at your own risk and discretion."
+    "This website is provided solely for your convenience and information. VMware Inc. (VMware) does not endorse or make any representations about this website, and VMware is not responsible for the accuracy, reliability, and suitability of any information, data, opinions, advice or statements made on this website. VMware shall not be held liable for any losses or damages incurred by users of this website. Please note that your access to and usage of this website, including any materials, information, services and products described or provided therein, is made solely at your own risk and discretion."
 
 
 padding : { top : Int, right : Int, bottom : Int, left : Int }
