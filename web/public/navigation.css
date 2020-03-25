@@ -1,44 +1,55 @@
-.top-logo, .top-nav, .top-search {
-  background: #3398dc;
+.page-top {
+  background: #4a90e2;
+  align-self: stretch;
+}
+.page-top .top-nav {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.top-logo, .top-nav {
+  background: #4a90e2;
   color: white;
   font-family: 'Roboto Slab', serif;
+  line-height: 70px;
 }
 .top-nav {
   position: relative;
   white-space: nowrap;
-}
-.top-logo a {
-  color: white;
-  margin: 0;
-  font-size: 22px;
-  padding: 0 50px 0 80px;
-  line-height: 80px;
-  display: inline-block;
-  vertical-align: top;
-  text-decoration: none;
-  position: relative;
-}
-.top-logo img {
-  width: 40px;
-  height: 40px;
-  vertical-align: middle;
-  position: absolute;
-  top: 18px;
-  left: 17px;
-}
-.top-logo a:visited {
-  color: white;
+  display: flex;
+  flex-direction: row;
 }
 .top-link {
   color: white;
   font-size: 16px;
   text-transform: lowercase;
-  line-height: 80px;
+  line-height: 70px;
   display: inline-block;
   padding: 0 25px;
-  margin-right: 4px;
 }
-.top-link, .top-link:visited {
+.top-link.logo-link {
+  box-sizing: border-box;
+  color: white;
+  margin: 0;
+  font-size: 22px;
+  width: 240px;
+  padding: 0 50px 0 70px;
+  line-height: 70px;
+  display: inline-block;
+  vertical-align: top;
+  text-decoration: none;
+  position: relative;
+  text-transform: initial;
+}
+.top-link.logo-link img {
+  width: 35px;
+  height: 35px;
+  vertical-align: middle;
+  position: absolute;
+  top: 15.5px;
+  left: 14.5px;
+}
+.top-link,
+.top-link:visited {
   color: white;
   text-decoration: none;
 }
@@ -47,24 +58,8 @@
   text-decoration: underline;
 }
 .top-link.active {
-  background: white;
-  color: #2a2929;
+  background: #2d76cc;
   text-decoration: underline;
-}
-.top-logo {
-  grid-area: logo;
-}
-.top-nav {
-  grid-area: primary-nav;
-}
-.top-search {
-  grid-area: search;
-}
-.navigation {
-  display: grid;
-  grid-template-columns: 2fr 5fr 3fr;
-  grid-template-areas: "logo primary-nav search";
-  width: 100%;
 }
 @media (max-width: 1200px) {
   .navigation {
@@ -76,4 +71,3 @@
     vertical-align: top;
   }
 }
-

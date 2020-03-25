@@ -70,7 +70,7 @@ title : Title
 title =
     { size = Styles.titleSize
     , color = Styles.titleColor
-    , text = "Concourse Resource Types"
+    , text = "Resource Types"
     , font = Styles.titleFont
     , lineHeight = Styles.titleLineHeight
     , paddingTop = Styles.titlePaddingTop
