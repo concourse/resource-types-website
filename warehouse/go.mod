@@ -11,7 +11,7 @@ require (
 	github.com/gobuffalo/packr/v2 v2.7.1
 	github.com/golang/protobuf v1.3.2 // indirect
 	github.com/onsi/ginkgo v1.12.0
-	github.com/onsi/gomega v1.7.1
+	github.com/onsi/gomega v1.9.0
 	github.com/rogpeppe/go-internal v1.5.1 // indirect
 	github.com/shurcooL/githubv4 v0.0.0-20191127044304-8f68eb5628d0
 	github.com/shurcooL/graphql v0.0.0-20181231061246-d48a9a75455f // indirect
