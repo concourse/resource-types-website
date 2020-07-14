@@ -15,14 +15,14 @@ var _ = Describe("github wrapper", func() {
 		var (
 			testServer *ghttp.Server
 			wrapper    githubwrapper.Wrapper
-			testStars  map[string]int
+			testStars  map[string]bool
 		)
 		BeforeEach(func() {
 			testServer = ghttp.NewServer()
 
 			wrapper = githubwrapper.NewWrapper(testServer.URL(), "token")
-			testStars = make(map[string]int)
-			testStars["concourse/concourse"] = 0
+			testStars = make(map[string]bool)
+			testStars["concourse/concourse"] = true
 		})
 
 		It("the underlying module does the appropriate call to the graphql api", func() {
@@ -37,13 +37,13 @@ var _ = Describe("github wrapper", func() {
 				),
 			)
 
-			testStars, err := wrapper.GetStars(testStars)
+			returnStars, err := wrapper.GetStars(testStars)
 
 			Expect(err).ToNot(HaveOccurred())
-			Expect(testStars["concourse/concourse"]).To(Equal(9))
+			Expect(returnStars["concourse/concourse"]).To(Equal(9))
 		})
 
-		It("return the appropriate error in case of server failure", func() {
+		It("returns the appropriate error in case of server failure", func() {
 			testServer.AppendHandlers(
 				ghttp.CombineHandlers(
 					ghttp.VerifyRequest("POST", "/"),

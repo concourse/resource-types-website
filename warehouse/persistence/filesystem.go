@@ -2,6 +2,7 @@ package persistence
 
 import (
 	"fmt"
+	"net/url"
 	"strconv"
 	"strings"
 
@@ -28,7 +29,7 @@ func (fs *Filesystem) LoadResources() error {
 		return err
 	}
 
-	resourcesMap := make(map[string]int)
+	resourcesMap := make(map[string]bool)
 
 	for _, fileBytes := range files {
 		if strings.Contains(fileBytes.Name, ".yml") || strings.Contains(fileBytes.Name, ".yaml") {
@@ -39,26 +40,31 @@ func (fs *Filesystem) LoadResources() error {
 				return err
 			}
 
-			var repoName, owner string
-			owner, repoName = extractOwnerAndRepo(currResource.URL)
+			parsedRepo, err := parseRepoURL(currResource.URL)
+			if err != nil {
+				return err
+			}
 
-			currResource.Owner = "@" + owner
+			if len(parsedRepo.Owner) > 0 {
+				currResource.Owner = "@"
+			}
+			currResource.Owner += parsedRepo.Owner
 
-			currResource.NameWithOwner = owner + "/" + repoName
-			resourcesMap[currResource.NameWithOwner] = 0
+			currResource.NameWithOwner = parsedRepo.Owner + "/" + parsedRepo.Name
+			resourcesMap[currResource.NameWithOwner] = parsedRepo.IsGithub
 
 			fs.resources = append(fs.resources, currResource)
 		}
 	}
 
 	//TODO: doesn't look like the best way is to call github gql here :thinking:
-	resourcesMap, err = fs.GhGqlWrapper.GetStars(resourcesMap)
+	resourcesStars, err := fs.GhGqlWrapper.GetStars(resourcesMap)
 	if err != nil {
 		return err
 	}
 
 	for i, curr := range fs.resources {
-		fs.resources[i].StarsCount = resourcesMap[curr.NameWithOwner]
+		fs.resources[i].StarsCount = resourcesStars[curr.NameWithOwner]
 		fs.resources[i].Stars = formatStars(fs.resources[i].StarsCount)
 	}
 
@@ -80,8 +86,31 @@ func formatStars(stars int) string {
 	}
 }
 
-func extractOwnerAndRepo(url string) (string, string) {
-	urlNoGit := strings.Replace(url, ".git", "", 1)
-	parts := strings.Split(urlNoGit, "/")
-	return parts[len(parts)-2], parts[len(parts)-1]
+type Repo struct {
+	Owner    string
+	Name     string
+	IsGithub bool
+}
+
+func parseRepoURL(sourceURL string) (Repo, error) {
+	// fmt.Println(sourceURL)
+	var parsedRepo Repo
+	u, err := url.Parse(strings.ToLower(sourceURL))
+	if err != nil {
+		return Repo{}, err
+	}
+	parts := strings.Split(u.Path, "/")
+	if strings.Contains(u.Host, "github") {
+		parsedRepo.IsGithub = true
+	}
+
+	if len(parts) == 2 {
+		parsedRepo.Name = parts[1]
+		parsedRepo.Owner = ""
+		return parsedRepo, nil
+	}
+
+	parsedRepo.Name = parts[2]
+	parsedRepo.Owner = parts[1]
+	return parsedRepo, nil
 }

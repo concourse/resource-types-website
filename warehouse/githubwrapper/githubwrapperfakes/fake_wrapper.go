@@ -8,10 +8,10 @@ import (
 )
 
 type FakeWrapper struct {
-	GetStarsStub        func(map[string]int) (map[string]int, error)
+	GetStarsStub        func(map[string]bool) (map[string]int, error)
 	getStarsMutex       sync.RWMutex
 	getStarsArgsForCall []struct {
-		arg1 map[string]int
+		arg1 map[string]bool
 	}
 	getStarsReturns struct {
 		result1 map[string]int
@@ -25,11 +25,11 @@ type FakeWrapper struct {
 	invocationsMutex sync.RWMutex
 }
 
-func (fake *FakeWrapper) GetStars(arg1 map[string]int) (map[string]int, error) {
+func (fake *FakeWrapper) GetStars(arg1 map[string]bool) (map[string]int, error) {
 	fake.getStarsMutex.Lock()
 	ret, specificReturn := fake.getStarsReturnsOnCall[len(fake.getStarsArgsForCall)]
 	fake.getStarsArgsForCall = append(fake.getStarsArgsForCall, struct {
-		arg1 map[string]int
+		arg1 map[string]bool
 	}{arg1})
 	fake.recordInvocation("GetStars", []interface{}{arg1})
 	fake.getStarsMutex.Unlock()
@@ -49,13 +49,13 @@ func (fake *FakeWrapper) GetStarsCallCount() int {
 	return len(fake.getStarsArgsForCall)
 }
 
-func (fake *FakeWrapper) GetStarsCalls(stub func(map[string]int) (map[string]int, error)) {
+func (fake *FakeWrapper) GetStarsCalls(stub func(map[string]bool) (map[string]int, error)) {
 	fake.getStarsMutex.Lock()
 	defer fake.getStarsMutex.Unlock()
 	fake.GetStarsStub = stub
 }
 
-func (fake *FakeWrapper) GetStarsArgsForCall(i int) map[string]int {
+func (fake *FakeWrapper) GetStarsArgsForCall(i int) map[string]bool {
 	fake.getStarsMutex.RLock()
 	defer fake.getStarsMutex.RUnlock()
 	argsForCall := fake.getStarsArgsForCall[i]
