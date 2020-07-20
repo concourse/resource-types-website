@@ -8,4 +8,4 @@ RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s 
 
 RUN install ./kubectl /bin/kubectl
 
-RUN helm plugin install https://github.com/databus23/helm-diff --version master
+RUN helm plugin install https://github.com/databus23/helm-diff --version e186caafe744378a6059f9b70084b49daf196ede
