@@ -50,6 +50,8 @@ func (fs *Filesystem) LoadResources() error {
 			}
 			currResource.Owner += parsedRepo.Owner
 
+			currResource.Host = parsedRepo.Host
+
 			currResource.NameWithOwner = parsedRepo.Owner + "/" + parsedRepo.Name
 			resourcesMap[currResource.NameWithOwner] = parsedRepo.IsGithub
 
@@ -87,6 +89,7 @@ func formatStars(stars int) string {
 }
 
 type Repo struct {
+	Host     string
 	Owner    string
 	Name     string
 	IsGithub bool
@@ -100,9 +103,12 @@ func parseRepoURL(sourceURL string) (Repo, error) {
 		return Repo{}, err
 	}
 	parts := strings.Split(u.Path, "/")
+
 	if strings.Contains(u.Host, "github") {
 		parsedRepo.IsGithub = true
 	}
+
+	parsedRepo.Host = strings.Split(u.Host, ".")[0]
 
 	if len(parts) == 2 {
 		parsedRepo.Name = parts[1]
