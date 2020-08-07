@@ -8,7 +8,6 @@ import Element
         ( Color
         , Element
         , centerX
-        , clip
         , clipY
         , column
         , el
@@ -85,7 +84,6 @@ name resourceType styles =
         , height fill
         , width (fill |> maximum styles.maxWidth)
         , paddingEach { padding | top = styles.paddingTop }
-        , clip
         ]
         [ html
             (Html.div
