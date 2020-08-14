@@ -96,7 +96,6 @@ type Repo struct {
 }
 
 func parseRepoURL(sourceURL string) (Repo, error) {
-	// fmt.Println(sourceURL)
 	var parsedRepo Repo
 	u, err := url.Parse(strings.ToLower(sourceURL))
 	if err != nil {
