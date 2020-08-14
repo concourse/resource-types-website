@@ -28,6 +28,10 @@ func NewWrapper(serverUrl, token string) wrapper {
 	}
 }
 
+// the function does a workaround the github graphql
+// the grapphql expects a generic struct to be passed to it.
+// in our case we have no prior knowledge of some fields of the struct, or their values
+// that's why we used reflections to construct a struct object in the same way that is expected by the graphql.
 func (w wrapper) GetStars(repoStarsMap map[string]bool) (map[string]int, error) {
 	src := oauth2.StaticTokenSource(
 		&oauth2.Token{AccessToken: w.Token},
