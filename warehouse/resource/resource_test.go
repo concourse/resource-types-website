@@ -19,7 +19,8 @@ var _ = Describe("Resource model", func() {
 				"repo": "https://github.com/concourse/test",
 				"description": "test description",
 				"stars": "8K",
-				"stars_count": 8040
+				"stars_count": 8040,
+				"host": "github"
 			}`
 			err := json.Unmarshal([]byte(jsonResource), &resource)
 			Expect(err).NotTo(HaveOccurred())
@@ -28,6 +29,7 @@ var _ = Describe("Resource model", func() {
 			Expect(resource.Description).To(Equal("test description"))
 			Expect(resource.Stars).To(Equal("8K"))
 			Expect(resource.StarsCount).To(Equal(8040))
+			Expect(resource.Host).To(Equal("github"))
 		})
 	})
 })

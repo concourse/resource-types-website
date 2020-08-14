@@ -8,5 +8,6 @@ type Resource struct {
 	Owner         string `json:"username"`
 	Stars         string `json:"stars"`
 	StarsCount    int    `json:"stars_count"`
+	Host          string `json:"host"`
 	NameWithOwner string
 }

@@ -83,6 +83,7 @@ var _ = Describe("Server Test", func() {
 			Expect(len(reses)).To(Equal(1))
 			Expect(reses[0].Name).To(Equal("git"))
 			Expect(reses[0].Stars).To(Equal("10"))
+			Expect(reses[0].Host).To(Equal("github"))
 		})
 		It("returns 404 on calls to unknown api /api/v1/res", func() {
 			resp, err := http.Get("http://" + serverAddr + "/api/v1/res")

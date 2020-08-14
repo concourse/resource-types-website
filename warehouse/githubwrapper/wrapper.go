@@ -13,7 +13,7 @@ import (
 //go:generate counterfeiter . Wrapper
 
 type Wrapper interface {
-	GetStars(map[string]int) (map[string]int, error)
+	GetStars(map[string]bool) (map[string]int, error)
 }
 
 type wrapper struct {
@@ -28,7 +28,11 @@ func NewWrapper(serverUrl, token string) wrapper {
 	}
 }
 
-func (w wrapper) GetStars(repoStarsMap map[string]int) (map[string]int, error) {
+// the function does a workaround the github graphql
+// the grapphql expects a generic struct to be passed to it.
+// in our case we have no prior knowledge of some fields of the struct, or their values
+// that's why we used reflections to construct a struct object in the same way that is expected by the graphql.
+func (w wrapper) GetStars(repoStarsMap map[string]bool) (map[string]int, error) {
 	src := oauth2.StaticTokenSource(
 		&oauth2.Token{AccessToken: w.Token},
 	)
@@ -47,14 +51,16 @@ func (w wrapper) GetStars(repoStarsMap map[string]int) (map[string]int, error) {
 	ghReturnReflection := reflect.TypeOf(ghReturn{})
 
 	i := 0
-	for k := range repoStarsMap {
-		strs := strings.Split(k, "/")
-		arr = append(arr, reflect.StructField{
-			Name: fmt.Sprintf("I%d", i),
-			Type: ghReturnReflection,
-			Tag:  reflect.StructTag(fmt.Sprintf(`graphql:"i%d: repository(owner: \"%s\", name: \"%s\")"`, i, strs[0], strs[1])),
-		})
-		i++
+	for k, isGithub := range repoStarsMap {
+		if isGithub {
+			strs := strings.Split(k, "/")
+			arr = append(arr, reflect.StructField{
+				Name: fmt.Sprintf("I%d", i),
+				Type: ghReturnReflection,
+				Tag:  reflect.StructTag(fmt.Sprintf(`graphql:"i%d: repository(owner: \"%s\", name: \"%s\")"`, i, strs[0], strs[1])),
+			})
+			i++
+		}
 	}
 
 	gqlQuery := reflect.New(reflect.StructOf(arr)).Elem()
@@ -66,11 +72,14 @@ func (w wrapper) GetStars(repoStarsMap map[string]int) (map[string]int, error) {
 
 	i = 0
 
-	for range repoStarsMap {
-		stars := reflect.ValueOf(gqlQuery.Interface()).FieldByIndex([]int{i}).FieldByName("Stargazers").FieldByIndex([]int{0}).Interface().(int)
-		owner := reflect.ValueOf(gqlQuery.Interface()).FieldByIndex([]int{i}).FieldByName("NameWithOwner").Interface().(string)
-		repoStarsMap[owner] = stars
-		i++
+	returnMap := make(map[string]int)
+	for _, isGithub := range repoStarsMap {
+		if isGithub {
+			stars := reflect.ValueOf(gqlQuery.Interface()).FieldByIndex([]int{i}).FieldByName("Stargazers").FieldByIndex([]int{0}).Interface().(int)
+			owner := reflect.ValueOf(gqlQuery.Interface()).FieldByIndex([]int{i}).FieldByName("NameWithOwner").Interface().(string)
+			returnMap[owner] = stars
+			i++
+		}
 	}
-	return repoStarsMap, nil
+	return returnMap, nil
 }
