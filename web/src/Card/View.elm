@@ -1,6 +1,6 @@
 module Card.View exposing (view)
 
-import Card.Card exposing (Author, Description, Github, Name, card)
+import Card.Card exposing (Author, Description, Host, Name, card)
 import Common.Common exposing (ResourceType, capitalize)
 import Common.Overrides as Overrides exposing (ellipsis, multiLineEllipsis)
 import Element
@@ -46,8 +46,8 @@ padding =
     }
 
 
-view : ResourceType -> String -> String -> Element msg
-view resourceType githubIcon githubStar =
+view : ResourceType -> String -> String -> String -> Element msg
+view resourceType githubHostIcon otherHostIcon githubStar =
     let
         container =
             card.container
@@ -60,8 +60,7 @@ view resourceType githubIcon githubStar =
                 , height <| px container.height
                 , rounded container.borderRadius
                 , paddingEach { padding | left = container.paddingLeft }
-                , mouseOver
-                    [ shadow cardHoverShadow ]
+                , mouseOver [ shadow cardHoverShadow ]
                 , shadow cardShadow
                 ]
                 (column
@@ -69,7 +68,7 @@ view resourceType githubIcon githubStar =
                     [ name resourceType card.resourceType.name
                     , author resourceType card.resourceType.author
                     , description resourceType card.resourceType.description
-                    , github resourceType card.resourceType.github githubIcon githubStar
+                    , host resourceType card.resourceType.host githubHostIcon otherHostIcon githubStar
                     ]
                 )
         }
@@ -95,14 +94,24 @@ name resourceType styles =
 
 author : ResourceType -> Author -> Element msg
 author resourceType styles =
-    paragraph
-        [ Font.family
-            [ Font.typeface styles.font ]
-        , Font.size styles.size
-        , Font.color <| fromRgb255 styles.color
-        , paddingEach { padding | top = styles.paddingTop }
-        ]
-        [ text resourceType.username ]
+    let
+        isGithub =
+            resourceType.host == "github"
+    in
+    if isGithub then
+        paragraph
+            [ Font.family
+                [ Font.typeface styles.font ]
+            , Font.size styles.size
+            , Font.color <| fromRgb255 styles.color
+            , paddingEach { padding | top = styles.paddingTop }
+            ]
+            [ text resourceType.username ]
+
+    else
+        paragraph
+            [ height <| px 15 ]
+            [ text "" ]
 
 
 description : ResourceType -> Description -> Element msg
@@ -125,21 +134,48 @@ description resourceType styles =
         ]
 
 
-github : ResourceType -> Github -> String -> String -> Element msg
-github resourceType styles githubIconImg githubStarImg =
-    row [ paddingEach { padding | top = styles.image.paddingTop }, spacing styles.spacing ]
+host : ResourceType -> Host -> String -> String -> String -> Element msg
+host resourceType styles githubIconImg otherHostIconImg githubStarImg =
+    let
+        isGithub =
+            resourceType.host == "github"
+
+        hostIconImg =
+            if isGithub then
+                githubIconImg
+
+            else
+                otherHostIconImg
+    in
+    row
+        [ paddingEach { padding | top = styles.image.paddingTop }
+        , spacing styles.spacing
+        , htmlAttribute <| class "host"
+        ]
         [ image
             [ height <| px styles.image.height
             , width <| px styles.image.width
+            , htmlAttribute <|
+                class
+                    (if isGithub then
+                        "github-image"
+
+                     else
+                        "other-image"
+                    )
             ]
-            { src = githubIconImg
+            { src = hostIconImg
             , description = ""
             }
-        , pill resourceType styles githubStarImg
+        , if isGithub then
+            pill resourceType styles githubStarImg
+
+          else
+            row [] [ text "" ]
         ]
 
 
-pill : ResourceType -> Github -> String -> Element msg
+pill : ResourceType -> Host -> String -> Element msg
 pill resourceType styles githubStarImg =
     row
         [ Background.gradient

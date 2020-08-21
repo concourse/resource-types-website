@@ -18,21 +18,21 @@ module Card.Styles exposing
     , descriptionPaddingTop
     , descriptionSize
     , descriptionSpacing
-    , githubImageHeight
-    , githubImagePaddingTop
-    , githubImageWidth
-    , githubPillBorderRadius
-    , githubPillDarkBackgroundColor
-    , githubPillFont
-    , githubPillFontSize
-    , githubPillHeight
-    , githubPillImageHeight
-    , githubPillImageWidth
-    , githubPillLightBackgroundColor
-    , githubPillPaddingLeft
-    , githubPillPaddingRight
-    , githubPillSpacing
-    , githubSpacing
+    , hostImageHeight
+    , hostImagePaddingTop
+    , hostImageWidth
+    , hostPillBorderRadius
+    , hostPillDarkBackgroundColor
+    , hostPillFont
+    , hostPillFontSize
+    , hostPillHeight
+    , hostPillImageHeight
+    , hostPillImageWidth
+    , hostPillLightBackgroundColor
+    , hostPillPaddingLeft
+    , hostPillPaddingRight
+    , hostPillSpacing
+    , hostSpacing
     , nameColor
     , nameFont
     , nameMaxWidth
@@ -189,11 +189,11 @@ descriptionMinHeight =
 
 
 
--- github
+-- host
 
 
-githubSpacing : Int
-githubSpacing =
+hostSpacing : Int
+hostSpacing =
     3
 
 
@@ -201,18 +201,18 @@ githubSpacing =
 --image
 
 
-githubImageWidth : Int
-githubImageWidth =
+hostImageWidth : Int
+hostImageWidth =
     Common.gridSize * 2
 
 
-githubImageHeight : Int
-githubImageHeight =
+hostImageHeight : Int
+hostImageHeight =
     Common.gridSize * 2
 
 
-githubImagePaddingTop : Int
-githubImagePaddingTop =
+hostImagePaddingTop : Int
+hostImagePaddingTop =
     Common.gridSize
 
 
@@ -220,56 +220,56 @@ githubImagePaddingTop =
 -- pill
 
 
-githubPillLightBackgroundColor : RGB
-githubPillLightBackgroundColor =
-    Common.githubPillLightBackgroundColor
+hostPillLightBackgroundColor : RGB
+hostPillLightBackgroundColor =
+    Common.hostPillLightBackgroundColor
 
 
-githubPillDarkBackgroundColor : RGB
-githubPillDarkBackgroundColor =
-    Common.githubPillDarkBackgroundColor
+hostPillDarkBackgroundColor : RGB
+hostPillDarkBackgroundColor =
+    Common.hostPillDarkBackgroundColor
 
 
-githubPillHeight : Int
-githubPillHeight =
+hostPillHeight : Int
+hostPillHeight =
     Common.gridSize * 2
 
 
-githubPillFontSize : Int
-githubPillFontSize =
+hostPillFontSize : Int
+hostPillFontSize =
     10
 
 
-githubPillFont : String
-githubPillFont =
+hostPillFont : String
+hostPillFont =
     "iosevka"
 
 
-githubPillPaddingLeft : Int
-githubPillPaddingLeft =
+hostPillPaddingLeft : Int
+hostPillPaddingLeft =
     Common.gridSize // 2
 
 
-githubPillPaddingRight : Int
-githubPillPaddingRight =
+hostPillPaddingRight : Int
+hostPillPaddingRight =
     (Common.gridSize // 2) + 2
 
 
-githubPillSpacing : Int
-githubPillSpacing =
+hostPillSpacing : Int
+hostPillSpacing =
     3
 
 
-githubPillBorderRadius : Int
-githubPillBorderRadius =
+hostPillBorderRadius : Int
+hostPillBorderRadius =
     5
 
 
-githubPillImageHeight : Int
-githubPillImageHeight =
+hostPillImageHeight : Int
+hostPillImageHeight =
     10
 
 
-githubPillImageWidth : Int
-githubPillImageWidth =
+hostPillImageWidth : Int
+hostPillImageWidth =
     10

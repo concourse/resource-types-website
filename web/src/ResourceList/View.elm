@@ -8,8 +8,8 @@ import List exposing (sortBy)
 import ResourceList.ResourceList exposing (container)
 
 
-view : List ResourceType -> String -> String -> Element msg
-view resourceList githubIconImg githubStarImg =
+view : List ResourceType -> String -> String -> String -> Element msg
+view resourceList githubIconImg otherHostIconImg githubStarImg =
     let
         sortedRL =
             sortBy .name resourceList
@@ -21,9 +21,9 @@ view resourceList githubIconImg githubStarImg =
          ]
             ++ Overrides.grid
         )
-        (List.map (viewCard githubIconImg githubStarImg) sortedRL)
+        (List.map (viewCard githubIconImg otherHostIconImg githubStarImg) sortedRL)
 
 
-viewCard : String -> String -> ResourceType -> Element msg
-viewCard githubIconImg githubStarImg resourceType =
-    CardView.view resourceType githubIconImg githubStarImg
+viewCard : String -> String -> String -> ResourceType -> Element msg
+viewCard githubIconImg otherHostIconImg githubStarImg resourceType =
+    CardView.view resourceType githubIconImg otherHostIconImg githubStarImg

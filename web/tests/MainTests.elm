@@ -24,6 +24,7 @@ suite =
                             , url = "http://www.example.com"
                             , username = "@someone"
                             , stars = "100"
+                            , host = "example"
                             }
                         )
             , test "properly decodes a resource type when description is missing in json" <|
@@ -39,6 +40,7 @@ suite =
                             , url = "http://www.example.com"
                             , username = "@someone"
                             , stars = "100"
+                            , host = "example"
                             }
                         )
             , test "errors when name is missing in json" <|
@@ -67,6 +69,13 @@ suite =
                     let
                         decodedOutput =
                             Json.Decode.decodeString resourceTypeDecoder missingStarsJson
+                    in
+                    Expect.err decodedOutput
+            , test "errors when the host is missing in json" <|
+                \_ ->
+                    let
+                        decodedOutput =
+                            Json.Decode.decodeString resourceTypeDecoder missingHostJson
                     in
                     Expect.err decodedOutput
             , test "errors with invalid json" <|
@@ -121,7 +130,8 @@ goodJson =
     "description" : "some description",
     "repo" : "http://www.example.com",
     "username" : "@someone",
-    "stars" : "100"}
+    "stars" : "100",
+    "host" : "example"}
 """
 
 
@@ -131,7 +141,8 @@ missingNameJson =
     { "description" : "some description",
     "repo" : "http://www.example.com",
     "username" : "@someone",
-    "stars" : "100"}
+    "stars" : "100",
+    "host" : "example"}
 """
 
 
@@ -141,7 +152,8 @@ missingDescriptionJson =
     { "name" : "some name",
     "repo" : "http://www.example.com",
     "username" : "@someone",
-    "stars" : "100"}
+    "stars" : "100",
+    "host" : "example"}
 """
 
 
@@ -150,7 +162,9 @@ missingUrlJson =
     """
     { "name" : "some name",
     "description": "some description",
-    "username" : "@someone"}
+    "username" : "@someone",
+    "stars" : "100",
+    "host" : "example"}
 """
 
 
@@ -159,7 +173,9 @@ missingUsernameJson =
     """
     { "name" : "some name",
     "description" : "some description",
-    "repo" : "http://example.com" }
+    "repo" : "http://example.com",
+    "stars" : "100",
+    "host" : "example"}
 """
 
 
@@ -169,7 +185,19 @@ missingStarsJson =
     { "name" : "some name",
     "description" : "some description",
     "repo" : "http://example.com",
-    "username" : "@someone"}
+    "username" : "@someone",
+    "host" : "example"}
+"""
+
+
+missingHostJson : String
+missingHostJson =
+    """
+    { "name" : "some name",
+    "description" : "some description",
+    "repo" : "http://example.com",
+    "username" : "@someone",
+    "stars" : "100"}
 """
 
 
