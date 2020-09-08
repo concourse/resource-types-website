@@ -1,4 +1,4 @@
-module Card.Card exposing (Author, Card, Container, Description, Github, Name, ResourceType, card, container, resourceType)
+module Card.Card exposing (Author, Card, Container, Description, Host, Name, ResourceType, card, container, resourceType)
 
 import Card.Styles as Styles
 import Common.Common exposing (RGB, Shadow)
@@ -25,7 +25,7 @@ type alias ResourceType =
     { name : Name
     , author : Author
     , description : Description
-    , github : Github
+    , host : Host
     }
 
 
@@ -58,21 +58,21 @@ type alias Description =
     }
 
 
-type alias Github =
-    { image : GithubImage
-    , pill : GithubPill
+type alias Host =
+    { image : HostImage
+    , pill : HostPill
     , spacing : Int
     }
 
 
-type alias GithubImage =
+type alias HostImage =
     { height : Int
     , width : Int
     , paddingTop : Int
     }
 
 
-type alias GithubPill =
+type alias HostPill =
     { lightBackgroundColor : RGB
     , darkBackgroundColor : RGB
     , height : Int
@@ -111,7 +111,7 @@ resourceType =
     { name = name
     , author = author
     , description = description
-    , github = github
+    , host = host
     }
 
 
@@ -147,33 +147,33 @@ description =
     }
 
 
-github : Github
-github =
+host : Host
+host =
     { image = image
     , pill = pill
-    , spacing = Styles.githubSpacing
+    , spacing = Styles.hostSpacing
     }
 
 
-image : GithubImage
+image : HostImage
 image =
-    { height = Styles.githubImageHeight
-    , width = Styles.githubImageWidth
-    , paddingTop = Styles.githubImagePaddingTop
+    { height = Styles.hostImageHeight
+    , width = Styles.hostImageWidth
+    , paddingTop = Styles.hostImagePaddingTop
     }
 
 
-pill : GithubPill
+pill : HostPill
 pill =
-    { lightBackgroundColor = Styles.githubPillLightBackgroundColor
-    , darkBackgroundColor = Styles.githubPillDarkBackgroundColor
-    , height = Styles.githubPillHeight
-    , font = Styles.githubPillFont
-    , size = Styles.githubPillFontSize
-    , borderRadius = Styles.githubPillBorderRadius
-    , imageHeight = Styles.githubPillImageHeight
-    , imageWidth = Styles.githubPillImageWidth
-    , paddingLeft = Styles.githubPillPaddingLeft
-    , paddingRight = Styles.githubPillPaddingRight
-    , spacing = Styles.githubPillSpacing
+    { lightBackgroundColor = Styles.hostPillLightBackgroundColor
+    , darkBackgroundColor = Styles.hostPillDarkBackgroundColor
+    , height = Styles.hostPillHeight
+    , font = Styles.hostPillFont
+    , size = Styles.hostPillFontSize
+    , borderRadius = Styles.hostPillBorderRadius
+    , imageHeight = Styles.hostPillImageHeight
+    , imageWidth = Styles.hostPillImageWidth
+    , paddingLeft = Styles.hostPillPaddingLeft
+    , paddingRight = Styles.hostPillPaddingRight
+    , spacing = Styles.hostPillSpacing
     }
