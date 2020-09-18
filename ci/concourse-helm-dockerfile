@@ -1,4 +1,4 @@
-FROM alpine/helm as alpine
+FROM alpine/helm:3.3.1 as alpine
 
 RUN apk update \
     && apk upgrade \
