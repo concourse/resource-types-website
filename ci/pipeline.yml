@@ -1,3 +1,8 @@
+resource_types:
+- name: slack-notifier
+  type: registry-image
+  source: {repository: mockersf/concourse-slack-notifier}
+
 resources:
 - name: resource-types
   type: git
@@ -42,10 +47,17 @@ resources:
     username: ((docker.username))
     password: ((docker.password))
 
-- name: 6h
+- name: every-6h
   icon: clock-outline
   type: time
   source: {interval: 6h}
+
+- name: notify
+  type: slack-notifier
+  icon: slack
+  source:
+    url: ((slack_hook))
+    concourse_url: https://ci.concourse-ci.org
 
 jobs:
 - name: update-resource-types
@@ -58,7 +70,6 @@ jobs:
     image: unit-image
     file: resource-types-website/ci/tasks/update-resource-types.yml
   - put: resource-types-website
-    image: unit-image
     params: {repository: resource-types-website}
 
 - name: test
@@ -122,7 +133,7 @@ jobs:
 
 - name: sanity-check
   plan:
-  - get: 6h
+  - get: every-6h
     trigger: true
   - get: resource-types-website
     passed: [build-docker]
@@ -131,6 +142,11 @@ jobs:
   - task: sanity-check
     image: unit-image
     file: resource-types-website/ci/tasks/sanity-check.yml
+  on_failure:
+    put: notify
+    params:
+      mode: normal
+      alert_type: failed
 
 - name: deploy
   plan:
