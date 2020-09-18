@@ -52,6 +52,11 @@ resources:
   type: time
   source: {interval: 6h}
 
+- name: every-30s
+  icon: clock-outline
+  type: time
+  source: {interval: 30s}
+
 - name: notify
   type: slack-notifier
   icon: slack
@@ -60,6 +65,20 @@ resources:
     concourse_url: https://ci.concourse-ci.org
 
 jobs:
+- name: probe-uptime
+  build_logs_to_retain: 20
+  plan:
+  - get: every-30s
+    trigger: true
+  - get: unit-image
+  - task: should-return-200
+    image: unit-image
+    config:
+      platform: linux
+      run:
+        path: curl
+        args: ["-I", "https://resource-types.concourse-ci.org"]
+
 - name: update-resource-types
   plan:
   - get: resource-types
