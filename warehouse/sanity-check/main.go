@@ -56,13 +56,16 @@ func main() {
 
 			res, err := client.Get(currResource.URL)
 			if err != nil {
-				panic(err)
+				errors = append(errors, "In: "+fileBytes.Name+","+red.Sprintf(currResource.URL+" Get error "+err.Error()))
+				printColor(red, "checked: ", fileBytes.Name)
+				continue
 			}
 			if res.StatusCode == http.StatusMovedPermanently {
 				movedLocation, _ := res.Location()
 				errors = append(errors, "In: "+fileBytes.Name+","+red.Sprintf(" Repo "+currResource.URL+" moved ----> "+movedLocation.String()))
 				failed = false
 			}
+
 			if res.StatusCode == http.StatusNotFound {
 				errors = append(errors, "In: "+fileBytes.Name+","+red.Sprintf(" Repo "+currResource.URL+" Not Found"))
 				failed = false
