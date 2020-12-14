@@ -30,6 +30,7 @@ resources:
   type: registry-image
   source:
     repository: concourse/dutyfree
+    tag: latest
     username: ((docker.username))
     password: ((docker.password))
 
@@ -44,6 +45,7 @@ resources:
   type: registry-image
   source:
     repository: concourse/helm
+    tag: latest
     username: ((docker.username))
     password: ((docker.password))
 
