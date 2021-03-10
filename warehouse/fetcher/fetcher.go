@@ -25,6 +25,9 @@ func (f Fetcher) Open(name string) (http.File, error) {
 func (f Fetcher) GetAll() ([]File, error) {
 	var files []File
 	err := fs.WalkDir(f.Box, ".", func(path string, d fs.DirEntry, err error) error {
+		if err != nil {
+			return err
+		}
 		if d.IsDir() {
 			return nil
 		}
