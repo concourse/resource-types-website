@@ -11,7 +11,7 @@ resources:
     uri: https://github.com/concourse/resource-types.git
     branch: master
 
-- name: resource-types-website
+- name: dutyfree
   type: git
   icon: code-tags
   source:
@@ -25,7 +25,7 @@ resources:
   icon: calendar-check
   source: {repository: vito/oci-build-task}
 
-- name: resource-types-website-image
+- name: dutyfree-image
   icon: docker
   type: registry-image
   source:
@@ -39,15 +39,6 @@ resources:
   type: registry-image
   source:
     repository: concourse/unit
-
-- name: helm-image
-  icon: docker
-  type: registry-image
-  source:
-    repository: concourse/helm
-    tag: latest
-    username: ((docker.username))
-    password: ((docker.password))
 
 - name: every-6h
   icon: clock-outline
@@ -85,40 +76,40 @@ jobs:
   plan:
   - get: resource-types
     trigger: true
-  - get: resource-types-website
+  - get: dutyfree
   - get: unit-image
   - task: update-resource-types
     image: unit-image
-    file: resource-types-website/ci/tasks/update-resource-types.yml
-  - put: resource-types-website
-    params: {repository: resource-types-website}
+    file: dutyfree/ci/tasks/update-resource-types.yml
+  - put: dutyfree
+    params: {repository: dutyfree}
 
 - name: test
   plan:
-  - get: resource-types-website
+  - get: dutyfree
     trigger: true
   - get: unit-image
   - in_parallel:
     - task: elm-analyse
       image: unit-image
-      file: resource-types-website/ci/tasks/elm-analyse.yml
+      file: dutyfree/ci/tasks/elm-analyse.yml
     - try:
         task: go-lint
         image: unit-image
-        file: resource-types-website/ci/tasks/go-lint.yml
+        file: dutyfree/ci/tasks/go-lint.yml
   - in_parallel:
     - task: elm-tests
       image: unit-image
-      file: resource-types-website/ci/tasks/elm-test.yml
+      file: dutyfree/ci/tasks/elm-test.yml
     - task: go-tests
       image: unit-image
-      file: resource-types-website/ci/tasks/go-test.yml
+      file: dutyfree/ci/tasks/go-test.yml
       params:
         TOKEN: ((github_token))
 
 - name: build-docker
   plan:
-  - get: resource-types-website
+  - get: dutyfree
     passed: [test]
     trigger: true
   - get: oci-build-task
@@ -129,56 +120,28 @@ jobs:
       output_mapping: {image: image-df}
       config:
         platform: linux
-        params: {CONTEXT: resource-types-website/}
-        inputs: [{name: resource-types-website}]
+        params: {CONTEXT: dutyfree/}
+        inputs: [{name: dutyfree}]
         outputs: [{name: image}]
         caches: [{path: cache-df}]
         run: {path: build}
-    - task: build-helm
-      image: oci-build-task
-      privileged: true
-      output_mapping: {image: image-helm}
-      config:
-        platform: linux
-        params:
-          DOCKERFILE: resource-types-website/ci/concourse-helm-dockerfile
-        inputs: [{name: resource-types-website}]
-        outputs: [{name: image}]
-        caches: [{path: cache-h}]
-        run: {path: build}
   - in_parallel:
-    - put: resource-types-website-image
+    - put: dutyfree-image
       params: {image: image-df/image.tar}
-    - put: helm-image
-      params: {image: image-helm/image.tar}
 
 - name: sanity-check
   plan:
   - get: every-6h
     trigger: true
-  - get: resource-types-website
+  - get: dutyfree
     passed: [build-docker]
     trigger: true
   - get: unit-image
   - task: sanity-check
     image: unit-image
-    file: resource-types-website/ci/tasks/sanity-check.yml
+    file: dutyfree/ci/tasks/sanity-check.yml
   on_failure:
     put: notify
     params:
       mode: normal
       alert_type: failed
-
-- name: deploy
-  plan:
-  - get: resource-types-website
-    passed: [sanity-check]
-    trigger: true
-  - get: helm-image
-    passed: [build-docker]
-  - task: helm-deploy
-    image: helm-image
-    file: resource-types-website/ci/tasks/helm-deploy.yml
-    params:
-      TOKEN: ((github_token))
-      KUBE_CONFIG: ((kube_config))

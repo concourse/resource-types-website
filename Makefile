@@ -7,8 +7,6 @@ Default:
 	@echo "update-resources: \tto update the local version of the resource-types (i.e. clone the latest https://github.com/concourse/resource-types)"
 	@echo "build-docker: \t\tbuild the Dockerfile locally and tag it concourse/dutyfree"
 	@echo "publish-docker: \tbuilds concourse/dutyfree and then publishes it, needs appropriate permissions to be able to push"
-	@echo "helm-diff: \t\truns a helm diff between the deployment and the local files"
-	@echo "helm-deploy: \t\truns a helm diff, then attempts to deploy the local chart"
 
 update-resources:
 	git submodule update && \
@@ -31,30 +29,3 @@ build-docker:
 
 publish-docker: | build-docker
 	docker push concourse/dutyfree
-
-
-helm-deploy: | helm-diff
-	cd dutyfree-chart && \
-	  helm upgrade \
-	    --wait \
-	    --install \
-	    --namespace=dutyfree \
-	    --set dutyfree.github_token=$(GH_TOKEN) \
-	    --set=annotations.rollingUpdate=\"$(DEPLOY_DATE)\" \
-	    dutyfree \
-	    .
-
-	kubectl \
-	  --namespace "dutyfree" \
-	  rollout status deployment \
-	  "dutyfree"
-
-
-helm-diff:
-	cd dutyfree-chart && \
-	  helm diff \
-	    upgrade \
-	    --namespace=dutyfree \
-	    --set dutyfree.github_token=$(GH_TOKEN) \
-	    --set=annotations.rollingUpdate=\"$(DEPLOY_DATE)\" \
-	    dutyfree .
