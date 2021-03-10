@@ -6,7 +6,7 @@ image_resource:
   source: {repository: concourse/unit}
 
 inputs:
-  - name: resource-types-website
+  - name: dutyfree
 
 run:
-  path: resource-types-website/ci/tasks/scripts/elm-test
+  path: dutyfree/ci/tasks/scripts/elm-test

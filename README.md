@@ -1,4 +1,4 @@
-# Resource Types Website for Concourse
+# Resource Types Website for Concourse (aka Dutyfree)
 Welcome to the development repository for the resource types website. Here you can find the source code for the website as well as different options for packaging. The website is currently linked from the Concourse docs website (resource types tab) and it is a [standalone website](https://resource-types.concourse-ci.org).
 
 ## Architecture:

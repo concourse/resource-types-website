@@ -6,10 +6,10 @@ image_resource:
   source: {repository: concourse/unit}
 
 inputs:
-  - name: resource-types-website
+  - name: dutyfree
 
 outputs:
-  - name: resource-types-website
+  - name: dutyfree
 
 run:
-  path: resource-types-website/ci/tasks/scripts/update-resource-types
+  path: dutyfree/ci/tasks/scripts/update-resource-types
