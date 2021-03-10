@@ -5,6 +5,6 @@ set -e
 pushd dutyfree/warehouse
   go mod download
 
-  go run sanity-check/main.go
+  cd sanity-check && go run ./main.go
 
 popd
