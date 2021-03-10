@@ -1,15 +1,12 @@
 package fetcher
 
 import (
-	"io/ioutil"
+	"io/fs"
 	"net/http"
-
-	"github.com/gobuffalo/packd"
-	"github.com/gobuffalo/packr/v2"
 )
 
 type Fetcher struct {
-	Box *packr.Box
+	Box fs.FS
 }
 
 type File struct {
@@ -18,22 +15,25 @@ type File struct {
 }
 
 func (f Fetcher) GetFile(name string) ([]byte, error) {
-	return f.Box.Find(name)
+	return fs.ReadFile(f.Box, name)
 }
 
 func (f Fetcher) Open(name string) (http.File, error) {
-	return f.Box.Open(name)
+	return http.FS(f.Box).Open(name)
 }
 
 func (f Fetcher) GetAll() ([]File, error) {
 	var files []File
-	err := f.Box.Walk(func(s string, file packd.File) error {
-		fileBytes, err := ioutil.ReadAll(file)
+	err := fs.WalkDir(f.Box, ".", func(path string, d fs.DirEntry, err error) error {
+		if d.IsDir() {
+			return nil
+		}
+		fileBytes, err := fs.ReadFile(f.Box, path)
 		if err != nil {
 			return err
 		}
 		currFile := File{
-			Name:     file.Name(),
+			Name:     d.Name(),
 			Contents: fileBytes,
 		}
 		files = append(files, currFile)

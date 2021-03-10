@@ -1,7 +1,7 @@
 FROM concourse/golang-builder as builder
 COPY . /src
 RUN apt-get update \
-     && apt-get install -y --no-install-recommends curl ca-certificates apt-transport-https software-properties-common
+     && apt-get install -y --no-install-recommends curl ca-certificates apt-transport-https software-properties-common gpg-agent
 
 # install Node 12.x
 RUN curl -sL https://deb.nodesource.com/setup_12.x | bash -
@@ -17,8 +17,6 @@ RUN yarn install && yarn build
 
 WORKDIR /src/warehouse
 ENV CGO_ENABLED 0
-RUN go get -d ./... && go get -u github.com/gobuffalo/packr/v2/packr2
-RUN packr2 build
 RUN go build ./main.go
 
 FROM ubuntu:bionic AS dutyfree

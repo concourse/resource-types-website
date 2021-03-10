@@ -4,21 +4,20 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
+	"os"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 
 	"github.com/concourse/dutyfree/fetcher"
 	"github.com/concourse/dutyfree/server/publichandler"
-	"github.com/gobuffalo/packr/v2"
 )
 
 var _ = Describe("public server", func() {
 	Context("handler", func() {
 		var server *httptest.Server
 		BeforeEach(func() {
-			//TODO: use counterfeiter
-			fetchr := fetcher.Fetcher{Box: packr.New("testBox", "./test_public")}
+			fetchr := fetcher.Fetcher{Box: os.DirFS("test_public")}
 
 			sHandler := publichandler.Handler{fetchr}
 

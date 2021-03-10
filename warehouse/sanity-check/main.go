@@ -9,7 +9,6 @@ import (
 	"github.com/concourse/dutyfree/fetcher"
 	"github.com/concourse/dutyfree/resource"
 	"github.com/fatih/color"
-	"github.com/gobuffalo/packr/v2"
 	"gopkg.in/yaml.v2"
 )
 
@@ -22,7 +21,7 @@ func printColor(colour *color.Color, strToPrint ...string) {
 func main() {
 
 	ftchr := fetcher.Fetcher{
-		Box: packr.New("resources", "../../resource-types"),
+		Box: os.DirFS("../../resource-types"),
 	}
 
 	files, err := ftchr.GetAll()

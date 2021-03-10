@@ -9,13 +9,12 @@ import (
 
 	"github.com/concourse/dutyfree/fetcher"
 	"github.com/concourse/dutyfree/server"
-	"github.com/gobuffalo/packr/v2"
 )
 
 func main() {
 
-	publicFetcher := fetcher.Fetcher{Box: packr.New("publicBox", "../web/public")}
-	resourcesFetcher := fetcher.Fetcher{Box: packr.New("resourcesBox", "../resource-types")}
+	publicFetcher := fetcher.Fetcher{Box: os.DirFS("../web/public")}
+	resourcesFetcher := fetcher.Fetcher{Box: os.DirFS("../resource-types")}
 
 	port, err := strconv.Atoi(os.Getenv("PORT"))
 	if err != nil || port == 0 {

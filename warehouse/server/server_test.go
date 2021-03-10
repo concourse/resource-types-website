@@ -5,13 +5,13 @@ import (
 	"io/ioutil"
 	"net"
 	"net/http"
+	"os"
 	"strconv"
 	"time"
 
 	"github.com/concourse/dutyfree/fetcher"
 	"github.com/concourse/dutyfree/githubwrapper/githubwrapperfakes"
 	"github.com/concourse/dutyfree/resource"
-	"github.com/gobuffalo/packr/v2"
 
 	"github.com/concourse/dutyfree/server"
 
@@ -45,8 +45,8 @@ var _ = Describe("Server Test", func() {
 		//TODO: counterfeiter
 		srv = server.Server{
 			Port:                     port,
-			PublicFilesFetcher:       fetcher.Fetcher{Box: packr.New("publicTestBox", "./testdata/public")},
-			ResourceTypesFileFetcher: fetcher.Fetcher{Box: packr.New("resourcesTestBox", "./testdata/resource-types")},
+			PublicFilesFetcher:       fetcher.Fetcher{Box: os.DirFS("testdata/public")},
+			ResourceTypesFileFetcher: fetcher.Fetcher{Box: os.DirFS("testdata/resource-types")},
 			GithubGraphqlWrapper:     fakeWrapper,
 		}
 		srv.Start()
