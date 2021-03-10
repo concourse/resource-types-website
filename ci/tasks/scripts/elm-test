@@ -2,7 +2,7 @@
 
 set -e
 
-pushd resource-types-website/web
+pushd dutyfree/web
   yarn install
   yarn test
 popd

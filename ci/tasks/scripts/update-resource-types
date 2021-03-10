@@ -2,7 +2,7 @@
 
 set -e
 
-pushd resource-types-website
+pushd dutyfree
   git config --global user.email "concourseteam+concourse-github-bot@gmail.com"
   git config --global user.name "Concourse Bot"
   make update-resources

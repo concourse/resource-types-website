@@ -2,7 +2,7 @@
 
 set -e
 
-pushd resource-types-website/warehouse
+pushd dutyfree/warehouse
   go mod download
 
   go run sanity-check/main.go

@@ -2,7 +2,7 @@
 
 set -e
 
-pushd resource-types-website/warehouse
+pushd dutyfree/warehouse
   curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.23.6
 
   go mod download
