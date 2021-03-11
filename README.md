@@ -12,9 +12,9 @@ There are multiple ways to run the code locally:
 - to run directly from the code, you can run the following commands:
   - if you want to use a different port, the app uses the environment variable `PORT` to select its port or else it will use port `9090`.
   ```bash
-  cd web
+  cd warehouse/web
   yarn install && yarn build
-  cd ../warehouse
+  cd ..
   go run ./main.go
   ```
 - To run using docker:
@@ -41,4 +41,4 @@ There are multiple ways to run the code locally:
   ginkgo -r -keepGoing .
   ```
 
-- To test the front-end code: `yarn install && yarn test`.
+- To test the front-end code: `cd warehouse && yarn install && yarn test`.

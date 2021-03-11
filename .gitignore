@@ -3,19 +3,16 @@
 
 ### Elm ###
 # elm-package generated files
-web/elm-stuff/
+warehouse/web/elm-stuff/
 # elm-repl generated files
-web/repl-temp-*
-web/elm.js
-web/index.html
+warehouse/web/repl-temp-*
+warehouse/web/elm.js
+warehouse/web/index.html
 # elm make
-web/public/elm.js
-web/public/elm.min.js
+warehouse/web/public/elm.js
+warehouse/web/public/elm.min.js
 
 # yarn
-yarn.lock
-yarn-error.log
-node_modules/
-
-## GoLang
-*-packr.go
+warehouse/yarn.lock
+warehouse/yarn-error.log
+warehouse/node_modules/

@@ -2,7 +2,7 @@
 
 set -e
 
-pushd dutyfree/web
+pushd dutyfree/warehouse/web
   yarn install
   yarn test
 popd

@@ -1,7 +1,9 @@
 package main
 
 import (
+	"embed"
 	"fmt"
+	"io/fs"
 	"os"
 	"strconv"
 
@@ -11,10 +13,25 @@ import (
 	"github.com/concourse/dutyfree/server"
 )
 
+//go:embed web/public
+var webFS embed.FS
+
+//go:embed resource-types
+var resourceTypesFS embed.FS
+
 func main() {
 
-	publicFetcher := fetcher.Fetcher{Box: os.DirFS("../web/public")}
-	resourcesFetcher := fetcher.Fetcher{Box: os.DirFS("../resource-types")}
+	webFS, err := fs.Sub(webFS, "web/public")
+	if err != nil {
+		panic(err)
+	}
+	resourceTypesFS, err := fs.Sub(resourceTypesFS, "resource-types")
+	if err != nil {
+		panic(err)
+	}
+
+	publicFetcher := fetcher.Fetcher{Box: webFS}
+	resourcesFetcher := fetcher.Fetcher{Box: resourceTypesFS}
 
 	port, err := strconv.Atoi(os.Getenv("PORT"))
 	if err != nil || port == 0 {

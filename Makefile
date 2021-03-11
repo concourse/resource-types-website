@@ -10,12 +10,12 @@ Default:
 
 update-resources:
 	git submodule update && \
-	  cd resource-types && \
+	  cd warehouse/resource-types && \
 	  git checkout master && \
 	  git pull
 
-	git add resource-types && \
-	git commit -s -m "update resource-types @"$(shell git --git-dir ./resource-types/.git log --format=format:%H -1 --pretty=format:%h)
+	git add warehouse/resource-types && \
+	git commit -s -m "update resource-types @"$(shell git --git-dir ./warehouse/resource-types/.git log --format=format:%H -1 --pretty=format:%h)
 
 	@echo "\n\n\n\n\n"
 	@echo "*****************************************"

@@ -12,7 +12,7 @@ RUN curl -fsSL https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
 RUN add-apt-repository "deb https://dl.yarnpkg.com/debian/ stable main"
 RUN apt-get update && apt-get -y install yarn
 
-WORKDIR /src/web
+WORKDIR /src/warehouse/web
 RUN yarn install && yarn build
 
 WORKDIR /src/warehouse
