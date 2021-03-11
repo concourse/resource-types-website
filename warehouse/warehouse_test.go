@@ -44,7 +44,7 @@ var _ = Describe("Warehouse main", func() {
 			err = json.Unmarshal(responseString, &resources)
 			Expect(err).ToNot(HaveOccurred())
 
-			dir, err := ioutil.ReadDir("../resource-types")
+			dir, err := ioutil.ReadDir("resource-types")
 			Expect(err).NotTo(HaveOccurred())
 
 			// length  - 3 to remove the licence, readme and .git entries.

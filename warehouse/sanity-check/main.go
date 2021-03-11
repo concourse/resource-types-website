@@ -21,7 +21,7 @@ func printColor(colour *color.Color, strToPrint ...string) {
 func main() {
 
 	ftchr := fetcher.Fetcher{
-		Box: os.DirFS("../../resource-types"),
+		Box: os.DirFS("../resource-types"),
 	}
 
 	files, err := ftchr.GetAll()
