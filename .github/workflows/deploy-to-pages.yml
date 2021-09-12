@@ -1,0 +1,47 @@
+name: Build Test Deploy
+on:
+  push:
+    branches:
+      - master
+  schedule:
+    - cron:  '30 * * * *'
+  #workflow_dispatch:
+  
+  
+jobs: 
+  check-for-commits:
+    runs-on: ubuntu-latest
+    outputs:
+      ver-check: ${{ steps.sync.outputs.KNOWNVER }}
+      concourse-resource-ver: ${{ steps.sync.outputs.TRUEVER }}
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2.3.4
+        #consider setting with persist conditionals to false for extra safety
+      - name: sync latest known concourse-resource-types version with the concourse-resource-types repo
+        id: sync
+        run: |
+          echo "::set-output name=TRUEVER::$(git ls-remote https://github.com/concourse/resource-types.git HEAD | awk '{ print $1 }')"
+          echo "::set-output name=KNOWNVER::$(cat latest_known_version_commit_id)"
+  
+  
+  build-test-deploy:
+    needs: [check-for-commits]
+    runs-on: ubuntu-latest
+    if: needs.check-for-coommits.outputs.var-check != needs.check-for-coommits.outputs.concourse-resource-ver
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2.3.4
+      
+      - name: build
+        uses:
+        
+      - name: test
+        uses:
+        
+      - name: deploy
+        uses: JamesIves/github-pages-deploy-action@4.1.5
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: dist
