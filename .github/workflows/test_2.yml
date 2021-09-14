@@ -1,0 +1,95 @@
+name: Build Test Deploy
+on:
+  #push:
+    #branches:
+      #- master
+  #schedule:
+    #- cron:  '* * * * *'
+    #just testing
+  workflow_dispatch:
+    inputs:
+      name:
+        description: 'Person to greet'
+        required: true
+        default: 'Mona the Octocat'
+      home:
+        description: 'location'
+        required: false
+        default: 'The Octoverse'
+  
+  
+jobs: 
+  check-for-commits:
+    runs-on: ubuntu-latest
+    outputs:
+      ver-check: ${{ steps.match.outputs.KNOWNVER }}
+      concourse-resource-ver: ${{ steps.match.outputs.TRUEVER }}
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2.3.4
+        #consider setting with persist conditionals to false for extra safety
+      - name: match latest known concourse-resource-types version with the concourse-resource-types repo
+        id: match
+        run: |
+          echo "::set-output name=TRUEVER::$(git ls-remote https://github.com/concourse/resource-types.git HEAD | awk '{ print $1 }')"
+          echo "::set-output name=KNOWNVER::$(cat latest_known_version_commit_id)"
+  
+  check_local_repo_id:
+    runs-on: ubuntu-latest
+    outputs:
+      known_local_ver: ${{ steps.local_match.outputs.KNOWNVERLOC }}
+      true_local-ver: ${{ steps.local_match.outputs.TRUEVERLOC }}
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2.3.4
+      - name: check that local repo hasn't been changed
+        id: local_match
+        run: |
+          echo "::set-output name=TRUEVERLOC::$(git ls-remote https://github.com/aoazeem/resource-types-website.git HEAD | awk '{ print $1 }')"
+          echo "::set-output name=KNOWNVERLOC::$(cat local_id)"
+          
+  
+  build-test-deploy:
+    needs: [check-for-commits]
+    runs-on: ubuntu-latest
+    if: needs.check-for-coommits.outputs.var-check != needs.check-for-coommits.outputs.concourse-resource-ver
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2.3.4
+        
+      - name: get most recent commit id on resource-types repo, for next comparison on match
+        run: git ls-remote https://github.com/concourse/resource-types.git HEAD | awk '{ print $1 }' > latest_known_version_commit_id
+      - name: Commit and push the change to concourse resource types repo
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Add latest_known_version_commit_id
+          
+      - name: update local repo  id
+        run: git ls-remote https://github.com/aoazeem/resource-types-website.git HEAD | awk '{ print $1 }' > local_id
+      - name: Commit and push the change to local id
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Add local_id
+      
+      - name: build
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - uses: actions/setup-go@v2
+        with:
+          go-version: '1.9.3'
+      - run: |
+          cd warehouse/web
+          yarn install && yarn build
+          #cd ..
+          #go run ./main.go
+        
+      #- name: test
+        #uses:
+        
+      - name: deploy
+        uses: JamesIves/github-pages-deploy-action@4.1.5
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: warehouse/web
