@@ -74,8 +74,8 @@ jobs:
           #cd ..
           #go run ./main.go
         
-      - name: test
-        uses:
+      #- name: test
+        #uses:
         
       - name: deploy
         uses: JamesIves/github-pages-deploy-action@4.1.5
