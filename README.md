@@ -42,3 +42,4 @@ There are multiple ways to run the code locally:
   ```
 
 - To test the front-end code: `cd warehouse && yarn install && yarn test`.
+- test push
