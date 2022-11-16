@@ -4,7 +4,7 @@ RUN apt-get update \
      && apt-get install -y --no-install-recommends curl ca-certificates apt-transport-https software-properties-common gpg-agent
 
 # install Node 12.x
-RUN curl -sL https://deb.nodesource.com/setup_12.x | bash -
+RUN curl -sL https://deb.nodesource.com/setup_lts.x | bash -
 RUN apt-get update && apt-get install -y nodejs
 
 # install Yarn for web UI tests
