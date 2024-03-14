@@ -4,7 +4,12 @@ Welcome to the development repository for the resource types website. Here you c
 ## Architecture:
 
 - The code is mainly a Golang back-end with an elm front-end.
-- We also rely on the `resource-types` directory as the persistence of the website.
+- We also rely on the `resource-types` directory as the persistence of the website. To fetch the contents of the `resource-types` directory, rung:
+
+```
+git submodule init
+git submodule update
+```
 
 ## Run Locally:
 There are multiple ways to run the code locally:
@@ -26,7 +31,6 @@ There are multiple ways to run the code locally:
 
 ### Notes:
 
-- We are also working on a helm chart to deploy the website which is currently very opinionated towards objects that exist in the k8s version of GKE.
 - Using the previous commands you will be able to access the application through: `http://localhost:9090`.
 - To use a different set of resource types, you can change the resource types under the directory `resource-types`, this would allow running different versions of the website.
 
@@ -36,7 +40,7 @@ There are multiple ways to run the code locally:
   ```bash
   cd warehouse
 
-  go get -u github.com/onsi/ginkgo/ginkgo
+  go install github.com/onsi/ginkgo/ginkgo
 
   ginkgo -r -keepGoing .
   ```
