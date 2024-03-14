@@ -23,7 +23,7 @@ resources:
 - name: oci-build-task
   type: registry-image
   icon: calendar-check
-  source: {repository: vito/oci-build-task}
+  source: {repository: concourse/oci-build-task}
 
 - name: dutyfree-image
   icon: docker
