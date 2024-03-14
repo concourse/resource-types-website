@@ -4,7 +4,7 @@ Welcome to the development repository for the resource types website. Here you c
 ## Architecture:
 
 - The code is mainly a Golang back-end with an elm front-end.
-- We also rely on the `resource-types` directory as the persistence of the website. To fetch the contents of the `resource-types` directory, rung:
+- We also rely on the `resource-types` directory as the persistence of the website. To fetch the contents of the `resource-types` directory, run:
 
 ```
 git submodule init
