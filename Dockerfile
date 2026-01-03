@@ -1,4 +1,4 @@
-FROM concourse/golang-builder as builder
+FROM concourse/golang-builder:1.24-jammy as builder
 COPY . /src
 RUN apt-get update \
      && apt-get install -y --no-install-recommends curl ca-certificates apt-transport-https software-properties-common gpg-agent

@@ -253,6 +253,6 @@ navigation =
             , a [ href <| baseUrl ++ "/examples", class "top-link" ] [ Html.text "examples" ]
             , a [ href <| baseUrl ++ "/project", class "top-link" ] [ Html.text "project" ]
             , a [ href "/", class "top-link active" ] [ Html.text "resource types" ]
-            , a [ href <| blogUrl ++ "/blog", class "top-link" ] [ Html.text "blog" ]
+            , a [ href <| baseUrl ++ "/blog", class "top-link" ] [ Html.text "blog" ]
             ]
         ]
