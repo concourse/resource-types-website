@@ -239,12 +239,6 @@ navigation =
     let
         baseUrl =
             "https://concourse-ci.org"
-
-        blogUrl =
-            "https://blog.concourse-ci.org"
-
-        discussUrl =
-            "https://discuss.concourse-ci.org"
     in
     div [ class "page-top" ]
         [ nav
@@ -255,11 +249,10 @@ navigation =
                     []
                 , Html.text "Concourse"
                 ]
-            , a [ href <| baseUrl ++ "/docs.html", class "top-link" ] [ Html.text "docs" ]
-            , a [ href <| baseUrl ++ "/examples.html", class "top-link" ] [ Html.text "examples" ]
-            , a [ href <| baseUrl ++ "/project.html", class "top-link" ] [ Html.text "project" ]
+            , a [ href <| baseUrl ++ "/docs", class "top-link" ] [ Html.text "docs" ]
+            , a [ href <| baseUrl ++ "/examples", class "top-link" ] [ Html.text "examples" ]
+            , a [ href <| baseUrl ++ "/project", class "top-link" ] [ Html.text "project" ]
             , a [ href "/", class "top-link active" ] [ Html.text "resource types" ]
-            , a [ href <| blogUrl, class "top-link" ] [ Html.text "blog" ]
-            , a [ href <| discussUrl, class "top-link" ] [ Html.text "discuss" ]
+            , a [ href <| blogUrl ++ "/blog", class "top-link" ] [ Html.text "blog" ]
             ]
         ]
